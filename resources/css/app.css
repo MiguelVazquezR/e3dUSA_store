@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+[x-cloak] {
+    display: none;
+}
+@layer utilities{
+    .bg-primary {
+        background-color: #D90537;
+    }
+    .bg-primary-light {
+        background-color: #e2355d;
+    }
+
+    .text-primary {
+        color: #D90537;
+    }
+
+    .bg-secondary{
+        background-color: #0355B5;
+    }
+    .bg-secondary-light{
+        background-color: #136bcf;
+    }
+
+    .text-secondary{
+        color: #0355B5;
+    }
+
+    .bg-primary-gray{
+        background-color: #9a9a9a;
+    }
+
+    .bg-secondary-gray{
+        background-color: #cccccc;
+    }
+}
+
+*::-webkit-scrollbar {
+	width: 3px;
+	background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+	background: #9a9a9a;
+	border-radius: 2px;
+}
+
+*::-webkit-scrollbar-thumb:horizontal {
+	background: #9a9a9a;
+	border-radius: 2px;
+}
+
+@layer components{
+    .input{
+        @apply h-8 w-full bg-transparent border placeholder:text-gray-400 border-[#9A9A9A] text-[#9A9A9A] text-sm rounded-md focus:ring-[#0355B5] focus:border-[#0355B5] block p-2.5;
+    }
+
+    .textarea{
+        @apply bg-transparent placeholder:text-gray-400 border border-[#9A9A9A] text-[#9A9A9A] text-sm rounded-md focus:ring-[#0355B5] focus:border-[#0355B5] block w-full p-2.5;
+    }
+
+    .label{
+        @apply block mb-2 text-sm font-medium text-gray-600;
+    }
+    
+    
+    
+}
