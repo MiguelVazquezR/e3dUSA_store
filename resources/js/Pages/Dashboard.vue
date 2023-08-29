@@ -11,20 +11,20 @@
                     <h2 class="text-xl text-left ">Todas las categorias</h2>
 
                     <div class="mt-5 md:grid grid-cols-6 gap-4 transition ease-linear duration-300">
-                        <div v-for="(categoryCard, index) in categories1" :key="categoryCard" class="rounded-lg border-2 border-[#D90537] px-2 py-8 flex flex-col space-y-3 justify-center text-center">
+                        <div @click="$inertia.get(route('products.index'))" v-for="categoryCard in categories1" :key="categoryCard" class="cursor-pointer hover:border-[#D90537] hover:scale-105 mt-3 lg:mt-0 rounded-lg border-2 border-[#D90537] px-2 py-8 flex flex-col space-y-3 justify-center text-center">
                             <figure>
                                 <img :src="categoryCard.image" :alt="categoryCard.alt">
                             </figure>
                             <p class="text-primary">{{ categoryCard.name }}</p>
                         </div>
 
-                        <div @click="all_categories = !all_categories" class="cursor-pointer rounded-lg border-2 border-[#D90537] bg-primary px-2 py-8 flex flex-col space-y-3 justify-center text-center text-white">
+                        <div @click="all_categories = !all_categories" class="mt-3 lg:mt-0 cursor-pointer rounded-lg border-2 border-[#D90537] bg-primary px-2 py-8 flex flex-col space-y-3 justify-center text-center text-white">
                             <p class="font-bold">Descubre todas las categorias</p>
                             <i v-if="all_categories" class="fa-solid fa-chevron-up"></i>
                             <i v-else class="fa-solid fa-chevron-down"></i>
                         </div>
 
-                        <div v-if="all_categories" v-for="(categoryCard, index) in categories2" :key="categoryCard" class="rounded-lg border-2 border-[#D90537] px-2 py-8 flex flex-col space-y-3 justify-center text-center">
+                        <div v-if="all_categories" @click="$inertia.get(route('products.index'))"  v-for="categoryCard in categories2" :key="categoryCard" class="cursor-pointer hover:border-[#D90537] hover:scale-105 mt-3 lg:mt-0 rounded-lg border-2 border-[#D90537] px-2 py-8 flex flex-col space-y-3 justify-center text-center">
                             <figure>
                                 <img :src="categoryCard.image" :alt="categoryCard.alt">
                             </figure>
@@ -41,7 +41,7 @@
                     <h2 class="text-xl text-left ">Beneficios de comprar en emblems3d</h2>
 
                     <div class="mt-5 md:grid grid-cols-4 gap-4 transition ease-linear duration-300">
-                        <div @click="safeShippingModal = true" class="py-2 px-4 flex space-x-3 justify-center text-center relative cursor-pointer">
+                        <div @click="safeShippingModal = true" class="py-2 px-4 flex space-x-3 justify-center text-center relative cursor-pointer mt-10 lg:mt-0">
                             <figure>
                                 <img src="@/../../public/images/Vector.png" alt="Envio seguro">
                             </figure>
@@ -50,7 +50,7 @@
                             <div class="border-b-2 border-[#0355B5] w-56 absolute -bottom-2 left-0"></div>
                         </div>
 
-                        <div @click="onTimeModal = true" class="py-2 px-4 flex space-x-3 justify-center text-center relative cursor-pointer">
+                        <div @click="onTimeModal = true" class="py-2 px-4 flex space-x-3 justify-center text-center relative cursor-pointer mt-10 lg:mt-0">
                             <figure>
                                 <img src="@/../../public/images/Vector1.png" alt="Envio seguro">
                             </figure>
@@ -59,7 +59,7 @@
                             <div class="border-b-2 border-[#0355B5] w-56 absolute -bottom-2 left-0"></div>
                         </div>
 
-                        <div @click="innovationModal = true" class="py-2 px-4 flex space-x-3 justify-center text-center relative cursor-pointer">
+                        <div @click="innovationModal = true" class="py-2 px-4 flex space-x-3 justify-center text-center relative cursor-pointer mt-10 lg:mt-0">
                             <figure>
                                 <img src="@/../../public/images/Vector2.png" alt="Envio seguro">
                             </figure>
@@ -68,7 +68,7 @@
                             <div class="border-b-2 border-[#0355B5] w-56 absolute -bottom-2 left-0"></div>
                         </div>
 
-                        <div @click="qualityModal = true" class="py-2 px-4 flex space-x-3 justify-center text-center relative cursor-pointer">
+                        <div @click="qualityModal = true" class="py-2 px-4 flex space-x-3 justify-center text-center relative cursor-pointer mt-10 lg:mt-0">
                             <figure>
                                 <img src="@/../../public/images/Vector3.png" alt="Envio seguro">
                             </figure>
@@ -87,37 +87,37 @@
                     <h2 class="text-xl text-left ">Marcas principales</h2>
 
                     <div class="mt-5 md:grid grid-cols-5 gap-4 transition ease-linear duration-300">
-                        <div class="py-2 px-4 bg-[#D9D9D9] flex space-x-3 justify-center items-center cursor-pointer rounded-lg">
+                        <div class="py-2 px-4 bg-[#D9D9D9] flex space-x-3 justify-center items-center cursor-pointer rounded-lg mt-3 lg:mt-0">
                             <figure>
                                 <img src="@/../../../../public/storage/images/honda.png" alt="Honda">
                             </figure>
                         </div>
 
-                        <div class="py-2 px-4 bg-[#D9D9D9] flex space-x-3 justify-center items-center cursor-pointer rounded-lg">
+                        <div class="py-2 px-4 bg-[#D9D9D9] flex space-x-3 justify-center items-center cursor-pointer rounded-lg mt-3 lg:mt-0">
                             <figure>
                                 <img src="@/../../../../public/storage/images/honda.png" alt="Kia">
                             </figure>
                         </div>
 
-                        <div class="py-2 px-4 bg-[#D9D9D9] flex space-x-3 justify-center items-center cursor-pointer rounded-lg">
+                        <div class="py-2 px-4 bg-[#D9D9D9] flex space-x-3 justify-center items-center cursor-pointer rounded-lg mt-3 lg:mt-0">
                             <figure>
                                 <img src="@/../../../../public/storage/images/honda.png" alt="Mercedez">
                             </figure>
                         </div>
 
-                        <div class="py-2 px-4 bg-[#D9D9D9] flex space-x-3 justify-center items-center cursor-pointer rounded-lg">
+                        <div class="py-2 px-4 bg-[#D9D9D9] flex space-x-3 justify-center items-center cursor-pointer rounded-lg mt-3 lg:mt-0">
                             <figure>
                                 <img src="@/../../../../public/storage/images/honda.png" alt="Mini">
                             </figure>
                         </div>
 
-                        <div class="py-2 px-4 bg-[#D9D9D9] flex space-x-3 justify-center items-center cursor-pointer rounded-lg">
+                        <div class="py-2 px-4 bg-[#D9D9D9] flex space-x-3 justify-center items-center cursor-pointer rounded-lg mt-3 lg:mt-0">
                             <figure>
                                 <img src="@/../../../../public/storage/images/honda.png" alt="volvo">
                             </figure>
                         </div>
 
-                        <div class="py-2 px-4 bg-[#D9D9D9] flex space-x-3 justify-center items-center cursor-pointer rounded-lg">
+                        <div class="py-2 px-4 bg-[#D9D9D9] flex space-x-3 justify-center items-center cursor-pointer rounded-lg mt-3 lg:mt-0">
                             <figure>
                                 <img src="@/../../../../public/storage/images/honda.png" alt="BMW">
                             </figure>
@@ -133,7 +133,7 @@
                     <h2 class="text-xl text-left ">Productos recomendados <span class="text-primary hover:underline ml-3 cursor-pointer">ver mas</span></h2>
 
                     <div class="mt-5 md:grid grid-cols-5 gap-4 transition ease-linear duration-300">
-                        <div class="py-5 px-3 flex flex-col space-x-3 justify-center cursor-pointer rounded-lg border text-center border-[#9A9A9A]">
+                        <div class="py-5 px-3 flex flex-col space-x-3 justify-center cursor-pointer rounded-lg border text-center border-[#9A9A9A] mt-3 lg:mt-0">
                             <figure>
                                 <img src="@/../../../../public/storage/images/honda.png" alt="Honda">
                             </figure>
@@ -150,7 +150,7 @@
                             </div>
                         </div>
                         
-                        <div class="py-5 px-3 flex flex-col space-x-3 justify-center cursor-pointer rounded-lg border text-center border-[#9A9A9A]">
+                        <div class="py-5 px-3 flex flex-col space-x-3 justify-center cursor-pointer rounded-lg border text-center border-[#9A9A9A] mt-3 lg:mt-0">
                         <figure>
                                 <img src="@/../../../../public/storage/images/honda.png" alt="Honda">
                             </figure>
@@ -184,7 +184,7 @@
 
 
         <footer>
-            <div class="bg-[#1a1a1a] h-auto w-full lg:grid grid-cols-3 text-center text-white">
+            <div class="bg-[#1a1a1a] h-auto w-full lg:grid grid-cols-3 text-center text-white relative">
                 <div class="py-7 px-5">
                     <figure class="my-5">
                         <img src="@/../../public/images/logo.png" alt="Logo">
@@ -217,8 +217,12 @@
                     </figure>
 
                 </div>
+                <figure class="my-5 absolute bottom-1 right-4">
+                        <img src="@/../../public/images/logo.png" alt="Logo">
+                    </figure>
             </div>
-
+            <p class="bg-[#1a1a1a] text-white px-3 pb-2">Copyright 2023. Emblems3dUSA todos los derechos reservados. Políticas de privacidad y administración de cookies</p>
+                    
         </footer>
 
         <!-- -------------- Modal starts----------------------- -->

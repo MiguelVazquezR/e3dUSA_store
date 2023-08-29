@@ -34,7 +34,7 @@ const logout = () => {
 
         <Banner />
 
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen bg-transparent">
             <nav class="bg-white border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
                 <div class="w-full mx-auto px-4 sm:px-6 lg:px-8">
@@ -55,7 +55,7 @@ const logout = () => {
                             <ThirthButton class="h-7 lg:flex items-center hidden lg:block">Categorias <i class="fa-solid fa-angle-down ml-2"></i></ThirthButton>
                             <div class="relative ">
                                 <input type="text" placeholder="Buscar" class="input lg:w-[600px]">
-                                <i class="fa-solid fa-magnifying-glass absolute text-sm text-[#9A9A9A] top-[6px] right-2"></i>
+                                <i class="fa-solid fa-magnifying-glass absolute text-sm text-[#9A9A9A] top-[9px] right-2"></i>
                             </div>
                             
                             

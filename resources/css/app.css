@@ -54,7 +54,7 @@
 
 @layer components{
     .input{
-        @apply h-8 w-full bg-transparent border placeholder:text-gray-400 border-[#9A9A9A] text-secondary text-sm rounded-md focus:ring-[#0355B5] focus:border-[#0355B5] block p-2.5;
+        @apply h-10 w-full bg-transparent border placeholder:text-gray-400 border-[#9A9A9A] text-gray-700 text-sm rounded-md focus:ring-[#0355B5] focus:border-[#0355B5] block p-2.5;
     }
 
     .textarea{
