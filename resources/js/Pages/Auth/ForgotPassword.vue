@@ -27,9 +27,10 @@ const submit = () => {
         <template #logo>
             <AuthenticationCardLogo />
         </template>
+        <h1 class="text-center text-gray-600 text-2xl mb-5">¿Olvidaste tu contraseña?</h1>
 
         <div class="mb-4 text-sm text-gray-600">
-            Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.
+            Ingresa el correo de tu cuenta donde te enviaremos las instrucciones para recuperar tu contraseña. 
         </div>
 
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
@@ -38,12 +39,12 @@ const submit = () => {
 
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="email" value="Email" />
                 <TextInput
                     id="email"
                     v-model="form.email"
                     type="email"
-                    class="mt-1 block w-full"
+                    placeholder="Correo electrónico"
+                    class="input"
                     required
                     autofocus
                     autocomplete="username"
@@ -51,11 +52,12 @@ const submit = () => {
                 <InputError class="mt-2" :message="form.errors.email" />
             </div>
 
-            <div class="flex items-center justify-end mt-4">
+            <div class="flex items-center justify-center mt-4">
                 <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Email Password Reset Link
+                    Continuar
                 </PrimaryButton>
             </div>
         </form>
+        <p class="text-primary hover:underline text-center mt-5 cursor-pointer">Volver a Emblems3d</p>
     </AuthenticationCard>
 </template>
