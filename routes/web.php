@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -36,3 +37,6 @@ Route::middleware([
 });
 
 Route::resource('products', ProductController::class);
+
+
+Route::resource('carts', CartController::class);

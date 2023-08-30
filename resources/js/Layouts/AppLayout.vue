@@ -71,11 +71,13 @@ const logout = () => {
                                 <Link v-else :href="login"><p class="text-primary mx-4 hover:underline">Iniciar sesion</p></Link>
                             </div>
 
-                            <div class="rounded-full bg-primary h-8 w-8 flex items-center justify-center cursor-pointer relative">
-                                <i class="fa-solid fa-cart-shopping text-sm text-white"></i>
-                                <div class="absolute rounded-full border-2 border-white -top-1 -right-2 bg-secondary text-white text-[9px] h-4 w-4 flex justify-center text-center">1</div>
-
-                            </div>
+                            <!-- ---- Shopping cart icon ---- -->
+                            <Link :href="route('carts.index')">
+                                <div class="rounded-full bg-primary h-8 w-8 flex items-center justify-center cursor-pointer relative">
+                                    <i class="fa-solid fa-cart-shopping text-sm text-white"></i>
+                                    <div class="absolute rounded-full border-2 border-white -top-1 -right-2 bg-secondary text-white text-[9px] h-4 w-4 flex justify-center text-center">1</div>
+                                </div>
+                            </Link>
 
                         </div>
 
