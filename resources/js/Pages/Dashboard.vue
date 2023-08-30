@@ -217,9 +217,11 @@
                     </figure>
 
                 </div>
-                <figure class="my-5 absolute bottom-1 right-4">
-                        <img src="@/../../public/images/logo.png" alt="Logo">
-                    </figure>
+                <a href="https://dtw.com.mx/" target="_blank">
+        <figure class="my-5 absolute bottom-1 right-4">
+          <img src="@/../../public/images/logo.png" alt="Logo" />
+        </figure>
+        </a>
             </div>
             <p class="bg-[#1a1a1a] text-white px-3 pb-2">Copyright 2023. Emblems3dUSA todos los derechos reservados. Políticas de privacidad y administración de cookies</p>
                     

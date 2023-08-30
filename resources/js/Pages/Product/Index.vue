@@ -1,6 +1,18 @@
 <template>
   <AppLayout>
     <div class="lg:px-8 lg:py-8">
+      <!-- ---------------------- directory ------------------------ -->
+      <div class="flex justify-between items-center mx-1 mt-2">
+        <div class="mb-8 flex items-center space-x-2">
+          <i @click="$inertia.get('/dashboard')" class="fa-solid fa-house text-primary cursor-pointer"></i>
+          <i class="fa-solid fa-angle-right text-primary"></i>
+          <p @click="$inertia.get(route('products.index'))" class="cursor-pointer text-primary">Productos</p>
+        </div>
+        <Link v-if="$page.props.auth.user.is_admin" :href="route('products.create')">
+          <PrimaryButton>Agregar</PrimaryButton>
+        </Link>
+      </div>
+
       <div class="grid lg:grid-cols-7 gap-7">
         <div class="rounded-lg border border-[#9A9A9A] p-4">
           <div class="flex justify-between mb-2">
@@ -8,7 +20,7 @@
             <ThirthButton @click="cleanFilters" class="border-[#D90537] text-gray-700 h-6">Limpiar</ThirthButton>
           </div>
           <!-- --------------- categories filter --------------------- -->
-          <p @click="categories = !categories " class="font-bold text-primary flex mb-2 cursor-pointer">
+          <p @click="categories = !categories " class="font-bold text-primary inline-flex mb-2 cursor-pointer">
             <i class="fa-solid fa-sort-down mr-1"></i>Categoría
           </p>
           <div v-if="categories" class="mx-3 space-y-1">
@@ -34,7 +46,7 @@
             </label>
           </div>
           <!-- --------------- Brand filter --------------------- -->
-          <p @click="brands = !brands " class="font-bold text-primary flex my-2 cursor-pointer">
+          <p @click="brands = !brands " class="font-bold text-primary inline-flex my-2 cursor-pointer">
             <i class="fa-solid fa-sort-down mr-1"></i>Marca
           </p>
           <div v-if="brands" class="mx-3 space-y-1">
@@ -60,7 +72,7 @@
             </label>
           </div>
           <!-- --------------- material filter --------------------- -->
-          <p @click="materials = !materials " class="font-bold text-primary flex my-2 cursor-pointer">
+          <p @click="materials = !materials " class="font-bold text-primary inline-flex my-2 cursor-pointer">
             <i class="fa-solid fa-sort-down mr-1"></i>Material
           </p>
           <div v-if="materials" class="mx-3 space-y-1">
@@ -86,7 +98,7 @@
             </label>
           </div>
           <!-- --------------- color filter --------------------- -->
-          <p @click="colors = !colors " class="font-bold text-primary flex my-2 cursor-pointer">
+          <p @click="colors = !colors " class="font-bold text-primary inline-flex my-2 cursor-pointer">
             <i class="fa-solid fa-sort-down mr-1"></i>Color
           </p>
           <div v-if="colors" class="mx-3 flex space-x-2">
@@ -97,46 +109,64 @@
           </div>
         </div>
 
-
-          <div class="col-span-6 rounded-lg border border-[#9A9A9A] p-4 grid grid-cols-2 lg:grid-cols-5 gap-4">
-
-            <div class="border border-[#9a9a9a] rounded-lg flex flex-col justify-center text-sm lg:h-[435px]">
-              <div @click="$inertia.get(route('products.show'))" class="bg-[#D9D9D9] py-2 h-1/3 rounded-lg cursor-pointer">
-                <figure>
-                  <img src="" alt="image">
-                </figure>
-              </div>
-              <div class="flex flex-col mt-1 px-6 text-center">
-                <h2 class="font-bold text-center">Nombre de producto</h2>
-                <p>Descripcion del producto puede se un poco largo, da igual porque se tiene que pasar de renglon</p>
-                <p>SKU:240N</p>
-                <div class="border-b boder-[#9a9a9a] my-2"></div>
-              </div>
-
-              <h1 class="text-3xl text-secondary font-bold text-center">$89.99</h1>
-
-              <div class="border border-[#9a9a9a] rounded-full w-20 py-1 grid grid-cols-3 px-2 mx-auto my-4">
-                <span class="text-left text-secondary font-bold cursor-pointer">-</span>
-                <span class="text-center">1</span>
-                <span class="text-right text-secondary font-bold cursor-pointer">+</span>
-              </div>
-
-                <div class="mx-auto">
-              <PrimaryButton class="px-12">Agregar</PrimaryButton>
-                </div>
-
-            </div>
-
+<!-- ----------------------- Products ---------------------------------- -->
+          <div class="col-span-6 rounded-lg p-4 grid grid-cols-2 lg:grid-cols-5 gap-4">
+            <ProductCard v-for="product in products" :key="product" :product="product" />
           </div>
 
       </div>
     </div>
+
+    <footer>
+            <div class="bg-[#1a1a1a] h-auto w-full lg:grid grid-cols-3 text-center text-white relative">
+                <div class="py-7 px-5">
+                    <figure class="my-5">
+                        <img src="@/../../public/images/logo.png" alt="Logo">
+                    </figure>
+                    <p class="font-bold text-white">Conocenos</p>
+                    <p class="text-white hover:underline cursor-pointer">Trabajar en emblems3d</p>
+                </div>
+
+                <div class="py-7 px-5">
+                    <p class="font-bold text-white mb-4">Productos</p>
+                    <ul>
+                        <li class="cursor-pointer hover:underline">Emblemas</li>
+                        <li class="cursor-pointer hover:underline">Portaplacas</li>
+                        <li class="cursor-pointer hover:underline">Llaveros</li>
+                        <li class="cursor-pointer hover:underline">Tapetes de uso rudo</li>
+                        <li class="cursor-pointer hover:underline">Portadocumentos</li>
+                        <li class="cursor-pointer hover:underline">Perfumeros</li>
+                        <li class="cursor-pointer hover:underline">Servicios de diseno</li>
+                    </ul>
+                </div>
+
+                <div class="py-7 px-5 text-left">
+                    <p class="font-bold text-white mb-4">Contacto</p>
+                    <p class="text-white">ventas@emblemas3d.com.mx</p>
+
+                    <p class="font-bold text-white mt-12 mb-4">Domicilio</p>
+                    <figure class="flex space-x-4">
+                        <img class="cursor-pointer" src="@/../../public/images/eua.png" alt="EUA">
+                        <img class="cursor-pointer" src="@/../../public/images/mexico.png" alt="MX">
+                    </figure>
+
+                </div>
+                <a href="https://dtw.com.mx/" target="_blank">
+        <figure class="my-5 absolute bottom-1 right-4">
+          <img src="@/../../public/images/logo.png" alt="Logo" />
+        </figure>
+        </a>
+            </div>
+            <p class="bg-[#1a1a1a] text-white px-3 pb-2">Copyright 2023. Emblems3dUSA todos los derechos reservados. Políticas de privacidad y administración de cookies</p>
+                    
+        </footer>
   </AppLayout>
 </template>
 
 <script>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import ThirthButton from "@/Components/MyComponents/ThirthButton.vue";
+import ProductCard from "@/Components/MyComponents/ProductCard.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import Checkbox from "@/Components/Checkbox.vue";
 import { Link, useForm } from "@inertiajs/vue3";
@@ -173,6 +203,7 @@ export default {
     ThirthButton,
     Checkbox,
     PrimaryButton,
+    ProductCard,
     Link,
   },
   methods: {
@@ -193,7 +224,9 @@ export default {
       this.form.resin = false
     }
   },
-  props: {},
+  props: {
+    products: Array
+  },
 };
 </script>
 

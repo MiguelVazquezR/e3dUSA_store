@@ -10,13 +10,15 @@ class ProductController extends Controller
     
     public function index()
     {
-        return inertia('Product/Index');
+        $products = Product::all();
+
+        return inertia('Product/Index', compact('products'));
     }
 
    
     public function create()
     {
-        //
+        return inertia('Product/Create');
     }
 
     
@@ -28,7 +30,11 @@ class ProductController extends Controller
    
     public function show(Product $product)
     {
-        return inertia('Product/Show');
+
+        $similar_products = Product::where('category', $product->category)->get(); 
+        
+        // return $similar_products;
+        return inertia('Product/Show', compact('product', 'similar_products'));
     }
 
     
