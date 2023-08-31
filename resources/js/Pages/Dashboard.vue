@@ -5,7 +5,7 @@
                 <figure>
                     <img src="@/../../public/images/banner.png" alt="banner">
                 </figure>
-
+<InputWithPlaceholder />
 <!-- --------------------- todas las categorias start ----------------------------- -->
                 <div class="mt-7">
                     <h2 class="text-xl text-left ">Todas las categorias</h2>
@@ -248,6 +248,7 @@
                 </template>
             </DialogModal>
             <!-- --------------------------- Modal ends ------------------------------------ -->
+            
     </AppLayout>
 </template>
 
@@ -255,6 +256,7 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import CancelButton from "@/Components/MyComponents/CancelButton.vue";
+import InputWithPlaceholder from "@/Components/MyComponents/InputWithPlaceholder.vue";
 import { Link } from "@inertiajs/vue3";
 import DialogModal from "@/Components/DialogModal.vue";
 
@@ -338,6 +340,7 @@ export default {
     Link,
     DialogModal,
     CancelButton,
+    InputWithPlaceholder
   },
   methods: {
     async deleteItem() {

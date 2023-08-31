@@ -45,6 +45,7 @@
   .input-placeholder.active {
     transform: translateY(-150%) scale(0.75);
     color: #000;
+    border-color: #fff;
     z-index: 900;
   }
   </style>

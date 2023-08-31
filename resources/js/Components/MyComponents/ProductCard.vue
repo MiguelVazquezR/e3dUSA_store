@@ -28,7 +28,7 @@
               </div>
 
                 <div class="mx-auto">
-              <PrimaryButton class="px-12">Agregar</PrimaryButton>
+              <PrimaryButton @click="addCartProduct" class="px-12">Agregar</PrimaryButton>
                 </div>
 
             </div>
@@ -51,7 +51,10 @@ props:{
     product: Object
 },
 methods:{
-
+  addCartProduct(){
+    console.log('agregar a carrito', this.product);
+    this.$inertia.post(route('cart-products.store', {'product': this.product, 'quantity': this.quantity }));
+  }
 },
 }
 </script>
