@@ -21,15 +21,35 @@
                   </div>
                 </div>
                 <div class="flex items-center mt-4 ml-5 text-sm text-gray-600">
-                  <p class="cursor-pointer"><i class="fa-solid fa-trash-can mr-2"></i>Eliminar</p>
+                  <p @click="deleteConfirm = true" class="cursor-pointer"><i class="fa-solid fa-trash-can mr-2"></i>Eliminar</p>
                   <div class="border-r-2 border-[9a9a9a] h-6 mx-3 "></div>
                   <p class="cursor-pointer">Guardad para después</p>
                 </div>
                 <div class="border-b borer-[#9A9A9A] w-full my-7"></div>
+
+                <!-- -------------- Modal starts----------------------- -->
+        <DialogModal :show="deleteConfirm" 
+        @close="deleteConfirm = false">
+                <template #title>
+                    <p v-if="deleteConfirm"><i class="fa-solid fa-circle-exclamation text-red-600 mr-2"></i> ¿Continuar con la eliminación?</p>
+                </template>
+                <template #content>
+                    <p v-if="deleteConfirm">Estas a punto de quitar {{ cart_product.product.name }} de tu carrito. ¿Deseas continuar?</p>
+                </template>
+                <template #footer>
+                    <CancelButton @click="deleteConfirm = false">
+                        Cerrar</CancelButton>
+                        <PrimaryButton @click="deleteItem" v-if="deleteConfirm">Eliminar</PrimaryButton>
+                </template>
+            </DialogModal>
+            <!-- --------------------------- Modal ends ------------------------------------ -->
 </template>
 
 <script>
 import { Link, useForm } from "@inertiajs/vue3";
+import DialogModal from "@/Components/DialogModal.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+import CancelButton from "@/Components/MyComponents/CancelButton.vue";
 
 export default {
 data(){
@@ -37,7 +57,8 @@ data(){
       quantity: this.cart_product.quantity,
     });
     return{
-form
+form,
+deleteConfirm: false,
     }
 },
 props:{
@@ -45,9 +66,14 @@ props:{
 },
 components:{
     Link,
+    DialogModal,
+    PrimaryButton,
+    CancelButton
 },
 methods:{
-
+  deleteItem(){
+    this.$inertia.delete(route('cart-products.destroy', this.cart_product.id));
+  }
 },
 }
 </script>

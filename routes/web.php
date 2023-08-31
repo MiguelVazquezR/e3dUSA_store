@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CartProductController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SaleController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -40,3 +43,15 @@ Route::resource('products', ProductController::class);
 
 
 Route::resource('carts', CartController::class);
+Route::get('/payment-verification', [CartController::class, 'paymentVerification'])->name('carts.payment-verification');
+
+
+Route::resource('cart-products', CartProductController::class);
+
+
+Route::resource('sales', SaleController::class);
+
+
+Route::resource('addresses', AddressController::class);
+
+
