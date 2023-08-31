@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\CartProduct;
+use App\Models\Discount;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -13,9 +14,15 @@ class CartController extends Controller
     {
         // $user_cart = auth()->user->cart_id;
         $cart_products = CartProduct::with('product')->where('cart_id', 1)->get();
+        $discounts = Discount::where('expire_date', '>', now())->get();
+        $subtotal = 0;
 
-        // return $cart_products;
-        return inertia('Cart/Index', compact('cart_products'));
+         foreach ($cart_products as $product) {
+           $subtotal += $product->quantity * $product['product']->price;  
+        }
+
+        // return $discounts;
+        return inertia('Cart/Index', compact('cart_products', 'subtotal', 'discounts'));
     }
 
    
