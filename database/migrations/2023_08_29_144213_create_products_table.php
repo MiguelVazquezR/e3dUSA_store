@@ -17,9 +17,10 @@ return new class extends Migration
             $table->string('category');
             $table->string('brand');
             $table->string('model')->nullable();
+            $table->json('colors')->nullable();
             $table->string('part_number');
             $table->text('description');
-            $table->json('features')->nullable();
+            $table->text('features')->nullable();
             $table->unsignedFloat('price');
             $table->boolean('is_percentage')->nullable();
             $table->unsignedFloat('discount')->nullable();

@@ -54,11 +54,11 @@
 
 @layer components{
     .input{
-        @apply h-10 w-full bg-transparent border placeholder:text-gray-400 border-[#9A9A9A] text-gray-700 text-sm rounded-md focus:ring-[#0355B5] focus:border-[#0355B5] block p-2.5;
+        @apply h-9 w-full bg-transparent border placeholder:text-gray-400 border-[#D9D9D9D] text-gray-600 text-sm rounded-xl focus:ring-[#0355B5] focus:border-[#0355B5] block p-2.5;
     }
 
     .textarea{
-        @apply bg-transparent placeholder:text-gray-400 border border-[#9A9A9A] text-[#9A9A9A] text-sm rounded-md focus:ring-[#0355B5] focus:border-[#0355B5] block w-full p-2.5;
+        @apply bg-transparent placeholder:text-gray-400 border border-[#D9D9D9D] text-[#D9D9D9D] text-sm rounded-md focus:ring-[#0355B5] focus:border-[#0355B5] block w-full p-2.5;
     }
 
     .label{

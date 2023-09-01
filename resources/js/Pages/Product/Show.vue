@@ -1,13 +1,18 @@
 <template>
     <AppLayout>
       <div class="lg:px-8 lg:py-8">
-       <!-- ---------------------- directory ------------------------ -->
-      <div class="mb-8 flex items-center space-x-2">
-        <i @click="$inertia.get('/dashboard')" class="fa-solid fa-house text-primary cursor-pointer"></i>
+      <!-- ---------------------- directory ------------------------ -->
+      <div class="flex justify-between items-center mx-1 mt-2">
+        <div class="mb-8 flex items-center space-x-2">
+          <i @click="$inertia.get('/dashboard')" class="fa-solid fa-house text-primary cursor-pointer"></i>
         <i class="fa-solid fa-angle-right text-primary"></i>
         <p @click="$inertia.get(route('products.index'))" class="cursor-pointer">Productos</p>
         <i class="fa-solid fa-angle-right text-primary"></i>
         <p @click="$inertia.get(route('products.show', product.id))" class="cursor-pointer text-primary">{{product.name}}</p>
+        </div>
+        <Link v-if="$page.props.auth.user.is_admin" :href="route('products.edit', product.id)">
+          <PrimaryButton><i @click="$inertia.get(route('products.edit', product.id))" class="fa-solid fa-pen text-sm text-white mr-2"></i>Editar</PrimaryButton>
+        </Link>
       </div>
 
       <div class="rounded-lg lg:mx-24">

@@ -1,6 +1,6 @@
 <template>
   <AppLayout>
-    <div class="lg:px-20 lg:py-8">
+    <div class="lg:px-20 lg:py-12">
 
         <!-- ---------------------- directory ------------------------ -->
       <div class="mb-8 flex items-center space-x-2">

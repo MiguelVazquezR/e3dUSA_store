@@ -10,9 +10,9 @@
 
                 <div class="flex items-center mt-4 ml-5 text-sm text-gray-600">
                   <p @click="deleteConfirm = true" class="cursor-pointer">Eliminar</p>
-                  <div class="border-r-2 border-[9a9a9a] h-6 mx-3 "></div>
-                  <p class="cursor-pointer">Editar</p>
-                  <div class="border-r-2 border-[9a9a9a] h-6 mx-3 "></div>
+                  <div class="border-r border-[#9A9A9A] h-6 mx-3 "></div>
+                  <p @click="$inertia.get(route('addresses.edit', address.id))" class="cursor-pointer">Editar</p>
+                  <div class="border-r border-[#9A9A9A] h-6 mx-3 "></div>
                   <p class="cursor-pointer">Agregar instrucciones de entrega</p>
                 </div>
             </div>

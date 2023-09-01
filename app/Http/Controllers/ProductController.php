@@ -15,6 +15,13 @@ class ProductController extends Controller
         return inertia('Product/Index', compact('products'));
     }
 
+    public function indexAdmin()
+    {
+        $products = Product::latest()->get();
+
+        return inertia('Product/IndexAdmin', compact('products'));
+    }
+
    
     public function create()
     {
@@ -24,7 +31,21 @@ class ProductController extends Controller
     
     public function store(Request $request)
     {
-        //
+       $validated = $request->validate([
+            'name' => 'required|string',
+            'category' => 'required|string',
+            'brand' => 'required|string',
+            'model' => 'nullable|string',
+            'colors' => 'nullable|array',
+            'part_number' => 'required|string',
+            'description' => 'required',
+            'price' => 'required|numeric|min:0',
+            'is_percentage' => 'nullable|boolean',
+            'discount' => $request->has_discount == true ? 'required|numeric|min:0' : 'nullable',
+            'features' => 'nullable',
+        ]);
+
+        Product::create($validated);
     }
 
    

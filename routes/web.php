@@ -40,6 +40,7 @@ Route::middleware([
 });
 
 Route::resource('products', ProductController::class);
+Route::get('/products-index-admin', [ProductController::class, 'indexAdmin'])->name('products.indexAdmin'); //agregar un middelware de admin
 
 
 Route::resource('carts', CartController::class);

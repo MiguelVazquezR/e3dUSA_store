@@ -22,7 +22,7 @@
                 </div>
                 <div class="flex items-center mt-4 ml-5 text-sm text-gray-600">
                   <p @click="deleteConfirm = true" class="cursor-pointer"><i class="fa-solid fa-trash-can mr-2"></i>Eliminar</p>
-                  <div class="border-r-2 border-[9a9a9a] h-6 mx-3 "></div>
+                  <div class="border-r border-[#9A9A9A] h-6 mx-3 "></div>
                   <p class="cursor-pointer">Guardad para después</p>
                 </div>
                 <div class="border-b borer-[#9A9A9A] w-full my-7"></div>

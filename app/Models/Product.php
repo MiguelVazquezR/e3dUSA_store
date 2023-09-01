@@ -15,6 +15,7 @@ class Product extends Model
         'category',
         'brand',
         'model',
+        'colors',
         'part_number',
         'description',
         'features',
@@ -24,7 +25,7 @@ class Product extends Model
     ];
 
     protected $casts = [
-        'features' => 'array'
+        'colors' => 'array'
     ];
 
     //relationships
