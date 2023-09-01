@@ -1,5 +1,5 @@
 <template>
-  <div class="lg:w-1/3">
+  <div class="lg:w-full">
     <div class="input-container">
       <label
         class="input-placeholder text-gray-500 bg-gray-100 px-2 rounded-sm text-sm"
