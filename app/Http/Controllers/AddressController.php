@@ -22,7 +22,19 @@ class AddressController extends Controller
     
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'address' => 'required|string',
+            'city' => 'required|string',
+            'state' => 'required|string',
+            'country' => 'required|string',
+            'postal_code' => 'required|string|min:5|max:6',
+            'receiver_name' => 'required|string',
+            'phone' => 'required|string|min:10',
+        ]);
+
+        Address::create($request->all() + ['user_id' => auth()->id()]);
+
+        return to_route('carts.payment-verification');
     }
 
     

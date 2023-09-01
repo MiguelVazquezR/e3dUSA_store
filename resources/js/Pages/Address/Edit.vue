@@ -4,7 +4,7 @@
     <div class="lg:px-20 lg:py-8">
 
         <!-- ---------------------- directory ------------------------ -->
-      <div class="mb-8 flex items-center space-x-2">
+      <div class="mb-8 flex items-center space-x-2 text-sm">
         <i @click="$inertia.get('/dashboard')" class="fa-solid fa-house text-primary cursor-pointer"></i>
         <i class="fa-solid fa-angle-right text-primary"></i>
         <p @click="$inertia.get(route('products.index'))" class="cursor-pointer text-primary">Productos</p>

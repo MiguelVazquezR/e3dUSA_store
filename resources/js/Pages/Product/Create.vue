@@ -2,7 +2,7 @@
     <AppLayout>
       <div class="lg:px-8 lg:py-8">
         <!-- ---------------------- directory ------------------------ -->
-        <div class="mb-8 flex space-x-2 items-center">
+        <div class="mb-8 flex space-x-2 items-center text-sm">
             <i @click="$inertia.get('/dashboard')" class="fa-solid fa-house text-primary cursor-pointer"></i>
             <i class="fa-solid fa-angle-right text-primary"></i>
             <p @click="$inertia.get(route('products.index'))" class="cursor-pointer text-primary">Productos</p>
@@ -58,6 +58,11 @@
             </div>
 
             <div>
+              <InputWithPlaceholder :inputType="number" v-model="form.stock">Cantidad en stock *</InputWithPlaceholder>
+              <InputError :message="form.errors.stock" />
+            </div>
+
+            <div>
               <InputWithPlaceholder v-model="form.price">Precio *</InputWithPlaceholder>
               <InputError :message="form.errors.price" />
             </div>
@@ -72,10 +77,10 @@
               </div>
 
               <div>
-                <div class="flex items-center space-x-2">
-                  <InputWithPlaceholder v-if="form.has_discount" v-model="form.discount">Descuento *</InputWithPlaceholder>
-                  <input class="text-sm checked:bg-primary text-gray-600 bg-transparent" v-model="form.is_percentage" type="radio" name="es_porcentage" value="true"> % 
-                  <input class="text-sm checked:bg-primary text-gray-600 bg-transparent" v-model="form.is_percentage" type="radio" name="es_porcentage" value="true"> $ 
+                <div v-if="form.has_discount" class="flex items-center space-x-2">
+                  <InputWithPlaceholder v-model="form.discount">Descuento *</InputWithPlaceholder>
+                  <input class="text-sm checked:bg-primary text-gray-600 bg-transparent mr-1" v-model="form.is_percentage" type="radio" name="es_porcentage" value="true"> % 
+                  <input class="text-sm checked:bg-primary text-gray-600 bg-transparent mr-1" v-model="form.is_percentage" type="radio" name="es_porcentage" value="false"> $ 
                 </div>
                 <InputError :message="form.errors.discount" />
               </div>
@@ -141,6 +146,7 @@
       description: null,
       price: null,
       is_percentage: null,
+      stock: null,
       discount: null,
       discount: null,
       colors: null,

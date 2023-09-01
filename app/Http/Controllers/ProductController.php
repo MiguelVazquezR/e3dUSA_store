@@ -41,6 +41,7 @@ class ProductController extends Controller
             'description' => 'required',
             'price' => 'required|numeric|min:0',
             'is_percentage' => 'nullable|boolean',
+            'stock' => 'required|numeric|min:0',
             'discount' => $request->has_discount == true ? 'required|numeric|min:0' : 'nullable',
             'features' => 'nullable',
         ]);

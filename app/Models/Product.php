@@ -20,6 +20,8 @@ class Product extends Model
         'description',
         'features',
         'price',
+        'is_active',
+        'stock',
         'is_percentage',
         'discount',
     ];

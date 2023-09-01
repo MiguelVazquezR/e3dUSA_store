@@ -2,7 +2,7 @@
     <AppLayout>
       <div class="lg:px-8 lg:py-8">
       <!-- ---------------------- directory ------------------------ -->
-      <div class="flex justify-between items-center mx-1 mt-2">
+      <div class="flex justify-between items-center mx-1 mt-2 text-sm">
         <div class="mb-8 flex items-center space-x-2">
           <i @click="$inertia.get('/dashboard')" class="fa-solid fa-house text-primary cursor-pointer"></i>
         <i class="fa-solid fa-angle-right text-primary"></i>
@@ -19,9 +19,13 @@
         <div class="lg:grid grid-cols-2">
   <!-- -------------------- Images ------------------ -->
           <div class="bg-[#D9D9D9] rounded-md mx-36 cursor-pointer relative">
-            <figure>
-              <img src="" alt="Product image">
+            <figure class="">
+              <img src="" alt="Product image"
+              @mouseover="showZoom"
+              @mousemove="updateZoomPosition"
+              @mouseout="hideZoom">
             </figure>
+              <div class="border-2 border-black h-36 w-36 bottom-3 right-0 rounded-lg bg-cover" ref="zoomBox" v-if="isZoomVisible" :style="zoomBoxStyle"></div>
             
             <figure class="w-24 h-24 bg-[#D9D9D9] absolute top-0 -left-28 cursor-pointer rounded-md border hover:border-[#9a9a9a]">
               <img src="" alt="image">
@@ -70,6 +74,7 @@
             <div class="flex items-center space-x-4 my-4">
               <p class="font-bold text-sm">Cantidad:</p>
               <input v-model="form.quantity" type="number" min="1" class="input w-20 h-6 bg-[#D9D9D9] border border-transparent rounded-xl">
+              <p class="text-xs text-gray-500">{{ product.stock }} disponibles </p>
             </div>
 
             <PrimaryButton>Agregar al carrito</PrimaryButton>
@@ -187,7 +192,14 @@
       
     });
       return {
-        form
+        form,
+        isZoomVisible: false,
+        zoomBoxStyle: {
+        left: "100%", // Ajusta la posición inicial
+        top: "0", // Ajusta la posición inicial
+        backgroundImage: "url('ruta_de_tu_imagen.jpg')", // Usa la misma imagen
+        backgroundSize: "300px", // Ajusta el tamaño según tus necesidades
+      },
       };
     },
     components: {
@@ -199,7 +211,25 @@
       Link,
     },
     methods: {
+      showZoom() {
+      this.isZoomVisible = true;
+    },
+    hideZoom() {
+      this.isZoomVisible = false;
+    },
+     updateZoomPosition(event) {
+      // Obtiene la posición relativa del cursor en la imagen
+      const image = event.target;
+      const zoomBox = this.$refs.zoomBox;
 
+      const imageRect = image.getBoundingClientRect();
+      const x = event.clientX - imageRect.left;
+      const y = event.clientY - imageRect.top;
+
+      // Ajusta la posición del cuadro de zoom
+      this.zoomBoxStyle.left = x - zoomBox.clientWidth / 2 + "px";
+      this.zoomBoxStyle.top = y - zoomBox.clientHeight / 2 + "px";
+    },
     },
     props: {
       product: Object,
@@ -208,5 +238,4 @@
   };
   </script>
   
-  <style></style>
   
