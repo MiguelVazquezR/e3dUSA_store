@@ -58,6 +58,11 @@
             </div>
 
             <div>
+              <InputWithPlaceholder v-model="form.part_number">Cantidad en stock *</InputWithPlaceholder>
+              <InputError :message="form.errors.stock" />
+            </div>
+
+            <div>
               <InputWithPlaceholder v-model="form.price">Precio *</InputWithPlaceholder>
               <InputError :message="form.errors.price" />
             </div>
@@ -74,8 +79,8 @@
               <div>
                 <div class="flex items-center space-x-2">
                   <InputWithPlaceholder v-if="form.has_discount" v-model="form.discount">Descuento *</InputWithPlaceholder>
-                  <input class="text-sm checked:bg-primary text-gray-600 bg-transparent" v-model="form.is_percentage" type="radio" name="es_porcentage" value="true"> % 
-                  <input class="text-sm checked:bg-primary text-gray-600 bg-transparent" v-model="form.is_percentage" type="radio" name="es_porcentage" value="true"> $ 
+                  <input class="text-sm checked:bg-primary text-gray-600 bg-transparent mr-1" v-model="form.is_percentage" type="radio" name="es_porcentage" value="true"> % 
+                  <input class="text-sm checked:bg-primary text-gray-600 bg-transparent mr-1" v-model="form.is_percentage" type="radio" name="es_porcentage" value="false"> $ 
                 </div>
                 <InputError :message="form.errors.discount" />
               </div>

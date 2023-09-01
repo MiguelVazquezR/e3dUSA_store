@@ -22,6 +22,8 @@ return new class extends Migration
             $table->text('description');
             $table->text('features')->nullable();
             $table->unsignedFloat('price');
+            $table->boolean('is_active')->default(true);
+            $table->unsignedFloat('stock');
             $table->boolean('is_percentage')->nullable();
             $table->unsignedFloat('discount')->nullable();
             $table->timestamps();
