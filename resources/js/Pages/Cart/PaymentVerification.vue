@@ -3,7 +3,7 @@
     <div class="lg:px-20 lg:py-12">
 
         <!-- ---------------------- directory ------------------------ -->
-      <div class="mb-8 flex items-center space-x-2">
+      <div class="mb-8 flex items-center space-x-2 text-sm">
         <i @click="$inertia.get('/dashboard')" class="fa-solid fa-house text-primary cursor-pointer"></i>
         <i class="fa-solid fa-angle-right text-primary"></i>
         <p @click="$inertia.get(route('products.index'))" class="cursor-pointer text-primary">Productos</p>
@@ -89,9 +89,10 @@
               </p>
             </div>
             <label class="flex items-rig justify-end">
-              <Checkbox />
+              <Checkbox v-model:checked="has_invoice" />
               <span class="ml-2 text-xs text-gray-600">Solicitar factura</span>
             </label>
+            <p @click="invoiceModal = true" v-if="has_invoice" class="text-xs text-primary text-center cursor-pointer pt-3">+ Agregar datos de facturación</p>
           </div>
 
           <div class="text-center">
@@ -107,7 +108,54 @@
 
     </div>
 
+<!-- -------------- Invoice modal starts----------------------- -->
+      <Modal :show="invoiceModal " @close="invoiceModal = false">
+        <form @submit.prevent="storeInvoice" class="mx-7 my-4 space-y-4 relative px-3">
+            <div @click="invoiceModal = false"
+                class="cursor-pointer w-5 h-5 rounded-full border-2 border-black flex items-center justify-center absolute top-0 right-0">
+                <i class="fa-solid fa-xmark"></i>
+              </div>
+          <h2 class="text-center">Datos de facturación</h2> 
 
+          <div class="flex justify-center border-b border-[#9A9A9A] w-1/2 mx-auto">
+            <p @click="invoiceTab = 1" :class="invoiceTab == 1 ? 'border-b-2 border-[#D90537]' : ''" class="text-[#9A9A9A] px-4 cursor-pointer">Persona física</p>
+            <p @click="invoiceTab = 2" :class="invoiceTab == 2 ? 'border-b-2 border-[#D90537]' : ''" class="text-[#9A9A9A] px-4 cursor-pointer">Persona moral</p>
+          </div>
+
+          <!-- ---------------- Persona fisica ----------- -->
+            <div v-if="invoiceTab == 1" class="flex space-x-1 pt-5">
+                  <InputWithPlaceholder v-model="form.name">Nombre(s) *</InputWithPlaceholder>
+                  <InputError :message="form.errors.name" />
+                  <InputWithPlaceholder v-model="form.patern_last_name">Apellido paterno *</InputWithPlaceholder>
+                  <InputError :message="form.errors.patern_last_name" />
+                  <InputWithPlaceholder v-model="form.mother_last_name">Apellido materno *</InputWithPlaceholder>
+                  <InputError :message="form.errors.mother_last_name" />
+            </div>
+            <div v-if="invoiceTab == 1" class="flex space-x-1">
+                  <InputWithPlaceholder v-model="form.rfc">RFC *</InputWithPlaceholder>
+                  <InputError :message="form.errors.rfc" />
+                  <select class="input" v-model="form.tax_regime">
+                    <option selected disabled>--- Régimen fiscal ---</option>
+                    <option v-for="tax_regime in tax_regimes" :key="tax_regime" :value="tax_regime">{{ tax_regime }}</option>
+                  </select>
+                  <InputError :message="form.errors.tax_regime" />
+            </div>
+                  <select class="input w-1/2" v-model="form.tax_regime">
+                    <option selected disabled>--- Uso de CFDI ---</option>
+                    <option v-for="tax_regime in tax_regimes" :key="tax_regime" :value="tax_regime">{{ tax_regime }}</option>
+                  </select>
+                  <InputError :message="form.errors.tax_regime" />
+
+                  <h3 class="text-secondary">Dirección Fiscal</h3>
+          
+
+          <!-- -------- Buttons ----- -->
+          <div class="flex justify-end space-x-3 pt-5 pb-1">
+            <PrimaryButton>Aceptar</PrimaryButton>
+            <CancelButton @click="invoiceModal = false">Cancelar</CancelButton>
+          </div>
+        </form>
+      </Modal>
 
   </AppLayout>
 </template>
@@ -117,16 +165,51 @@ import AppLayout from "@/Layouts/AppLayout.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import AddressCard from "@/Components/MyComponents/AddressCard.vue";
 import Checkbox from "@/Components/Checkbox.vue";
+import Modal from "@/Components/Modal.vue";
+import CancelButton from "@/Components/MyComponents/CancelButton.vue";
+import InputWithPlaceholder from "@/Components/MyComponents/InputWithPlaceholder.vue";
+import InputError from "@/Components/InputError.vue";
 import { Link, useForm } from "@inertiajs/vue3";
 
 export default {
   data() {
     const form = useForm({
-      key_ring: false,
+      name: null,
+      patern_last_name: null,
+      mother_last_name: null,
+      rfc: null,
+      tax_regime: null,
+      cfdi_use: null,
+      postal_code: null,
+      street: null,
+      outdoor_number: null,
+      interior_number: null,
+      colony: null,
+      city_halll: null,
+      city: null,
+      state: null,
+      email: null,
+      phone: null,
     });
 
     return {
       form,
+      has_invoice: false,
+      invoiceModal: false,
+      invoiceTab: 1,
+      tax_regimes: [
+        'Régimen Simplificado de Confianza',
+        'Sueldos y salarios e ingresos asimilados a salarios',
+        'Régimen de Actividades Empresariales y Profesionales',
+        'Régimen de Incorporación Fiscal',
+        'Enajenación de bienes',
+        'Régimen de Actividades Empresariales con ingresos a través de Plataformas Tecnológicas',
+        'Régimen de Arrendamiento',
+        'Intereses',
+        'Obtención de premios',
+        'Dividendos',
+        'Demás ingresos',
+      ],
  
     };
   },
@@ -139,6 +222,10 @@ export default {
     PrimaryButton,
     AddressCard,
     Checkbox,
+    Modal,
+    CancelButton,
+    InputWithPlaceholder,
+    InputError,
     Link,
   },
   methods: {
