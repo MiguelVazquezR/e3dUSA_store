@@ -2,7 +2,7 @@
   <AppLayout>
     <div class="lg:px-8 lg:py-8">
       <!-- ---------------------- directory ------------------------ -->
-      <div class="flex justify-between items-center mx-1 mt-2">
+      <div class="flex justify-between items-center mx-1 mt-2 text-sm">
         <div class="mb-8 flex items-center space-x-2">
           <i @click="$inertia.get('/dashboard')" class="fa-solid fa-house text-primary cursor-pointer"></i>
           <i class="fa-solid fa-angle-right text-primary"></i>

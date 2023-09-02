@@ -69,7 +69,7 @@ export default {
 }
 .input-placeholder {
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 8px;
   transform: translateY(-50%);
   transition: transform 0.2s ease-in-out, color 0.1s ease-in-out;

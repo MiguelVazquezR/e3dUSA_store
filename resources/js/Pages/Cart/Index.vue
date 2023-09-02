@@ -1,8 +1,8 @@
 <template>
   <AppLayout>
-    <div class="lg:px-20 lg:py-8">
+    <div class="lg:px-10 lg:py-8">
       <!-- ---------------------- directory ------------------------ -->
-      <div class="mb-8 flex items-center space-x-2">
+      <div class="mb-8 flex items-center space-x-2 text-sm">
         <i
           @click="$inertia.get('/dashboard')"
           class="fa-solid fa-house text-primary cursor-pointer"
@@ -222,12 +222,15 @@ export default {
   },
   methods: {
     apllyDiscount() {
+      //discount coede already not used?
       if (!this.discount_used) {
         this.discount_object = this.discounts.find(
           (discount) => discount.code === this.discount_code
         );
 
+        //discount found
         if (this.discount_object != null) {
+          // type of discpunt. percentage?
           if (this.discount_object.is_percentage == 1) {
             this.discount = (this.discount_object.discount / 100) * this.subtotal;
           } else {

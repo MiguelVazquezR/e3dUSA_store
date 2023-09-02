@@ -8,12 +8,14 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import ThirthButton from '@/Components/MyComponents/ThirthButton.vue';
+import SideNav from '@/Components/MyComponents/SideNav.vue';
 
 defineProps({
     title: String,
 });
 
 const showingNavigationDropdown = ref(false);
+const showSideNav = ref(false);
 
 const switchToTeam = (team) => {
     router.put(route('current-team.update'), {
@@ -25,6 +27,10 @@ const switchToTeam = (team) => {
 
 const logout = () => {
     router.post(route('logout'));
+};
+
+const showSideNavToggle = () => {
+  showSideNav.value = !showSideNav.value;
 };
 </script>
 
@@ -309,8 +315,21 @@ const logout = () => {
 
             <!-- Page Content -->
             <main class="bg-gray-100">
-                <slot />
+                <div class="overflow-hidden bg-gray-100 flex justify-between">
+                        <aside v-if="$page.props.auth.user.is_admin" :class="showSideNav ? 'w-[10%] relative  transition-transform ease-out duration-500' : '' ">
+                            <SideNav v-if="showSideNav" />
+                                <div v-if="!showSideNav" @click="showSideNavToggle" class="bg-[#c9c9c9] hover:scale-105 text-gray-600 w-7 h-24 cursor-pointer mt-7 flex items-center justify-center rounded-r-lg">
+                                    <i class="fa-solid fa-angles-right"></i>
+                                </div>
+                                <div v-if="showSideNav" @click="showSideNavToggle" class="absolute -top-7 -right-6 bg-[#c9c9c9] hover:scale-105 text-gray-600 w-7 h-24 cursor-pointer mt-7 flex items-center justify-center rounded-r-lg">
+                                    <i class="fa-solid fa-angles-left"></i>
+                                </div>
+                        </aside>
+                        <div :class="showSideNav ? 'w-[90%] transition-margin ease-in duration-500' : 'w-full' ">
+                            <slot />
+                        </div>
+                </div>
             </main>
         </div>
-    </div>
+    </div>  
 </template>

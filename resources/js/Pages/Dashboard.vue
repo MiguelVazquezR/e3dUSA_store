@@ -24,12 +24,12 @@
                             <i v-else class="fa-solid fa-chevron-down"></i>
                         </div>
 
-                        <!-- <div v-if="all_categories" @click="$inertia.get(route('products.index'))"  v-for="categoryCard in categories2" :key="categoryCard" class="cursor-pointer hover:border-[#D90537] hover:scale-105 mt-3 lg:mt-0 rounded-lg border-2 border-[#D90537] px-2 py-8 flex flex-col space-y-3 justify-center text-center">
+                        <div v-if="all_categories" @click="$inertia.get(route('products.index'))"  v-for="categoryCard in categories2" :key="categoryCard" class="cursor-pointer hover:border-[#D90537] hover:scale-105 mt-3 lg:mt-0 rounded-lg border-2 border-[#D90537] px-2 py-8 flex flex-col space-y-3 justify-center text-center">
                             <figure>
                                 <img :src="categoryCard.image" :alt="categoryCard.alt">
                             </figure>
                             <p class="text-primary">{{ categoryCard.name }}</p>
-                        </div> -->
+                        </div>
                         
                     </div>
                 </div>
