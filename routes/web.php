@@ -3,6 +3,7 @@
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CartProductController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SaleController;
 use Illuminate\Foundation\Application;
@@ -54,5 +55,8 @@ Route::resource('sales', SaleController::class);
 
 
 Route::resource('addresses', AddressController::class);
+
+
+Route::resource('invoices', InvoiceController::class);
 
 

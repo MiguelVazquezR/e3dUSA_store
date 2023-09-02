@@ -69,30 +69,37 @@
             <div class="flex justify-between">
               <p class="font-bold text-sm">Subtotal:</p>
               <p class="text-sm">
-                ${{ 'subtotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")' }}
+                ${{ subtotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
               </p>
             </div>
             <div class="flex justify-between">
               <p class="font-bold text-sm">Costo de envío:</p>
-              <p class="text-sm">${{ 'shipping_cost' }}</p>
+              <p class="text-sm">${{ shipping_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</p>
             </div>
             <div class="flex justify-between">
               <p class="font-bold text-primary text-sm">Descuento:</p>
               <p class="text-sm text-primary">
-                ${{ 'discount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")' }}
+                ${{ discount?.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") ?? 0 }}
               </p>
+              {{discount_object}}
             </div>
             <div class="flex justify-between">
               <p class="font-bold text-sm text-secondary">Total:</p>
               <p class="text-sm text-secondary">
-                ${{ 'total.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")' }}
+                ${{ total.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
               </p>
             </div>
             <label class="flex items-rig justify-end">
               <Checkbox v-model:checked="has_invoice" />
               <span class="ml-2 text-xs text-gray-600">Solicitar factura</span>
             </label>
-            <p @click="invoiceModal = true" v-if="has_invoice" class="text-xs text-primary text-center cursor-pointer pt-3">+ Agregar datos de facturación</p>
+            <div class="flex flex-col space-y-1 pb-4" v-if="has_invoice">
+              <label class="text-sm" v-for="invoice_info in invoices_info" :key="invoice_info" for="">
+                <input v-model="invoice_to" type="radio" name="invoice">
+                {{ invoice_info.rfc }} <i @click="itemToDelete = invoice_info; deleteConfirmModal = true" class="fa-solid fa-trash-can ml-2 text-primary cursor-pointer"></i>
+              </label>
+            </div>
+              <p v-if="has_invoice" @click="invoiceModal = true" class="text-xs text-primary text-center cursor-pointer">+ Agregar datos de facturación</p>
           </div>
 
           <div class="text-center">
@@ -123,6 +130,7 @@
           </div>
 
           <!-- ---------------- Persona fisica ----------- -->
+
             <div v-if="invoiceTab == 1" class="flex space-x-1 pt-5">
                   <InputWithPlaceholder v-model="form.name">Nombre(s) *</InputWithPlaceholder>
                   <InputError :message="form.errors.name" />
@@ -131,7 +139,15 @@
                   <InputWithPlaceholder v-model="form.mother_last_name">Apellido materno *</InputWithPlaceholder>
                   <InputError :message="form.errors.mother_last_name" />
             </div>
-            <div v-if="invoiceTab == 1" class="flex space-x-1">
+
+            <div v-if="invoiceTab == 2" class="flex space-x-1 pt-5">
+                  <select class="input" v-model="form.tax_regime">
+                    <option selected disabled>--- Razon Social ---</option>
+                    <option v-for="tax_regime in tax_regimes" :key="tax_regime" :value="tax_regime">{{ tax_regime }}</option>
+                  </select>
+            </div>
+          
+            <div class="flex space-x-1">
                   <InputWithPlaceholder v-model="form.rfc">RFC *</InputWithPlaceholder>
                   <InputError :message="form.errors.rfc" />
                   <select class="input" v-model="form.tax_regime">
@@ -140,22 +156,75 @@
                   </select>
                   <InputError :message="form.errors.tax_regime" />
             </div>
-                  <select class="input w-1/2" v-model="form.tax_regime">
+                  <select class="input w-1/2" v-model="form.cfdi_use">
                     <option selected disabled>--- Uso de CFDI ---</option>
                     <option v-for="tax_regime in tax_regimes" :key="tax_regime" :value="tax_regime">{{ tax_regime }}</option>
                   </select>
-                  <InputError :message="form.errors.tax_regime" />
+                  <InputError :message="form.errors.cfdi_use" />
 
-                  <h3 class="text-secondary">Dirección Fiscal</h3>
+                  <h3 class="text-secondary pt-5">Dirección Fiscal</h3>
+
+                  <div class="flex space-x-1">
+                    <InputWithPlaceholder v-model="form.postal_code">Código postal *</InputWithPlaceholder>
+                    <InputError :message="form.errors.postal_code" />
+                    <InputWithPlaceholder v-model="form.street">Calle *</InputWithPlaceholder>
+                    <InputError :message="form.errors.street" />
+                    <InputWithPlaceholder v-model="form.outdoor_number">N° exterior *</InputWithPlaceholder>
+                    <InputError :message="form.errors.outdoor_number" />
+                    <InputWithPlaceholder v-model="form.interior_number">N° interior</InputWithPlaceholder>
+                    <InputError :message="form.errors.interior_number" />
+                  </div>
+
+                  <div class="flex space-x-1">
+                    <InputWithPlaceholder v-model="form.colony">Colonia *</InputWithPlaceholder>
+                    <InputError :message="form.errors.colony" />
+                    <InputWithPlaceholder v-model="form.city_halll">Municipio *</InputWithPlaceholder>
+                    <InputError :message="form.errors.city_halll" />
+                  </div>
+
+                  <div class="flex space-x-1">
+                    <InputWithPlaceholder v-model="form.city">Ciudad *</InputWithPlaceholder>
+                    <InputError :message="form.errors.city" />
+                    <InputWithPlaceholder v-model="form.state">Estado *</InputWithPlaceholder>
+                    <InputError :message="form.errors.state" />
+                  </div>
+
+                  <h3 class="text-secondary pt-5">Otros datos</h3>
+
+                  <div class="flex space-x-1">
+                    <InputWithPlaceholder v-model="form.email">Correo electrónico</InputWithPlaceholder>
+                    <InputError :message="form.errors.email" />
+                    <InputWithPlaceholder v-model="form.phone">Teléfono</InputWithPlaceholder>
+                    <InputError :message="form.errors.phone" />
+                  </div>
           
 
           <!-- -------- Buttons ----- -->
           <div class="flex justify-end space-x-3 pt-5 pb-1">
-            <PrimaryButton>Aceptar</PrimaryButton>
+            <PrimaryButton :disabled="form.processing">Aceptar</PrimaryButton>
             <CancelButton @click="invoiceModal = false">Cancelar</CancelButton>
           </div>
         </form>
       </Modal>
+
+<!-- ------------- Confirmaion modal -------------- -->
+  <ConfirmationModal :show="deleteConfirmModal" @close="deleteConfirmModal = false">
+      <template #title>
+        <p>¿Deseas continua?</p>
+      </template>
+
+      <template #content>
+        <p>Estas a punto de eliminar el elemento. Si lo eliminas ya no podrás recuperarlo. ¿Deseas continuar?</p>
+      </template>
+
+      <template #footer>
+        <div class="flex space-x-2">
+          <PrimaryButton @click="deleteItem">Eliminar</PrimaryButton>
+            <CancelButton @click="deleteConfirmModal = false">Cancelar</CancelButton>
+        </div>
+      </template>
+
+  </ConfirmationModal>
 
   </AppLayout>
 </template>
@@ -166,6 +235,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import AddressCard from "@/Components/MyComponents/AddressCard.vue";
 import Checkbox from "@/Components/Checkbox.vue";
 import Modal from "@/Components/Modal.vue";
+import ConfirmationModal from "@/Components/ConfirmationModal.vue";
 import CancelButton from "@/Components/MyComponents/CancelButton.vue";
 import InputWithPlaceholder from "@/Components/MyComponents/InputWithPlaceholder.vue";
 import InputError from "@/Components/InputError.vue";
@@ -196,7 +266,13 @@ export default {
       form,
       has_invoice: false,
       invoiceModal: false,
+      deleteConfirmModal: false,
+      itemToDelete: false,
       invoiceTab: 1,
+      invoice_to: null,
+      shipping_cost: 0,
+      discount: 0,
+      total: 0,
       tax_regimes: [
         'Régimen Simplificado de Confianza',
         'Sueldos y salarios e ingresos asimilados a salarios',
@@ -216,6 +292,8 @@ export default {
   props: {
     addresses: Array,
     cart_products: Array,
+    invoices_info: Array,
+    subtotal: Number,
   },
   components: {
     AppLayout,
@@ -226,10 +304,26 @@ export default {
     CancelButton,
     InputWithPlaceholder,
     InputError,
+    ConfirmationModal,
     Link,
   },
   methods: {
-    
+    storeInvoice(){
+      this.form.post(route('invoices.store'));
+    },
+    deleteItem(){
+      this.$inertia.delete(route('invoices.destroy', this.itemToDelete.id));
+      this.deleteConfirmModal = false;
+    },
+  },
+  mounted() {
+    // this.discount = this.discount_object?.discount;
+    if (this.subtotal < 500) {
+      this.shipping_cost = 150;
+    } else {
+      this.shipping_cost = 0;
+    }
+    this.total = this.subtotal + this.shipping_cost - this.discount;
   },
 };
 </script>
