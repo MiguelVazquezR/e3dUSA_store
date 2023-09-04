@@ -17,6 +17,7 @@ const hasActions = computed(() => !! useSlots().actions);
                 <slot name="description" />
             </template>
         </SectionTitle>
+        
 
         <div class="mt-5 md:mt-0 md:col-span-2">
             <form @submit.prevent="$emit('submitted')">

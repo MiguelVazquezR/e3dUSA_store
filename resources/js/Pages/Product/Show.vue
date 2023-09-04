@@ -49,9 +49,18 @@
               <i class="fa-regular fa-star text-sm text-yellow-400"></i>
               <p class="text-xs ml-3 underline cursor-pointer">Sé el primero en opinar</p>
             </div>
+
+<!-- ------------- if product has discount. Original price ------------- -->
+            <div v-if="product.discount" class="relative -mb-6">
+              <h3 class="text-sm my-3 line-through">${{ product.price }}</h3>
+            </div>
+ <!-- ------------- Final price with or without discount -------------->
             <div class="relative inline-block">
-              <h3 class="text-primary font-bold text-xl my-3">${{ product.price?.toString().split('.')[0] }}</h3>
-              <h3 class="text-primary font-bold text-xs absolute top-3 -right-4">{{ product.price?.toString().split('.')[1] }}</h3>
+              <h3 class="text-primary font-bold text-xl my-3">${{product?.is_percentage ? (product?.price * (100 - product?.discount) * 0.01).toString().split('.')[0]
+            : (product?.price - product?.discount).toString().split('.')[0]
+              }}
+             </h3>
+              <h3 class="text-primary font-bold text-xs absolute top-3 -right-4">{{ product.price?.toString().split('.')[1] ?? '00' }}</h3>
             </div>
             <div class="flex space-x-7 mt-3">
               <p class="font-bold text-sm">Marca:</p>

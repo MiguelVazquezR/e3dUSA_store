@@ -79,8 +79,9 @@
               <div>
                 <div v-if="form.has_discount" class="flex items-center space-x-2">
                   <InputWithPlaceholder v-model="form.discount">Descuento *</InputWithPlaceholder>
-                  <input class="text-sm checked:bg-primary text-gray-600 bg-transparent mr-1" v-model="form.is_percentage" type="radio" name="es_porcentage" value="true"> % 
-                  <input class="text-sm checked:bg-primary text-gray-600 bg-transparent mr-1" v-model="form.is_percentage" type="radio" name="es_porcentage" value="false"> $ 
+                  <input class="text-sm checked:bg-primary text-gray-600 bg-transparent mr-1" v-model="form.is_percentage" type="radio" name="es_porcentage" :value="true"> % 
+                  <input class="text-sm checked:bg-primary text-gray-600 bg-transparent mr-1" v-model="form.is_percentage" type="radio" name="es_porcentage" :value="false"> $ 
+                <InputError :message="form.errors.is_percentage" />
                 </div>
                 <InputError :message="form.errors.discount" />
               </div>
@@ -118,7 +119,7 @@
 
           <div>
           </div>
-            
+            {{form}}
         </div>
       </div>
     </AppLayout>
@@ -177,8 +178,12 @@
     },
     methods: {  
       store(){
+        if(this.form.has_discount == false){
+          this.form.discount = null;
+          this.form.is_percentage = null;
+        }
         this.form.post(route('products.store'));
-        this.form.reset();
+        //this.form.reset();
       }
     },
     props: {
