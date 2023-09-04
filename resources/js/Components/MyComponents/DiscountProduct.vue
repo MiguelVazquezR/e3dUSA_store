@@ -1,5 +1,5 @@
 <template>
-  <div class="py-5 px-3 flex flex-col space-x-3 justify-center cursor-pointer rounded-lg border text-center border-[#9A9A9A] mt-3 lg:mt-0">
+  <div @click="$inertia.get(route('products.show', discount_product.id))" class="py-5 px-3 flex flex-col space-x-3 justify-center cursor-pointer rounded-lg border text-center border-[#9A9A9A] mt-3 lg:mt-0">
     <figure>
       <img src="@/../../../../public/storage/images/honda.png" alt="Honda" />
     </figure>

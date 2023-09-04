@@ -39,7 +39,7 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
-        $discount_products = Product::whereNotNull('discount')->get()->take(5);
+        $discount_products = Product::latest()->whereNotNull('discount')->get()->take(5);
         // return $discount_products;
         return Inertia::render('Dashboard', compact('discount_products'));
     })->name('dashboard');

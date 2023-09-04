@@ -36,9 +36,9 @@
                 <div class="mx-auto mb-4">
               <PrimaryButton @click="addCartProduct" class="px-12">Agregar</PrimaryButton>
                 </div>
-                <i @click="$inertia.get(route('products.edit', product.id))" class="fa-solid fa-pen text-sm text-primary font-bold rounded-full absolute bottom-2 right-2 bg-[#CCCCCC] py-1 px-2 cursor-pointer hover:scale-110 z-100"></i>
+                <i v-if="$page.props.auth.user.is_admin" @click="$inertia.get(route('products.edit', product.id))" class="fa-solid fa-pen text-sm text-primary font-bold rounded-full absolute bottom-2 right-2 bg-[#CCCCCC] py-1 px-2 cursor-pointer hover:scale-110 z-100"></i>
                 <i v-if="product.discount" class="fa-solid fa-certificate text-primary text-6xl absolute -top-2 -right-2"></i>
-                <p class="text-white font-bold absolute top-3 right-2  text-sm">-{{ product.is_percentage ? '%' + product.discount : '$' + product.discount }}</p>
+                <p v-if="product.discount" class="text-white font-bold absolute top-3 right-2  text-sm">-{{ product.is_percentage ? '%' + product.discount : '$' + product.discount }}</p>
             </div>
 </template>
 

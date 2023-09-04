@@ -3,19 +3,21 @@
         <div class="py-8 px-4">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <figure>
-                    <img src="@/../../public/images/banner.png" alt="banner">
+                    <img class="w-full" src="@/../../public/images/banner.png" alt="banner">
                 </figure>
 
 <!-- --------------------- todas las categorias start ----------------------------- -->
                 <div class="mt-7">
                     <h2 class="text-xl text-left ">Todas las categorias</h2>
 
-                    <div class="mt-5 md:grid grid-cols-6 gap-4 transition ease-linear duration-300">
+                    <div class="mt-5 md:grid grid-cols-6 gap-4 transition ease-linear duration-300 justify-center text-center">
                         <div @click="$inertia.get(route('products.index'))" v-for="categoryCard in categories1" :key="categoryCard" class="cursor-pointer hover:border-[#D90537] hover:scale-105 mt-3 lg:mt-0 rounded-lg border-2 border-[#D90537] px-2 py-8 flex flex-col space-y-3 justify-center text-center">
-                            <figure>
+                            <figure class="h-2/3 mx-auto flex items-center">
                                 <img :src="categoryCard.image" :alt="categoryCard.alt">
                             </figure>
+                            <div class="h-1/3">
                             <p class="text-primary">{{ categoryCard.name }}</p>
+                            </div>
                         </div>
 
                         <div @click="all_categories = !all_categories" class="mt-3 lg:mt-0 cursor-pointer rounded-lg border-2 border-[#D90537] bg-primary px-2 py-8 flex flex-col space-y-3 justify-center text-center text-white">
@@ -25,10 +27,12 @@
                         </div>
 
                         <div v-if="all_categories" @click="$inertia.get(route('products.index'))"  v-for="categoryCard in categories2" :key="categoryCard" class="cursor-pointer hover:border-[#D90537] hover:scale-105 mt-3 lg:mt-0 rounded-lg border-2 border-[#D90537] px-2 py-8 flex flex-col space-y-3 justify-center text-center">
-                            <figure>
+                            <figure class="h-2/3 mx-auto flex items-center">
                                 <img :src="categoryCard.image" :alt="categoryCard.alt">
                             </figure>
+                            <div class="h-1/3">
                             <p class="text-primary">{{ categoryCard.name }}</p>
+                            </div>
                         </div>
                         
                     </div>
@@ -41,40 +45,40 @@
                     <h2 class="text-xl text-left ">Beneficios de comprar en emblems3d</h2>
 
                     <div class="mt-5 md:grid grid-cols-4 gap-4 transition ease-linear duration-300">
-                        <div @click="safeShippingModal = true" class="py-2 px-4 flex space-x-3 justify-center text-center relative cursor-pointer mt-10 lg:mt-0">
+                        <div @click="safeShippingModal = true" class="py-2 px-4 mb-9 flex space-x-3 justify-center text-center relative cursor-pointer mt-10 lg:mt-0">
                             <figure>
-                                <img src="{{ asset('images/Vector.png') }}" alt="Envio seguro">
+                                <img src="@/../../public/images/Vector.png" alt="Envio seguro">
                             </figure>
                             <p class="text-secondary">Envio seguro</p>
-                            <div class="border-b-2 border-[#0355B5] w-56 absolute bottom-0"></div>
-                            <div class="border-b-2 border-[#0355B5] w-56 absolute -bottom-2 left-0"></div>
+                            <div class="border-b-2 border-[#0355B5] w-56 absolute -bottom-2"></div>
+                            <div class="border-b-2 border-[#0355B5] w-56 absolute -bottom-4 left-0"></div>
                         </div>
 
-                        <div @click="onTimeModal = true" class="py-2 px-4 flex space-x-3 justify-center text-center relative cursor-pointer mt-10 lg:mt-0">
+                        <div @click="onTimeModal = true" class="py-2 px-4 mb-9 flex space-x-3 justify-center text-center relative cursor-pointer mt-10 lg:mt-0">
                             <figure>
-                                <img src="@/../../public/images/Vector1.png" alt="Envio seguro">
+                                <img src="@/../../public/images/Vector-1.png" alt="Envio seguro">
                             </figure>
                             <p class="text-secondary">Entregas a tiempo</p>
-                            <div class="border-b-2 border-[#0355B5] w-56 absolute bottom-0"></div>
-                            <div class="border-b-2 border-[#0355B5] w-56 absolute -bottom-2 left-0"></div>
+                            <div class="border-b-2 border-[#0355B5] w-56 absolute -bottom-2"></div>
+                            <div class="border-b-2 border-[#0355B5] w-56 absolute -bottom-4 left-0"></div>
                         </div>
 
-                        <div @click="innovationModal = true" class="py-2 px-4 flex space-x-3 justify-center text-center relative cursor-pointer mt-10 lg:mt-0">
+                        <div @click="innovationModal = true" class="py-2 px-4 mb-9 flex space-x-3 justify-center text-center relative cursor-pointer mt-10 lg:mt-0">
                             <figure>
-                                <img src="@/../../public/images/Vector2.png" alt="Envio seguro">
+                                <img src="@/../../public/images/Vector-2.png" alt="Envio seguro">
                             </figure>
                             <p class="text-secondary">Innovacion y tendencia</p>
-                            <div class="border-b-2 border-[#0355B5] w-56 absolute bottom-0"></div>
-                            <div class="border-b-2 border-[#0355B5] w-56 absolute -bottom-2 left-0"></div>
+                            <div class="border-b-2 border-[#0355B5] w-56 absolute -bottom-2"></div>
+                            <div class="border-b-2 border-[#0355B5] w-56 absolute -bottom-4 left-0"></div>
                         </div>
 
-                        <div @click="qualityModal = true" class="py-2 px-4 flex space-x-3 justify-center text-center relative cursor-pointer mt-10 lg:mt-0">
+                        <div @click="qualityModal = true" class="py-2 px-4 mb-9 flex space-x-3 justify-center text-center relative cursor-pointer mt-10 lg:mt-0">
                             <figure>
-                                <img src="@/../../public/images/Vector3.png" alt="Envio seguro">
+                                <img src="@/../../public/images/Vector-3.png" alt="Envio seguro">
                             </figure>
                             <p class="text-secondary">Calidad de primera</p>
-                            <div class="border-b-2 border-[#0355B5] w-56 absolute bottom-0"></div>
-                            <div class="border-b-2 border-[#0355B5] w-56 absolute -bottom-2 left-0"></div>
+                            <div class="border-b-2 border-[#0355B5] w-56 absolute -bottom-2"></div>
+                            <div class="border-b-2 border-[#0355B5] w-56 absolute -bottom-4 left-0"></div>
                         </div>
                         
                     </div>
@@ -89,37 +93,37 @@
                     <div class="mt-5 md:grid grid-cols-5 gap-4 transition ease-linear duration-300">
                         <div class="py-2 px-4 bg-[#D9D9D9] flex space-x-3 justify-center items-center cursor-pointer rounded-lg mt-3 lg:mt-0">
                             <figure>
-                                <img src="@/../../../../public/storage/images/honda.png" alt="Honda">
+                                <img class="brightness-0 hover:brightness-100" src="@/../../public/images/honda.png" alt="Honda">
                             </figure>
                         </div>
 
                         <div class="py-2 px-4 bg-[#D9D9D9] flex space-x-3 justify-center items-center cursor-pointer rounded-lg mt-3 lg:mt-0">
                             <figure>
-                                <img src="@/../../../../public/storage/images/honda.png" alt="Kia">
+                                <img class="brightness-0 hover:brightness-100" src="@/../../public/images/kia-color-logo.png" alt="Kia">
                             </figure>
                         </div>
 
                         <div class="py-2 px-4 bg-[#D9D9D9] flex space-x-3 justify-center items-center cursor-pointer rounded-lg mt-3 lg:mt-0">
                             <figure>
-                                <img src="@/../../../../public/storage/images/honda.png" alt="Mercedez">
+                                <img class="brightness-0 hover:brightness-100" src="@/../../public/images/mercedes-color-logo.png" alt="Mercedez">
                             </figure>
                         </div>
 
                         <div class="py-2 px-4 bg-[#D9D9D9] flex space-x-3 justify-center items-center cursor-pointer rounded-lg mt-3 lg:mt-0">
                             <figure>
-                                <img src="@/../../../../public/storage/images/honda.png" alt="Mini">
+                                <img class="brightness-0 hover:brightness-100" src="@/../../public/images/mini-color-logo.png" alt="Mini">
                             </figure>
                         </div>
 
                         <div class="py-2 px-4 bg-[#D9D9D9] flex space-x-3 justify-center items-center cursor-pointer rounded-lg mt-3 lg:mt-0">
                             <figure>
-                                <img src="@/../../../../public/storage/images/honda.png" alt="volvo">
+                                <img class="brightness-0 hover:brightness-100" src="@/../../public/images/volvo-color-logo.png" alt="volvo">
                             </figure>
                         </div>
 
                         <div class="py-2 px-4 bg-[#D9D9D9] flex space-x-3 justify-center items-center cursor-pointer rounded-lg mt-3 lg:mt-0">
                             <figure>
-                                <img src="@/../../../../public/storage/images/honda.png" alt="BMW">
+                                <img class="brightness-0 hover:brightness-100" src="@/../../public/images/bmw-color-logo.png" alt="BMW">
                             </figure>
                         </div>
 
@@ -187,8 +191,8 @@
 
                 </div>
                 <a href="https://dtw.com.mx/" target="_blank">
-        <figure class="my-5 absolute bottom-1 right-4">
-          <img src="@/../../public/images/logo.png" alt="Logo" />
+        <figure class="my-5 absolute -bottom-5 right-4">
+          <img class="w-[35%]" src="@/../../public/images/logo-dtw.png" alt="Logo" />
         </figure>
         </a>
             </div>
@@ -235,6 +239,10 @@ import InputError from "@/Components/InputError.vue";
 import DialogModal from "@/Components/DialogModal.vue";
 
 import portaplacas from '@/../../public/images/portaplacas.png';
+import Llaveros from '@/../../public/images/llaveros.png';
+import Emblemas from '@/../../public/images/logonegro.png';
+import Tapetes from '@/../../public/images/tapete.png';
+import Portadocumentos from '@/../../public/images/portadocumentos.png';
 
 export default {
   data() {
@@ -258,23 +266,23 @@ export default {
             },
             {
                 name: 'Llaveros',
-                image: '@/../../public/images/llaveros.png',
+                image: Llaveros,
                 alt: 'Llaveros'
             },
             {
                 name: 'Emblemas',
-                image: '@/../../public/images/logonegro.png',
+                image: Emblemas,
                 alt: 'Emblemas'
             },
             {
                 name: 'Tapetes de uso rudo',
-                image: '@/../../public/images/tapete.png',
+                image: Tapetes,
                 alt: 'Tapetes'
             },
             {
                 name: 'Porta documentos',
-                image: '@/../../public/images/portadocumentos.png',
-                alt: 'Portaplacas'
+                image: Portadocumentos,
+                alt: 'Portadocumentos'
             },
         ],
         categories2: [
