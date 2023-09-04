@@ -168,11 +168,11 @@ const showSideNavToggle = () => {
                                     <template #content>
                                         <!-- Account Management -->
                                         <div class="block px-4 py-2 text-xs text-gray-400">
-                                            Manage Account
+                                            Opciones de cuenta
                                         </div>
 
                                         <DropdownLink :href="route('profile.show')">
-                                            Profile
+                                            Mi cuenta
                                         </DropdownLink>
 
                                         <DropdownLink v-if="$page.props.jetstream.hasApiFeatures" :href="route('api-tokens.index')">
@@ -184,7 +184,7 @@ const showSideNavToggle = () => {
                                         <!-- Authentication -->
                                         <form @submit.prevent="logout">
                                             <DropdownLink as="button">
-                                                Log Out
+                                                Cerrar sesión
                                             </DropdownLink>
                                         </form>
                                     </template>
@@ -225,7 +225,7 @@ const showSideNavToggle = () => {
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
+                            Inicio
                         </ResponsiveNavLink>
                     </div>
 
@@ -248,7 +248,7 @@ const showSideNavToggle = () => {
 
                         <div class="mt-3 space-y-1">
                             <ResponsiveNavLink :href="route('profile.show')" :active="route().current('profile.show')">
-                                Profile
+                                Mi cuenta
                             </ResponsiveNavLink>
 
                             <ResponsiveNavLink v-if="$page.props.jetstream.hasApiFeatures" :href="route('api-tokens.index')" :active="route().current('api-tokens.index')">
@@ -258,7 +258,7 @@ const showSideNavToggle = () => {
                             <!-- Authentication -->
                             <form method="POST" @submit.prevent="logout">
                                 <ResponsiveNavLink as="button">
-                                    Log Out
+                                    Cerrar sesión
                                 </ResponsiveNavLink>
                             </form>
 
@@ -316,12 +316,14 @@ const showSideNavToggle = () => {
             <!-- Page Content -->
             <main class="bg-gray-100">
                 <div class="overflow-hidden bg-gray-100 flex justify-between">
-                        <aside v-if="$page.props.auth.user.is_admin" :class="showSideNav ? 'w-[10%] relative  transition-transform ease-out duration-500' : '' ">
+                        <aside v-if="$page.props.auth.user.is_admin" class="hidden lg:block" :class="showSideNav ? 'w-[10%] relative  transition-transform ease-out duration-500' : '' ">
                             <SideNav v-if="showSideNav" />
-                                <div v-if="!showSideNav" @click="showSideNavToggle" class="bg-[#c9c9c9] hover:scale-105 text-gray-600 w-7 h-24 cursor-pointer mt-7 flex items-center justify-center rounded-r-lg">
+                            <!-- --- Pestaña con sidenav oculto --- -->
+                                <div v-if="!showSideNav" @click="showSideNavToggle" class="bg-[#c9c9c9] hover:scale-105 text-gray-600 w-7 h-12 cursor-pointer flex items-center justify-center rounded-r-lg">
                                     <i class="fa-solid fa-angles-right"></i>
                                 </div>
-                                <div v-if="showSideNav" @click="showSideNavToggle" class="absolute -top-7 -right-6 bg-[#c9c9c9] hover:scale-105 text-gray-600 w-7 h-24 cursor-pointer mt-7 flex items-center justify-center rounded-r-lg">
+                                <!-- --- Pestaña con sinav acivo --- -->
+                                <div v-if="showSideNav" @click="showSideNavToggle" class="absolute -top-7 -right-6 bg-[#c9c9c9] hover:scale-105 text-gray-600 w-7 h-12 cursor-pointer mt-7 flex items-center justify-center rounded-r-lg">
                                     <i class="fa-solid fa-angles-left"></i>
                                 </div>
                         </aside>

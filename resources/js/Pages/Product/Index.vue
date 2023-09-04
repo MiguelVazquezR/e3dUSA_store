@@ -14,7 +14,7 @@
       </div>
 
       <div class="grid lg:grid-cols-7 gap-7">
-        <div class="rounded-lg border border-[#9A9A9A] p-4">
+        <div class="flex flex-col rounded-lg border border-[#9A9A9A] p-4">
           <div class="flex justify-between mb-2">
             <p>Filtros</p>
             <ThirthButton @click="cleanFilters" class="border-[#D90537] text-gray-700 h-6">Limpiar</ThirthButton>

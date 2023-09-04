@@ -4,8 +4,11 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CartProductController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\NotificationEmailController;
+use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SaleController;
+use App\Models\Product;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -36,7 +39,9 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
+        $discount_products = Product::whereNotNull('discount')->get()->take(5);
+        // return $discount_products;
+        return Inertia::render('Dashboard', compact('discount_products'));
     })->name('dashboard');
 });
 
@@ -58,5 +63,11 @@ Route::resource('addresses', AddressController::class);
 
 
 Route::resource('invoices', InvoiceController::class);
+
+
+Route::resource('payment-methods', PaymentMethodController::class);
+
+
+Route::resource('notification-emails', NotificationEmailController::class);
 
 

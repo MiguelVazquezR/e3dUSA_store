@@ -30,24 +30,38 @@ class ProductController extends Controller
 
     
     public function store(Request $request)
-    {
-       $validated = $request->validate([
-            'name' => 'required|string',
-            'category' => 'required|string',
-            'brand' => 'required|string',
-            'model' => 'nullable|string',
-            'colors' => 'nullable|array',
-            'part_number' => 'required|string',
-            'description' => 'required',
-            'price' => 'required|numeric|min:0',
-            'is_percentage' => 'nullable|boolean',
-            'stock' => 'required|numeric|min:0',
-            'discount' => $request->has_discount == true ? 'required|numeric|min:0' : 'nullable',
-            'features' => 'nullable',
-        ]);
+{
+    $discount_validations = 'nullable';
 
-        Product::create($validated);
+    if ($request->has_discount) {
+        if ($request->is_percentage === true) {
+            $discount_validations = 'required|numeric|min:0|max:100';
+        } else {
+            $discount_validations = 'required|numeric|min:0|max:' . $request->price;
+        }
     }
+    
+    $validated = $request->validate([
+        'name' => 'required|string',
+        'category' => 'required|string',
+        'brand' => 'required|string',
+        'model' => 'nullable|string',
+        'colors' => 'nullable|array',
+        'part_number' => 'required|string',
+        'description' => 'required',
+        'price' => 'required|numeric|min:0',
+        'is_percentage' => $request->has_discount ? 'required' : 'nullable',
+        'stock' => 'required|numeric|min:0',
+        'discount' => $discount_validations,
+        'features' => 'nullable',
+    ]);
+    
+
+    // Crea el registro del producto después de la validación
+    Product::create($validated);
+
+    return to_route('products.indexAdmin'); // Redirige a la página adecuada después de crear el producto
+}
 
    
     public function show(Product $product)
