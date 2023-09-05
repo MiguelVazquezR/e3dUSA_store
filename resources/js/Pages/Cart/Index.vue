@@ -88,52 +88,6 @@
       >
     </div>
 
-    <footer>
-      <div
-        class="bg-[#1a1a1a] h-auto w-full lg:grid grid-cols-3 text-center text-white relative"
-      >
-        <div class="py-7 px-5">
-          <figure class="my-5">
-            <img src="@/../../public/images/logo.png" alt="Logo" />
-          </figure>
-          <p class="font-bold text-white">Conocenos</p>
-          <p class="text-white hover:underline cursor-pointer">Trabajar en emblems3d</p>
-        </div>
-
-        <div class="py-7 px-5">
-          <p class="font-bold text-white mb-4">Productos</p>
-          <ul>
-            <li class="cursor-pointer hover:underline">Emblemas</li>
-            <li class="cursor-pointer hover:underline">Portaplacas</li>
-            <li class="cursor-pointer hover:underline">Llaveros</li>
-            <li class="cursor-pointer hover:underline">Tapetes de uso rudo</li>
-            <li class="cursor-pointer hover:underline">Portadocumentos</li>
-            <li class="cursor-pointer hover:underline">Perfumeros</li>
-            <li class="cursor-pointer hover:underline">Servicios de diseno</li>
-          </ul>
-        </div>
-
-        <div class="py-7 px-5 text-left">
-          <p class="font-bold text-white mb-4">Contacto</p>
-          <p class="text-white">ventas@emblemas3d.com.mx</p>
-
-          <p class="font-bold text-white mt-12 mb-4">Domicilio</p>
-          <figure class="flex space-x-4">
-            <img class="cursor-pointer" src="@/../../public/images/eua.png" alt="EUA" />
-            <img class="cursor-pointer" src="@/../../public/images/mexico.png" alt="MX" />
-          </figure>
-        </div>
-        <a href="https://dtw.com.mx/" target="_blank">
-          <figure class="my-5 absolute bottom-1 right-4">
-            <img src="@/../../public/images/logo.png" alt="Logo" />
-          </figure>
-        </a>
-      </div>
-      <p class="bg-[#1a1a1a] text-white px-3 pb-2">
-        Copyright 2023. Emblems3dUSA todos los derechos reservados. Políticas de
-        privacidad y administración de cookies
-      </p>
-    </footer>
 
     <!-- -------------- Modal starts----------------------- -->
     <DialogModal
