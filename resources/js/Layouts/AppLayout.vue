@@ -41,26 +41,42 @@ const showSideNavToggle = () => {
         <Banner />
 
         <div class="min-h-screen bg-transparent">
-            <nav class="bg-gray-100 border-b border-gray-200">
+            <!-- ----------------- responsive nav ------------------------- -->
+            <nav class="bg-black border-b border-gray-200 lg:hidden py-2 px-5">
+                <!-- Logo -->
+                <div class="flex items-center justify-center">
+                    <Link :href="route('dashboard')">
+                        <ApplicationMark class="w-auto" />
+                    </Link>
+                </div>
+                <div class="relative">
+                    <input type="text" placeholder="Buscar" class="input bg-gray-100 pr-6 h-8 mt-2">
+                    <i class="fa-solid fa-magnifying-glass absolute text-sm text-[#9A9A9A] top-[7px] right-2"></i>
+                </div>
+                                       
+            </nav>
+
+            <!-- ----------------------- nav lg-screen ------------------------ -->
+            <nav class="bg-gray-100 border-b border-gray-200 hidden lg:block">
                 <!-- Primary Navigation Menu -->
                 <div class="w-full mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-20 mt-3 lg:mt-0">
                         <div class="flex space-x-7 items-center">
                             <!-- Logo -->
-                            <div class="shrink-0 flex items-center">
+                            <div class="shrink-0 flex items-center justify-center">
                                 <Link :href="route('dashboard')">
-                                    <ApplicationMark class="block h-9 w-auto" />
+                                    <ApplicationMark class="w-auto" />
                                 </Link>
                             </div>
 
-                            <div class="text-[#9A9A9A] text-xs absolute top-1 right-40 flex space-x-5">
+                            <div class="text-[#9A9A9A] text-xs absolute top-1 right-40 flex space-x-5 hidden lg:block">
                                 <p class="hover:underline cursor-pointer">Ayuda</p>
                                 <p class="hover:underline cursor-pointer"><i class="fa-brands fa-whatsapp mr-1"></i>3312177855</p>
                             </div>
 
                             <ThirthButton class="h-7 lg:flex items-center hidden lg:block">Categorias <i class="fa-solid fa-angle-down ml-2"></i></ThirthButton>
                             <div class="relative ">
-                                <input type="text" placeholder="Buscar" class="input lg:w-[600px]">
+                                <input type="text" placeholder="Buscar" class="input lg:w-[600px] pr-6">
                                 <i class="fa-solid fa-magnifying-glass absolute text-sm text-[#9A9A9A] top-[9px] right-2"></i>
                             </div>
                             
@@ -331,6 +347,71 @@ const showSideNavToggle = () => {
                             <slot />
                         </div>
                 </div>
+                <footer class="hidden lg:block">
+            <div class="bg-[#1a1a1a] h-auto w-full lg:grid grid-cols-3 text-center text-white relative">
+                <div class="py-7 px-5">
+                    <figure class="my-5">
+                        <img src="@/../../public/images/logo.png" alt="Logo">
+                    </figure>
+                    <p class="font-bold text-white">Conocenos</p>
+                    <p class="text-white hover:underline cursor-pointer">Trabajar en emblems3d</p>
+                </div>
+
+                <div class="py-7 px-5">
+                    <p class="font-bold text-white mb-4">Productos</p>
+                    <ul>
+                        <li class="cursor-pointer hover:underline">Emblemas</li>
+                        <li class="cursor-pointer hover:underline">Portaplacas</li>
+                        <li class="cursor-pointer hover:underline">Llaveros</li>
+                        <li class="cursor-pointer hover:underline">Tapetes de uso rudo</li>
+                        <li class="cursor-pointer hover:underline">Portadocumentos</li>
+                        <li class="cursor-pointer hover:underline">Perfumeros</li>
+                        <li class="cursor-pointer hover:underline">Servicios de diseno</li>
+                    </ul>
+                </div>
+
+                <div class="py-7 px-5 text-left">
+                    <p class="font-bold text-white mb-4">Contacto</p>
+                    <p class="text-white">ventas@emblemas3d.com.mx</p>
+
+                    <p class="font-bold text-white mt-12 mb-4">Domicilio</p>
+                    <figure class="flex space-x-4">
+                        <img class="cursor-pointer" src="@/../../public/images/eua.png" alt="EUA">
+                        <img class="cursor-pointer" src="@/../../public/images/mexico.png" alt="MX">
+                    </figure>
+
+                </div>
+                <a href="https://dtw.com.mx/" target="_blank">
+        <figure class="my-5 absolute -bottom-5 right-4">
+          <img class="w-[35%]" src="@/../../public/images/logo-dtw.png" alt="Logo" />
+        </figure>
+        </a>
+            </div>
+            <p class="bg-[#1a1a1a] text-white px-3 pb-2">Copyright 2023. Emblems3dUSA todos los derechos reservados. Políticas de privacidad y administración de cookies</p>
+                    
+        </footer>
+
+        <!-- ---------------- footnave mobile view --------------- -->
+        <nav class="lg:hidden fixed bottom-0 w-full z-10">
+            <div class="w-full h-16 flex justify-center px-4 bg-black space-x-6">
+                <div @click="$inertia.get(route('dashboard'))" :class="route().current('dashboard') ? 'text-primary border-t-[4px] border-[#D90537]' : 'text-white'" class="flex flex-col justify-center text-center px-2">
+                    <i class="fa-solid fa-house text-xl"></i>
+                    <p class="text-xs">Inicio</p>
+                </div>
+                <div @click="$inertia.get(route('profile.show'))" :class="route().current('profile.*') ? 'text-primary border-t-[4px] border-[#D90537]' : 'text-white'" class="flex flex-col justify-center text-center px-2">
+                    <i class="fa-regular fa-circle-user text-xl"></i>
+                    <p class="text-xs">Mi cuenta</p>
+                </div>
+                <div @click="$inertia.get(route('carts.index'))" :class="route().current('carts.*') ? 'text-primary border-t-[4px] border-[#D90537]' : 'text-white'" class="flex flex-col justify-center text-center px-2">
+                    <i class="fa-solid fa-cart-shopping text-xl"></i>
+                    <p class="text-xs">Carrito</p>
+                </div>
+                <div class="flex flex-col justify-center text-center text-white">
+                    <i class="fa-solid fa-bars text-xl "></i>
+                    <p class="text-xs">Categorías</p>
+                </div>
+            </div>  
+        </nav>
             </main>
         </div>
     </div>  

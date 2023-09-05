@@ -58,7 +58,7 @@ class ProductController extends Controller
     
 
     // Crea el registro del producto después de la validación
-    Product::create($validated);
+   $product = Product::create($validated);
 
     return to_route('products.indexAdmin'); // Redirige a la página adecuada después de crear el producto
 }
