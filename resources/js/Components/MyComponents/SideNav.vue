@@ -4,13 +4,13 @@
     Inicio 
     <i :class="showHome ? 'fa-angle-down' : 'fa-angle-right' " class="fa-solid  ml-5"></i></p>
     <ul v-if="showHome" class="ml-6">
-        <li class="hover:text-white hover:bg-primary px-2 cursor-pointer rounded-lg" v-for="home_option in home_options" :key="home_option">{{ home_option }}</li>
+        <li @click="$inertia.visit(home_option.route)" class="hover:text-white hover:bg-primary px-2 cursor-pointer rounded-lg" v-for="home_option in home_options" :key="home_option">{{ home_option.label }}</li>
     </ul>
     <p @click="showProducts = !showProducts" class="mt-3 flex items-center cursor-pointer font-bold"><i class="fa-solid fa-boxes-stacked text-lg mr-3"></i>
     Productos 
     <i :class="showProducts ? 'fa-angle-down' : 'fa-angle-right' " class="fa-solid  ml-5"></i></p>
     <ul v-if="showProducts" class="ml-6">
-        <li class="hover:text-white hover:bg-primary px-2 cursor-pointer rounded-lg" v-for="product_option in products_options" :key="product_option">{{ product_option }}</li>
+        <li @click="$inertia.visit(product_option.route)" class="hover:text-white hover:bg-primary px-2 cursor-pointer rounded-lg" v-for="product_option in products_options" :key="product_option">{{ product_option.label }}</li>
     </ul>
     <p @click="showSales = !showSales" class="mt-3 flex items-center cursor-pointer font-bold"><i class="fa-solid fa-store text-lg mr-3"></i>
     Vetas 
@@ -59,9 +59,18 @@ export default {
                 },
             ],
             products_options:[
-                'Nuevo producto',
-                'Todos los productos',
-                'Filtro',
+                {
+                    label: 'Nuevo producto',
+                    route: '/products/create',
+                },
+                {
+                    label: 'Todos los productos',
+                    route:  '/products-index-admin',
+                },
+                {
+                    label: 'Filtro',
+                    route: '/products-index-admin',
+                },
             ],
             sales_options:[
                 'Historial',

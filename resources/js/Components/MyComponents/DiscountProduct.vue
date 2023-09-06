@@ -12,7 +12,7 @@
       <p class="text-[#9A9A9A] relative">${{ discount_product?.price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
           <div class="absolute border-r border-[#D90537] h-12 -bottom-3 right-11 rotate-[65deg]"></div>
      </p>
-      <p class="text-primary">
+      <p class="text-primary font-bold">
         ${{discount_product?.is_percentage ? (discount_product?.price * (100 - discount_product?.discount) * 0.01).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             : (discount_product?.price - discount_product?.discount).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
         }}

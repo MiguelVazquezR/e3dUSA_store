@@ -97,7 +97,7 @@ const showSideNavToggle = () => {
                             <Link :href="route('carts.index')">
                                 <div class="rounded-full bg-primary h-8 w-8 flex items-center justify-center cursor-pointer relative">
                                     <i class="fa-solid fa-cart-shopping text-sm text-white"></i>
-                                    <div class="absolute rounded-full border-2 border-white -top-1 -right-2 bg-secondary text-white text-[9px] h-4 w-4 flex justify-center text-center">1</div>
+                                    <div class="absolute rounded-full border-2 border-white -top-1 -right-2 bg-secondary text-white text-[9px] h-4 w-4 flex justify-center text-center">{{ $page.props.auth.user.cart_products.length }}</div>
                                 </div>
                             </Link>
 
@@ -391,7 +391,7 @@ const showSideNavToggle = () => {
                     
         </footer>
 
-        <!-- ---------------- footnave mobile view --------------- -->
+        <!-- ---------------- footer nave mobile view --------------- -->
         <nav class="lg:hidden fixed bottom-0 w-full z-10">
             <div class="w-full h-16 flex justify-center px-4 bg-black space-x-6">
                 <div @click="$inertia.get(route('dashboard'))" :class="route().current('dashboard') ? 'text-primary border-t-[4px] border-[#D90537]' : 'text-white'" class="flex flex-col justify-center text-center px-2">

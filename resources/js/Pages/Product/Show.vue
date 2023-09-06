@@ -1,6 +1,6 @@
 <template>
     <AppLayout>
-      <div class="lg:px-8 lg:py-8">
+      <div class="lg:px-8 lg:py-8 pb-20">
       <!-- ---------------------- directory ------------------------ -->
       <div class="flex justify-between items-center mx-1 mt-2 text-sm">
         <div class="mb-8 flex items-center space-x-2">
@@ -18,7 +18,7 @@
       <div class="rounded-lg lg:mx-24">
         <div class="lg:grid grid-cols-2">
   <!-- -------------------- Images ------------------ -->
-          <div class="bg-[#D9D9D9] rounded-md mx-36 cursor-pointer relative">
+          <div class="bg-[#D9D9D9] rounded-md mx-36 cursor-pointer relative hidden lg:block">
             <figure class="">
               <img src="" alt="Product image"
               @mouseover="showZoom"
@@ -41,13 +41,21 @@
           <div class="py-3 px-6">
             <h2 class="font-bold text-xl mb-1">{{ product.name }}</h2>
             <div class="flex items-center">
-              <p class="text-gray-500 mr-5 text-sm">Código de parte: {{ product.part_number }}</p>
+              <p class="text-gray-500 mr-5 text-xs lg:text-sm">Código de parte: {{ product.part_number }}</p>
               <i class="fa-regular fa-star text-sm text-yellow-400"></i>
               <i class="fa-regular fa-star text-sm text-yellow-400"></i>
               <i class="fa-regular fa-star text-sm text-yellow-400"></i>
               <i class="fa-regular fa-star text-sm text-yellow-400"></i>
               <i class="fa-regular fa-star text-sm text-yellow-400"></i>
               <p class="text-xs ml-3 underline cursor-pointer">Sé el primero en opinar</p>
+            </div>
+
+
+<!-- ------------- responsive images ---------------------- -->
+            <div class="lg:hidden">
+              <figure class="bg-[#D9D9D9] h-44 rounded-lg">
+              <img src="" alt="Product image">
+            </figure>
             </div>
 
 <!-- ------------- if product has discount. Original price ------------- -->
@@ -86,13 +94,15 @@
               <p class="text-xs text-gray-500">{{ product.stock }} disponibles </p>
             </div>
 
-            <PrimaryButton>Agregar al carrito</PrimaryButton>
+            <div class="text-center">
+              <PrimaryButton>Agregar al carrito</PrimaryButton>
+            </div>
 
             <p class="text-secondary text-xs mt-3">*El pedido debe solicitarse con al menos una semana de anticipación </p>
           </div>
         </div>
         
-        <div class="mt-12 mx-48 lg:grid grid-cols-2">
+        <div class="mt-12 lg:mx-48 lg:grid grid-cols-2 mx-3">
           <div>
             <p class="font-bold">Acerca del producto:</p>
             <ul class="ml-3 flex flex-col">
@@ -100,21 +110,21 @@
             </ul>
           </div>
 
-          <div>
+          <div class="mt-8 lg:mt-0">
             <p class="font-bold">Descripción del producto:</p>
             <p class="text-gray-600">{{product.description}}</p>
           </div>
         </div>
 
-        <div class="flex justify-center items-center space-x-2 cursor-pointer">
+        <div class="flex justify-center items-center space-x-2 cursor-pointer mt-5">
           <p class="text-primary">Ver más</p>
           <i class="fa-solid fa-angle-down text-white rounded-full bg-primary p-1"></i>
         </div>
       </div>
 
 <!-- ------------------ Similar Products ----------------------- -->
-      <div class="mt-24">
-        <h2 class="text-lg">Artículos similares</h2>
+      <div class="mt-24 mx-4">
+        <h2 class="lg:text-lg">Artículos similares</h2>
         <div class="border-b-4 border-[#D90537] w-14"></div>
 
         <div class="flex mt-7 items-center justify-center">
@@ -124,7 +134,7 @@
           </div>
 
 
-          <div class="w-full grid grid-cols-2 lg:grid-cols-5 gap-3 mx-4">
+          <div class="w-full lg:grid grid-cols-2 lg:grid-cols-5 gap-3 mx-4">
 
             <ProductCard v-for="product in similar_products" :key="product" :product="product" />
             

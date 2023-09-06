@@ -1,6 +1,6 @@
 <template>
     <AppLayout title="Dashboard">
-        <div class="py-8 px-4">
+        <div class="pb-12 pt-4 px-4">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <figure>
                     <img class="w-full" src="@/../../public/images/banner.png" alt="banner">
@@ -93,37 +93,37 @@
                     <div class="mt-5 grid grid-cols-4 gap-1 lg:grid-cols-5 lg:gap-4 transition ease-linear duration-300">
                         <div class="py-2 px-4 bg-[#D9D9D9] flex space-x-3 justify-center items-center cursor-pointer rounded-lg mt-3 lg:mt-0">
                             <figure>
-                                <img class="brightness-0 hover:brightness-100" src="@/../../public/images/honda.png" alt="Honda">
+                                <img class="grayscale hover:grayscale-0" src="@/../../public/images/honda.png" alt="Honda">
                             </figure>
                         </div>
 
                         <div class="py-2 px-4 bg-[#D9D9D9] flex space-x-3 justify-center items-center cursor-pointer rounded-lg mt-3 lg:mt-0">
                             <figure>
-                                <img class="brightness-0 hover:brightness-100" src="@/../../public/images/kia-color-logo.png" alt="Kia">
+                                <img class="grayscale hover:grayscale-0" src="@/../../public/images/kia-color-logo.png" alt="Kia">
                             </figure>
                         </div>
 
                         <div class="py-2 px-4 bg-[#D9D9D9] flex space-x-3 justify-center items-center cursor-pointer rounded-lg mt-3 lg:mt-0">
                             <figure>
-                                <img class="brightness-0 hover:brightness-100" src="@/../../public/images/mercedes-color-logo.png" alt="Mercedez">
+                                <img class="grayscale hover:grayscale-0" src="@/../../public/images/mercedes-color-logo.png" alt="Mercedez">
                             </figure>
                         </div>
 
                         <div class="py-2 px-4 bg-[#D9D9D9] flex space-x-3 justify-center items-center cursor-pointer rounded-lg mt-3 lg:mt-0">
                             <figure>
-                                <img class="brightness-0 hover:brightness-100" src="@/../../public/images/mini-color-logo.png" alt="Mini">
+                                <img class="grayscale hover:grayscale-0" src="@/../../public/images/mini-color-logo.png" alt="Mini">
                             </figure>
                         </div>
 
                         <div class="py-2 px-4 bg-[#D9D9D9] flex space-x-3 justify-center items-center cursor-pointer rounded-lg mt-3 lg:mt-0">
                             <figure>
-                                <img class="brightness-0 hover:brightness-100" src="@/../../public/images/volvo-color-logo.png" alt="volvo">
+                                <img class="grayscale hover:grayscale-0" src="@/../../public/images/volvo-color-logo.png" alt="volvo">
                             </figure>
                         </div>
 
                         <div class="py-2 px-4 bg-[#D9D9D9] flex space-x-3 justify-center items-center cursor-pointer rounded-lg mt-3 lg:mt-0">
                             <figure>
-                                <img class="brightness-0 hover:brightness-100" src="@/../../public/images/bmw-color-logo.png" alt="BMW">
+                                <img class="grayscale hover:grayscale-0" src="@/../../public/images/bmw-color-logo.png" alt="BMW">
                             </figure>
                         </div>
 
@@ -165,7 +165,7 @@
                         <p class="text-secondary text-3xl text-center font-bold" v-else-if="onTimeModal">Entregas a tiempo</p>
                         <p class="text-secondary text-3xl text-center font-bold" v-else-if="innovationModal">Innovacion y tendencia</p>
                         <p class="text-secondary text-3xl text-center font-bold" v-else-if="qualityModal">Calidad de primera</p>
-                        <div class="border-b-2 border-[#0355B5] w-72 absolute -bottom-3 -left-7"></div>
+                        <div class="border-b-2 border-[#0355B5] w-40 lg:w-72 absolute -bottom-3 -left-7"></div>
                     </div>
                 </template>
                 <template #content>
