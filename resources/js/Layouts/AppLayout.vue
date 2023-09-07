@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import ApplicationMark from '@/Components/ApplicationMark.vue';
 import Banner from '@/Components/Banner.vue';
@@ -16,6 +16,40 @@ defineProps({
 
 const showingNavigationDropdown = ref(false);
 const showSideNav = ref(false);
+const searchTerm = ref("");
+const searchResults = ref([]);
+const isFocused = ref(false);
+const showCategories = ref(false);
+const categories = [
+    {
+        label:'Portaplas',
+        route:'ruta',
+    },
+    {
+        label:'Llavero',
+        route:'ruta',
+    },
+    {
+        label:'Emblemas',
+        route:'ruta',
+    },
+    {
+        label:'Tapetes',
+        route:'ruta',
+    },
+    {
+        label:'Portadocumentos',
+        route:'ruta',
+    },
+    {
+        label:'Perfumeros',
+        route:'ruta',
+    },
+    {
+        label:'Otros',
+        route:'ruta',
+    },
+];
 
 const switchToTeam = (team) => {
     router.put(route('current-team.update'), {
@@ -32,6 +66,45 @@ const logout = () => {
 const showSideNavToggle = () => {
   showSideNav.value = !showSideNav.value;
 };
+
+ const search = () => {
+      // Aquí puedes realizar una solicitud asincrónica al servidor para buscar resultados
+      // y actualizar la lista de resultados.
+      // Por ejemplo, puedes utilizar Axios para hacer la solicitud a tu API Laravel.
+      // Axios.get('/api/search', { params: { query: searchTerm.value } })
+      //   .then(response => {
+      //     searchResults.value = response.data;
+      //   })
+      //   .catch(error => {
+      //     console.error(error);
+      //   });
+
+      // En este ejemplo, se simula una lista de resultados de búsqueda.
+      // Debes reemplazar esto con una llamada a tu API real.
+      searchResults.value = [
+        { id: 1, name: "Producto 1" },
+        { id: 2, name: "Producto 2" },
+        { id: 3, name: "Producto 3" },
+      ];
+    };
+
+    const selectResult = (result) => {
+      // Maneja la selección de un resultado (por ejemplo, redirigir a la página del producto).
+      console.log("Resultado seleccionado:", result);
+    };
+
+    const closeResults = () => {
+      // Cierra la lista de resultados cuando el input pierde el foco
+      isFocused.value = false;
+      console.log(isFocused)
+    };
+
+    // Observa cambios en isFocused y limpia los resultados cuando pierde el foco
+    watch(isFocused, (newVal) => {
+      if (!newVal) {
+        searchResults.value = [];
+      }
+    });
 </script>
 
 <template>
@@ -49,10 +122,28 @@ const showSideNavToggle = () => {
                         <ApplicationMark class="w-auto" />
                     </Link>
                 </div>
-                <div class="relative">
-                    <input type="text" placeholder="Buscar" class="input bg-gray-100 pr-6 h-8 mt-2">
-                    <i class="fa-solid fa-magnifying-glass absolute text-sm text-[#9A9A9A] top-[7px] right-2"></i>
-                </div>
+                <div>
+                                <div class="relative">
+                                <input
+                                    type="text"
+                                    placeholder="Buscar"
+                                    class="input bg-gray-100 pr-6 h-8 mt-2"
+                                    v-model="searchTerm"
+                                    @input="search"
+                                    @focus="isFocused = true"
+                                    @blur="isFocused = false"
+                                    ref="searchInput"
+                                />
+                                <i class="fa-solid fa-magnifying-glass absolute text-sm text-[#9A9A9A] top-[9px] right-2"></i>
+                                </div>
+
+                                <!-- Lista de resultados -->
+                                <ul v-if="searchResults.length && isFocused" class="bg-gray-200 border border-gray-300 shadow-md rounded-md absolute w-[350px] p-1">
+                                <li class="cursor-pointer hover:bg-gray-300 px-3 rounded-full py-1" v-for="result in searchResults" :key="result.id" @click="selectResult(result)">
+                                    {{ result.name }}
+                                </li>
+                                </ul>
+                            </div>
                                        
             </nav>
 
@@ -68,16 +159,41 @@ const showSideNavToggle = () => {
                                     <ApplicationMark class="w-auto" />
                                 </Link>
                             </div>
-
+<!-- 
                             <div class="text-[#9A9A9A] text-xs absolute top-1 right-40 flex space-x-5 hidden lg:block">
                                 <p class="hover:underline cursor-pointer">Ayuda</p>
                                 <p class="hover:underline cursor-pointer"><i class="fa-brands fa-whatsapp mr-1"></i>3312177855</p>
+                            </div> -->
+                            
+                            <div class="relative">
+                                <ThirthButton @click="showCategories = !showCategories" class="h-7 lg:flex items-center hidden lg:block">Categorias <i class="fa-solid fa-angle-down ml-2"></i></ThirthButton>
+                                <ul v-if="showCategories" class="bg-gray-200 border border-gray-300 shadow-md rounded-md absolute p-1 w-40 text-sm z-30">
+                                    <li class="cursor-pointer hover:bg-gray-300 px-3 py-1 rounded-full" v-for="category in categories" :key="category" @click="selectResult(result)">
+                                        {{ category.label }}
+                                    </li>
+                                </ul>
                             </div>
-
-                            <ThirthButton class="h-7 lg:flex items-center hidden lg:block">Categorias <i class="fa-solid fa-angle-down ml-2"></i></ThirthButton>
-                            <div class="relative ">
-                                <input type="text" placeholder="Buscar" class="input lg:w-[600px] pr-6">
+                           <div>
+                                <div class="relative">
+                                <input
+                                    type="text"
+                                    placeholder="Buscar"
+                                    class="input lg:w-[600px] pr-6"
+                                    v-model="searchTerm"
+                                    @input="search"
+                                    @focus="isFocused = true"
+                                    @blur="isFocused = false"
+                                    ref="searchInput"
+                                />
                                 <i class="fa-solid fa-magnifying-glass absolute text-sm text-[#9A9A9A] top-[9px] right-2"></i>
+                                </div>
+
+                                <!-- Lista de resultados -->
+                                <ul v-if="searchResults.length && isFocused" class="bg-gray-200 border border-gray-300 shadow-md rounded-md absolute w-[600px] p-1">
+                                <li class="cursor-pointer hover:bg-gray-300 px-3 rounded-full py-1" v-for="result in searchResults" :key="result.id" @click="selectResult(result)">
+                                    {{ result.name }}
+                                </li>
+                                </ul>
                             </div>
                             
                             
@@ -97,7 +213,7 @@ const showSideNavToggle = () => {
                             <Link :href="route('carts.index')">
                                 <div class="rounded-full bg-primary h-8 w-8 flex items-center justify-center cursor-pointer relative">
                                     <i class="fa-solid fa-cart-shopping text-sm text-white"></i>
-                                    <div class="absolute rounded-full border-2 border-white -top-1 -right-2 bg-secondary text-white text-[9px] h-4 w-4 flex justify-center text-center">{{ $page.props.auth.user.cart_products.length }}</div>
+                                    <div v-if="$page.props.auth.user.cart_products.length > 0" class="absolute rounded-full border-2 border-white -top-1 -right-2 bg-secondary text-white text-[9px] h-4 w-4 flex justify-center text-center">{{ $page.props.auth.user.cart_products.length }}</div>
                                 </div>
                             </Link>
 

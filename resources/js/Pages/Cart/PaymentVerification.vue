@@ -1,6 +1,6 @@
 <template>
   <AppLayout>
-    <div class="lg:px-20 lg:py-12">
+    <div class="lg:px-20 lg:py-12 pb-20">
 
         <!-- ---------------------- directory ------------------------ -->
       <div class="mb-8 flex items-center space-x-2 text-sm">
@@ -15,7 +15,7 @@
 
         <h2 class="text-secondary ml-7 my-3">Selecciona la dirección del envío</h2>
 
-        <div class="lg:flex space-x-12">
+        <div class="lg:flex lg:space-x-12">
         <!-- --------------------- Address' section -------------------  -->
         <div class="lg:w-2/3 px-2">
           <AddressCard v-for="address in addresses" :key="address" :address="address" />
@@ -24,9 +24,8 @@
 
 <!-- ----------------- table cart products detail ------------------- -->
                 <h2 class="text-secondary ml-7 mb-3 mt-14">Detalle del pedido</h2>
-            <div class="mx-10">
+            <div class="mx-10 hidden lg:block">
                 <table class="default">
-
                 <tr>
                     <th class="px-4 py-2"></th>
                     <th class="px-4 py-2">Cantidad</th>
@@ -50,22 +49,45 @@
                     <td class="text-center text-secondary font-bold px-4 py-2">${{ (product_detail.quantity * product_detail.product.price).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</td>
 
                 </tr>
-
                 </table>
             </div>
-<!-- ----------------- table cart products detail ------------------- -->
+
+<!-- ----------------- responsive cart products detail ------------------- -->
+<section class="lg:hidden">
+          <div v-for="product_detail in cart_products" :key="product_detail" class="text-xs">
+            <div class="p-5 flex space-x-3">
+              <figure @click="$inertia.get(route('products.show', product_detail.product?.id))" class="bg-[#D9D9D9] w-28 h-24 rounded-md">
+                <img src="" alt="">
+              </figure>
+              <div>
+                <p @click="$inertia.get(route('products.show', product_detail.product?.id))" class="cursor-pointer font-bold">{{ product_detail.product.name }}</p>
+                <p>Marca: {{ product_detail.product.brand }}</p>
+                <p>Modelo: {{ product_detail.product.model }}</p>
+                <p>Características: {{ product_detail.product.features }}</p>
+                <p>Precio: ${{ product_detail.product?.price?.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")  }}</p>
+                <div class="flex justify-between">
+                  <p class="font-bold text-sm">Total: ${{ (product_detail.quantity * product_detail.product.price).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</p>
+                  <p class="text-[#9A9A9A]">Cantidad: {{ product_detail.quantity }}</p>
+                </div>
+              </div>
+            </div>
+            <div class="border-b borer-[#9A9A9A] w-full mt-4"></div>
+          </div>
+</section>
+
+
         </div>
 
 
         <!-- ------------------ Total payment section ------------ -->
-        <div class="w-1/3">
-            <h2 class="text-secondary ml-7 my-3">Elige la fecha de entrega</h2>
+        <div class="lg:w-1/3 mx-2">
+            <h2 class="text-secondary lg:ml-7 my-3">Elige la fecha de entrega</h2>
             
           <div class="border border-[#9A9A9A] rounded-lg p-5 flex flex-col space-y-2">
             
           </div>
 
-          <div class="border border-[#9A9A9A] rounded-lg p-5 flex flex-col space-y-2 mt-12 mb-2">
+          <div class="lg:border border-[#9A9A9A] rounded-lg p-5 flex flex-col space-y-2 mt-6 lg:mt-12 mb-2">
             <div class="flex justify-between">
               <p class="font-bold text-sm">Subtotal:</p>
               <p class="text-sm">
@@ -117,21 +139,21 @@
 
 <!-- -------------- Invoice modal starts----------------------- -->
       <Modal :show="invoiceModal " @close="invoiceModal = false">
-        <form @submit.prevent="storeInvoice" class="mx-7 my-4 space-y-4 relative px-3">
+        <form @submit.prevent="storeInvoice" class="mx-2 lg:mx-7 my-4 space-y-4 relative lg:px-3 text-sm lg:text-base">
             <div @click="invoiceModal = false"
                 class="cursor-pointer w-5 h-5 rounded-full border-2 border-black flex items-center justify-center absolute top-0 right-0">
                 <i class="fa-solid fa-xmark"></i>
               </div>
           <h2 class="text-center">Datos de facturación</h2> 
 
-          <div class="flex justify-center border-b border-[#9A9A9A] w-1/2 mx-auto">
+          <div class="flex justify-center border-b border-[#9A9A9A] mx-7 lg:w-1/2 lg:mx-auto text-center">
             <p @click="invoiceTab = 1" :class="invoiceTab == 1 ? 'border-b-2 border-[#D90537]' : ''" class="text-[#9A9A9A] px-4 cursor-pointer">Persona física</p>
             <p @click="invoiceTab = 2" :class="invoiceTab == 2 ? 'border-b-2 border-[#D90537]' : ''" class="text-[#9A9A9A] px-4 cursor-pointer">Persona moral</p>
           </div>
 
           <!-- ---------------- Persona fisica ----------- -->
 
-            <div v-if="invoiceTab == 1" class="flex space-x-1 pt-5">
+            <div v-if="invoiceTab == 1" class="lg:flex space-y-2 space-x-1 pt-5">
                   <InputWithPlaceholder v-model="form.name">Nombre(s) *</InputWithPlaceholder>
                   <InputError :message="form.errors.name" />
                   <InputWithPlaceholder v-model="form.patern_last_name">Apellido paterno *</InputWithPlaceholder>
@@ -156,7 +178,7 @@
                   </select>
                   <InputError :message="form.errors.tax_regime" />
             </div>
-                  <select class="input w-1/2" v-model="form.cfdi_use">
+                  <select class="input lg:w-1/2" v-model="form.cfdi_use">
                     <option selected disabled>--- Uso de CFDI ---</option>
                     <option v-for="tax_regime in tax_regimes" :key="tax_regime" :value="tax_regime">{{ tax_regime }}</option>
                   </select>
@@ -164,7 +186,7 @@
 
                   <h3 class="text-secondary pt-5">Dirección Fiscal</h3>
 
-                  <div class="flex space-x-1">
+                  <div class="lg:flex space-y-2 space-x-1">
                     <InputWithPlaceholder v-model="form.postal_code">Código postal *</InputWithPlaceholder>
                     <InputError :message="form.errors.postal_code" />
                     <InputWithPlaceholder v-model="form.street">Calle *</InputWithPlaceholder>

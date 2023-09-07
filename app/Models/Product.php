@@ -19,6 +19,7 @@ class Product extends Model implements HasMedia
         'model',
         'colors',
         'part_number',
+        'material',
         'description',
         'features',
         'price',

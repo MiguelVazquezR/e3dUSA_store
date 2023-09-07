@@ -1,8 +1,10 @@
 <template>
+<!-- -------------- Large screen view ----------------------- -->
+<section class="hidden lg:block">
   <div class="flex justify-between">
                   <div class="flex space-x-4">
                     <div @click="$inertia.get(route('products.show', cart_product.product?.id))" class="w-40 h-28 rounded-lg border cursor-pointer"></div>
-                      <div >
+                      <div>
                         <p @click="$inertia.get(route('products.show', cart_product.product?.id))" class="cursor-pointer font-bold">{{ cart_product.product.name }}</p>
                         <p>Marca: {{ cart_product.product.brand }}</p>
                         <p>Modelo: {{ cart_product.product.model }}</p>
@@ -26,6 +28,36 @@
                   <p class="cursor-pointer">Guardad para después</p>
                 </div>
                 <div class="border-b borer-[#9A9A9A] w-full my-7"></div>
+</section>
+
+<!-- ------------------- Responsive screen view ------------------------ -->
+<section class="lg:hidden text-xs">
+  <div class="p-5 flex space-x-3">
+    <figure @click="$inertia.get(route('products.show', cart_product.product?.id))" class="bg-[#D9D9D9] w-28 h-24 rounded-md">
+      <img src="" alt="">
+    </figure>
+    <div>
+      <p @click="$inertia.get(route('products.show', cart_product.product?.id))" class="cursor-pointer font-bold">{{ cart_product.product.name }}</p>
+      <p>Marca: {{ cart_product.product.brand }}</p>
+      <p>Modelo: {{ cart_product.product.model }}</p>
+      <p>Características: {{ cart_product.product.features }}</p>
+      <p>Precio: ${{ cart_product.product?.price?.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")  }}</p>
+      <p class="text-secondary font-bold text-sm">Total: ${{ (cart_product.product?.price * form.quantity).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</p>
+    </div>
+  </div>
+  <div class="flex justify-between px-8">
+    <div class="flex items-center">
+      <button @click="form.quantity > 1 ? form.quantity -= 1 : '' " class="rounded-l-md bg-[#D9D9D9] w-6 h-5 font-bold">-</button>
+        <p class="px-3 text-base text-secondary">{{ form.quantity }}</p>
+      <button @click="form.quantity += 1" class="rounded-r-md bg-[#D9D9D9] w-6 h-5 font-bold">+</button>
+    </div>
+    <div class="flex">
+      <button @click="deleteConfirm = true" class="bg-[#D9D9D9] rounded-sm mr-2 text-xs px-2"><i class="fa-solid fa-trash-can"></i></button>
+      <button class="bg-[#D9D9D9] rounded-md text-xs px-2">Guardad para después</button>
+    </div>
+  </div>
+  <div class="border-b borer-[#9A9A9A] w-full mt-4"></div>
+</section>
 
                 <!-- -------------- Modal starts----------------------- -->
         <DialogModal :show="deleteConfirm" 

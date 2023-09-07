@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('model')->nullable();
             $table->json('colors')->nullable();
             $table->string('part_number');
+            $table->string('material');
             $table->text('description');
             $table->text('features')->nullable();
             $table->unsignedFloat('price');

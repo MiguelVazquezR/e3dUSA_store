@@ -13,7 +13,7 @@
         </Link>
       </div>
 
-      <div class="lg:hidden border border-[#9A9A9A] py-1 px-2 flex justify-between mx-4 rounded-md">
+      <div class="lg:hidden border border-[#9A9A9A] py-1 px-2 flex justify-between mx-4 rounded-md mb-1">
         <p @click="orderModal = true" class="text-primary border-r border-[#9A9A9A] text-center w-1/2"><i class="fa-solid fa-sort mr-3"></i>Ordenar</p>
         <p @click="filterModal = true" class="text-primary text-center w-1/2"><i class="fa-solid fa-arrow-up-short-wide mr-3"></i>Filtros</p>
       </div>
@@ -42,12 +42,20 @@
               <span class="ml-2 text-sm text-gray-600">Portaplacas</span>
             </label>
             <label class="flex items-center">
-              <Checkbox v-model:checked="form.textil" />
-              <span class="ml-2 text-sm text-gray-600">Textiles</span>
+              <Checkbox v-model:checked="form.mats" />
+              <span class="ml-2 text-sm text-gray-600">Tapetes</span>
             </label>
             <label class="flex items-center">
               <Checkbox v-model:checked="form.perfumers" />
               <span class="ml-2 text-sm text-gray-600">Perfumeros</span>
+            </label>
+            <label class="flex items-center">
+              <Checkbox v-model:checked="form.parasols" />
+              <span class="ml-2 text-sm text-gray-600">Parasoles</span>
+            </label>
+            <label class="flex items-center">
+              <Checkbox v-model:checked="form.discounts" />
+              <span class="ml-2 text-sm text-gray-600">Descuentos</span>
             </label>
           </div>
           <!-- --------------- Brand filter --------------------- -->
@@ -98,8 +106,16 @@
               <span class="ml-2 text-sm text-gray-600">Resina</span>
             </label>
             <label class="flex items-center">
-              <Checkbox v-model:checked="form.textil" />
+              <Checkbox v-model:checked="form.rubber" />
+              <span class="ml-2 text-sm text-gray-600">Caucho</span>
+            </label>
+            <label class="flex items-center">
+              <Checkbox v-model:checked="form.textile" />
               <span class="ml-2 text-sm text-gray-600">Textil</span>
+            </label>
+            <label class="flex items-center">
+              <Checkbox v-model:checked="form.other" />
+              <span class="ml-2 text-sm text-gray-600">Otro</span>
             </label>
           </div>
           <!-- --------------- color filter --------------------- -->
@@ -112,17 +128,21 @@
               <input type="checkbox" class="bg-red-600 border border-gray-300 rounded-full checked:bg-red-600" v-model="form.red" />
               <input type="checkbox" class="bg-blue-600 border border-gray-300 rounded-full checked:bg-blue-600" v-model="form.blue" />
           </div>
+          <div class="text-center mt-7">
+            <PrimaryButton @click="filter">Aplicar</PrimaryButton>
+          </div>
         </div>
 
-<!-- ----------------------- Products ---------------------------------- -->
-          <div class="col-span-6 rounded-lg p-4 grid lg:grid-cols-5 gap-4">
-            <ProductCard v-for="product in products" :key="product" :product="product" />
+<!-- ----------------------- Products large screen ---------------------------------- -->
+          <div @scroll="chargeMoreProducts" class="col-span-6 rounded-lg p-4 grid lg:grid-cols-5 gap-4 overflow-y-scroll h-screen">
+            <ProductCard v-for="product in products.data" :key="product" :product="product" />
           </div>
 
       </div>
 
-      <div class="lg:hidden col-span-6 rounded-lg p-4 grid grid-cols-2 gap-2">
-            <ProductCard v-for="product in products" :key="product" :product="product" />
+<!-- --------------- Products resposive view ------------------------ -->
+      <div @scroll="chargeMoreProducts" class="lg:hidden col-span-6 rounded-lg p-4 grid grid-cols-2 gap-2">
+            <ProductCard v-for="product in products.data" :key="product" :product="product" />
           </div>
     </div>
 
@@ -159,12 +179,20 @@
               <span class="ml-2 text-sm text-gray-600">Portaplacas</span>
             </label>
             <label class="flex items-center">
-              <Checkbox v-model:checked="form.textil" />
-              <span class="ml-2 text-sm text-gray-600">Textiles</span>
+              <Checkbox v-model:checked="form.mats" />
+              <span class="ml-2 text-sm text-gray-600">Tapetes</span>
             </label>
             <label class="flex items-center">
               <Checkbox v-model:checked="form.perfumers" />
               <span class="ml-2 text-sm text-gray-600">Perfumeros</span>
+            </label>
+            <label class="flex items-center">
+              <Checkbox v-model:checked="form.parasols" />
+              <span class="ml-2 text-sm text-gray-600">Parasoles</span>
+            </label>
+            <label class="flex items-center">
+              <Checkbox v-model:checked="form.discounts" />
+              <span class="ml-2 text-sm text-gray-600">Descuentos</span>
             </label>
           </div>
           <!-- --------------- Brand filter --------------------- -->
@@ -215,8 +243,16 @@
               <span class="ml-2 text-sm text-gray-600">Resina</span>
             </label>
             <label class="flex items-center">
-              <Checkbox v-model:checked="form.textil" />
+              <Checkbox v-model:checked="form.rubber" />
+              <span class="ml-2 text-sm text-gray-600">Caucho</span>
+            </label>
+            <label class="flex items-center">
+              <Checkbox v-model:checked="form.textile" />
               <span class="ml-2 text-sm text-gray-600">Textil</span>
+            </label>
+            <label class="flex items-center">
+              <Checkbox v-model:checked="form.other" />
+              <span class="ml-2 text-sm text-gray-600">Otro</span>
             </label>
           </div>
           <!-- --------------- color filter --------------------- -->
@@ -266,7 +302,7 @@
           <!-- -------- Buttons ----- -->
           <div class="flex justify-end space-x-3 pt-5 pb-1">
             <CancelButton @click="orderModal = false; filterModal = false">Cancelar</CancelButton>
-            <PrimaryButton :disabled="form.processing">Aplicar</PrimaryButton>
+            <PrimaryButton @click="filter" :disabled="form.processing">Aplicar</PrimaryButton>
           </div>
         </form>
       </Modal>
@@ -283,6 +319,7 @@ import Modal from "@/Components/Modal.vue";
 import CancelButton from "@/Components/MyComponents/CancelButton.vue";
 import Checkbox from "@/Components/Checkbox.vue";
 import { Link, useForm } from "@inertiajs/vue3";
+import axios from 'axios';
 
 export default {
   data() {
@@ -290,8 +327,10 @@ export default {
       key_ring: false,
       emblem: false,
       plate_holder: false,
-      textil: false,
+      mats: false,
       perfumers: false,
+      parasols: false,
+      discounts: false,
       honda: false,
       bmw: false,
       dalton: false,
@@ -301,6 +340,9 @@ export default {
       abs: false,
       metal: false,
       resin: false,
+      rubber: false,
+      textile: false,
+      other: false,
     });
 
     return {
@@ -311,6 +353,9 @@ export default {
       brands: true,
       materials: true,
       colors: true,
+      currentPage: 1,
+      isLoading: false,
+      hasMorePages: true,
     };
   },
   components: {
@@ -326,10 +371,59 @@ export default {
   methods: {
     cleanFilters(){
       this.form.reset();
-    }
+    },
+    async filter(){
+      try {
+        const response = await axios.post(route('products.filter'), {
+          key_ring: this.form.key_ring ,
+          emblem: this.form.emblem,
+          plate_holder: this.form.plate_holder,
+          mats: this.form.mats,
+          perfumers: this.form.perfumers,
+          parasols: this.form.parasols,
+          discounts: this.form.discounts,
+          honda: this.form.honda,
+          bmw: this.form.bmw,
+          dalton: this.form.dalton,
+          mercedez: this.form.mercedez,
+          bosch: this.form.bosch,
+          aluminum: this.form.aluminum,
+          abs: this.form.abs,
+          metal: this.form.metal,
+          resin: this.form.resin,
+          rubber: this.form.rubber,
+          textile: this.form.textile,
+          other: this.form.other,
+        });
+        if(response.status === 200){
+          console.log(response.data)
+          this.products.data = response.data.items;
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.filterModal = false;
+      }
+    },
+    //  chargeMoreProducts() {
+    //     if (!this.isLoading && this.hasMorePages) {
+    //         this.isLoading = true;
+    //         axios.get(`/products?page=${this.currentPage + 1}`)
+    //             .then(response => {
+    //                 this.products.data = this.products.data.concat(response.data.data);
+    //                 this.currentPage = response.data.current_page;
+    //                 this.isLoading = false;
+    //                 this.hasMorePages = response.data.next_page_url !== null;
+    //             })
+    //             .catch(error => {
+    //                 console.error(error);
+    //                 this.isLoading = false;
+    //             });
+    //     }
+    // },
   },
   props: {
-    products: Array
+    products: Object
   },
 };
 </script>

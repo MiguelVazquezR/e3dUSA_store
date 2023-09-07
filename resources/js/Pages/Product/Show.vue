@@ -35,6 +35,10 @@
               <img src="" alt="image">
             </figure>
 
+            <figure class="w-24 h-24 bg-[#D9D9D9] absolute top-56 -left-28 cursor-pointer rounded-md border hover:border-[#9a9a9a]">
+              <img src="" alt="image">
+            </figure>
+
             
           </div>
 <!-- --------------------- Product info ------------------------ -->
@@ -60,15 +64,15 @@
 
 <!-- ------------- if product has discount. Original price ------------- -->
             <div v-if="product.discount" class="relative -mb-6">
-              <h3 class="text-sm my-3 line-through">${{ product.price }}</h3>
+              <h3 class="text-sm my-3 line-through">${{ (product.price * form.quantity).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</h3>
             </div>
  <!-- ------------- Final price with or without discount -------------->
             <div class="relative inline-block">
-              <h3 class="text-primary font-bold text-xl my-3">${{product?.is_percentage ? (product?.price * (100 - product?.discount) * 0.01).toString().split('.')[0]
-            : (product?.price - product?.discount).toString().split('.')[0]
+              <h3 class="text-primary font-bold text-xl my-3">${{product?.is_percentage ? ((product?.price * (100 - product?.discount) * 0.01) * form.quantity).toString().split('.')[0]
+            : ((product?.price - product?.discount) * form.quantity).toString().split('.')[0]
               }}
              </h3>
-              <h3 class="text-primary font-bold text-xs absolute top-3 -right-4">{{ product.price?.toString().split('.')[1] ?? '00' }}</h3>
+              <h3 class="text-primary font-bold text-xs absolute top-3 -right-4">{{(( product.price * form.quantity).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")).toString().split('.')[1] ?? '00' }}</h3>
             </div>
             <div class="flex space-x-7 mt-3">
               <p class="font-bold text-sm">Marca:</p>
@@ -95,7 +99,7 @@
             </div>
 
             <div class="text-center">
-              <PrimaryButton>Agregar al carrito</PrimaryButton>
+              <PrimaryButton @click="addToCart">Agregar al carrito</PrimaryButton>
             </div>
 
             <p class="text-secondary text-xs mt-3">*El pedido debe solicitarse con al menos una semana de anticipación </p>
@@ -207,6 +211,9 @@
       this.zoomBoxStyle.left = x - zoomBox.clientWidth / 2 + "px";
       this.zoomBoxStyle.top = y - zoomBox.clientHeight / 2 + "px";
     },
+    addToCart(){
+      this.$inertia.post(route('cart-products.store', {'product': this.product, 'quantity': this.form.quantity }));
+    }
     },
     props: {
       product: Object,

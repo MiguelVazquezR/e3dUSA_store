@@ -8,7 +8,7 @@
                 <p class=""><strong>Número de teléfono: </strong>{{ address.phone }}</p>
                 <p class=""><strong>Nombre de quien recibe: </strong>{{ address.receiver_name }}</p>
 
-                <div class="flex items-center mt-4 ml-5 text-sm text-gray-600">
+                <div class="flex items-center mt-4 lg:ml-5 text-xs lg:text-sm text-gray-600">
                   <p @click="deleteConfirm = true" class="cursor-pointer">Eliminar</p>
                   <div class="border-r border-[#9A9A9A] h-6 mx-3 "></div>
                   <p @click="$inertia.get(route('addresses.edit', address.id))" class="cursor-pointer">Editar</p>

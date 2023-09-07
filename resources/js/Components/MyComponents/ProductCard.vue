@@ -60,7 +60,6 @@ props:{
 },
 methods:{
   addCartProduct(){
-    console.log('agregar a carrito', this.product);
     this.$inertia.post(route('cart-products.store', {'product': this.product, 'quantity': this.quantity }));
   }
 },
