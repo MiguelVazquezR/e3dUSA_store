@@ -2,15 +2,91 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    public function filter(Request $request) {
+
+        $query = Product::query();
+// ----------------- category ------------------------  
+        if ($request->key_ring === true ) {
+            $query->orWhere('category', 'Llaveros');
+        }
+        if ($request->emblem === true) {
+            $query->orWhere('category', 'Emblemas');
+        }
+        if ($request->plate_holder === true) {
+            $query->orWhere('category', 'Portaplacas');
+        }
+        if ($request->mats === true) {
+            $query->orWhere('category', 'Tapetes');
+        }
+        if ($request->perfumers === true) {
+            $query->orWhere('category', 'Perfumeros');
+        }
+        if ($request->parasols === true) {
+            $query->orWhere('category', 'Parasoles');
+        }
+        if ($request->discounts === true) {
+            $query->whereNotNull('discount');
+        }
+//  ---------------------- brand --------------------   
+        if ($request->honda === true) {
+            $query->orWhere('brand', 'Honda');
+        }
+        if ($request->bmw === true) {
+            $query->orWhere('brand', 'BMW');
+        }
+        if ($request->dalton === true) {
+            $query->orWhere('brand', 'Dalton');
+        }
+        if ($request->mercedez === true) {
+            $query->orWhere('brand', 'Mercedez');
+        }
+        if ($request->bosch === true) {
+            $query->orWhere('brand', 'Bosch');
+        }
+// ----------------------- material -----------------------   
+        if ($request->aluminum === true) {
+            $query->orWhere('material', 'Aluminio');
+        }
+        if ($request->abs === true) {
+            $query->orWhere('material', 'Abs');
+        }
+        if ($request->metal === true) {
+            $query->orWhere('material', 'Metal');
+        }
+        if ($request->resin === true) {
+            $query->orWhere('material', 'Resina');
+        }
+        if ($request->rubber === true) {
+            $query->orWhere('material', 'Caucho');
+        }
+        if ($request->textile === true) {
+            $query->orWhere('material', 'Textil');
+        }
+        if ($request->other === true) {
+            $query->orWhere('material', 'Otro');
+        }
+ // ------------------------ color ------------------------   
+//         if ($request->color')) {
+//             $query->orWhere('color', $request->input('color'));
+//         }
+    
+       $filtered_products = ProductResource::collection($query->where('is_active', true)->get());
+
+    //    dd($filtered_products);
+    
+        return response()->json(['items' => $filtered_products]);
+    }
+    
     
     public function index()
     {
-        $products = Product::all();
+        $products = ProductResource::collection(Product::where('is_active', true)->paginate(10));
 
         return inertia('Product/Index', compact('products'));
     }
@@ -44,6 +120,7 @@ class ProductController extends Controller
     $validated = $request->validate([
         'name' => 'required|string',
         'category' => 'required|string',
+        'material' => 'required|string',
         'brand' => 'required|string',
         'model' => 'nullable|string',
         'colors' => 'nullable|array',

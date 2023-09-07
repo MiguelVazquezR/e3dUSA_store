@@ -1,11 +1,11 @@
 <template>
-  <div class="border border-[#9a9a9a] rounded-lg flex flex-col justify-center text-sm lg:h-[500px] relative">
+  <div class="border border-[#9a9a9a] rounded-lg flex flex-col justify-center lg:text-sm text-xs lg:h-[500px] relative">
               <div @click="$inertia.get(route('products.show', product.id))" class="bg-[#D9D9D9] h-full rounded-t-lg cursor-pointer">
                 <figure>
                   <img src="" alt="image">
                 </figure>
               </div>
-              <div class="flex flex-col mt-1 px-6 h-4/5 text-center">
+              <div class="flex flex-col mt-1 px-3 lg:px-6 h-4/5 text-center">
                 <h2 class="font-bold text-center">{{ product.name }}</h2>
                 <p>{{product.description}}</p>
                 <div class="flex justify-center space-x-1">
@@ -37,8 +37,8 @@
               <PrimaryButton @click="addCartProduct" class="px-12">Agregar</PrimaryButton>
                 </div>
                 <i v-if="$page.props.auth.user.is_admin" @click="$inertia.get(route('products.edit', product.id))" class="fa-solid fa-pen text-sm text-primary font-bold rounded-full absolute bottom-2 right-2 bg-[#CCCCCC] py-1 px-2 cursor-pointer hover:scale-110 z-100"></i>
-                <i v-if="product.discount" class="fa-solid fa-certificate text-primary text-6xl absolute -top-2 -right-2"></i>
-                <p v-if="product.discount" class="text-white font-bold absolute top-3 right-2  text-sm">-{{ product.is_percentage ? '%' + product.discount : '$' + product.discount }}</p>
+                <i v-if="product.discount" class="fa-solid fa-certificate text-primary text-6xl absolute -top-3 -right-3"></i>
+                <p v-if="product.discount" class="text-white font-bold absolute top-2 right-1  text-sm">-{{ product.is_percentage ? '%' + product.discount : '$' + product.discount }}</p>
             </div>
 </template>
 
@@ -60,7 +60,6 @@ props:{
 },
 methods:{
   addCartProduct(){
-    console.log('agregar a carrito', this.product);
     this.$inertia.post(route('cart-products.store', {'product': this.product, 'quantity': this.quantity }));
   }
 },

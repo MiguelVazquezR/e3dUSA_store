@@ -1,6 +1,6 @@
 <template>
     <AppLayout>
-      <div class="lg:px-8 lg:py-8">
+      <div class="lg:px-8 lg:py-8 pb-20">
       <!-- ---------------------- directory ------------------------ -->
       <div class="flex justify-between items-center mx-1 mt-2 text-sm">
         <div class="mb-8 flex items-center space-x-2">
@@ -18,7 +18,7 @@
       <div class="rounded-lg lg:mx-24">
         <div class="lg:grid grid-cols-2">
   <!-- -------------------- Images ------------------ -->
-          <div class="bg-[#D9D9D9] rounded-md mx-36 cursor-pointer relative">
+          <div class="bg-[#D9D9D9] rounded-md mx-36 cursor-pointer relative hidden lg:block">
             <figure class="">
               <img src="" alt="Product image"
               @mouseover="showZoom"
@@ -35,13 +35,17 @@
               <img src="" alt="image">
             </figure>
 
+            <figure class="w-24 h-24 bg-[#D9D9D9] absolute top-56 -left-28 cursor-pointer rounded-md border hover:border-[#9a9a9a]">
+              <img src="" alt="image">
+            </figure>
+
             
           </div>
 <!-- --------------------- Product info ------------------------ -->
           <div class="py-3 px-6">
             <h2 class="font-bold text-xl mb-1">{{ product.name }}</h2>
             <div class="flex items-center">
-              <p class="text-gray-500 mr-5 text-sm">Código de parte: {{ product.part_number }}</p>
+              <p class="text-gray-500 mr-5 text-xs lg:text-sm">Código de parte: {{ product.part_number }}</p>
               <i class="fa-regular fa-star text-sm text-yellow-400"></i>
               <i class="fa-regular fa-star text-sm text-yellow-400"></i>
               <i class="fa-regular fa-star text-sm text-yellow-400"></i>
@@ -50,17 +54,25 @@
               <p class="text-xs ml-3 underline cursor-pointer">Sé el primero en opinar</p>
             </div>
 
+
+<!-- ------------- responsive images ---------------------- -->
+            <div class="lg:hidden">
+              <figure class="bg-[#D9D9D9] h-44 rounded-lg">
+              <img src="" alt="Product image">
+            </figure>
+            </div>
+
 <!-- ------------- if product has discount. Original price ------------- -->
             <div v-if="product.discount" class="relative -mb-6">
-              <h3 class="text-sm my-3 line-through">${{ product.price }}</h3>
+              <h3 class="text-sm my-3 line-through">${{ (product.price * form.quantity).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</h3>
             </div>
  <!-- ------------- Final price with or without discount -------------->
             <div class="relative inline-block">
-              <h3 class="text-primary font-bold text-xl my-3">${{product?.is_percentage ? (product?.price * (100 - product?.discount) * 0.01).toString().split('.')[0]
-            : (product?.price - product?.discount).toString().split('.')[0]
+              <h3 class="text-primary font-bold text-xl my-3">${{product?.is_percentage ? ((product?.price * (100 - product?.discount) * 0.01) * form.quantity).toString().split('.')[0]
+            : ((product?.price - product?.discount) * form.quantity).toString().split('.')[0]
               }}
              </h3>
-              <h3 class="text-primary font-bold text-xs absolute top-3 -right-4">{{ product.price?.toString().split('.')[1] ?? '00' }}</h3>
+              <h3 class="text-primary font-bold text-xs absolute top-3 -right-4">{{(( product.price * form.quantity).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")).toString().split('.')[1] ?? '00' }}</h3>
             </div>
             <div class="flex space-x-7 mt-3">
               <p class="font-bold text-sm">Marca:</p>
@@ -86,13 +98,15 @@
               <p class="text-xs text-gray-500">{{ product.stock }} disponibles </p>
             </div>
 
-            <PrimaryButton>Agregar al carrito</PrimaryButton>
+            <div class="text-center">
+              <PrimaryButton @click="addToCart">Agregar al carrito</PrimaryButton>
+            </div>
 
             <p class="text-secondary text-xs mt-3">*El pedido debe solicitarse con al menos una semana de anticipación </p>
           </div>
         </div>
         
-        <div class="mt-12 mx-48 lg:grid grid-cols-2">
+        <div class="mt-12 lg:mx-48 lg:grid grid-cols-2 mx-3">
           <div>
             <p class="font-bold">Acerca del producto:</p>
             <ul class="ml-3 flex flex-col">
@@ -100,21 +114,21 @@
             </ul>
           </div>
 
-          <div>
+          <div class="mt-8 lg:mt-0">
             <p class="font-bold">Descripción del producto:</p>
             <p class="text-gray-600">{{product.description}}</p>
           </div>
         </div>
 
-        <div class="flex justify-center items-center space-x-2 cursor-pointer">
+        <div class="flex justify-center items-center space-x-2 cursor-pointer mt-5">
           <p class="text-primary">Ver más</p>
           <i class="fa-solid fa-angle-down text-white rounded-full bg-primary p-1"></i>
         </div>
       </div>
 
 <!-- ------------------ Similar Products ----------------------- -->
-      <div class="mt-24">
-        <h2 class="text-lg">Artículos similares</h2>
+      <div class="mt-24 mx-4">
+        <h2 class="lg:text-lg">Artículos similares</h2>
         <div class="border-b-4 border-[#D90537] w-14"></div>
 
         <div class="flex mt-7 items-center justify-center">
@@ -124,7 +138,7 @@
           </div>
 
 
-          <div class="w-full grid grid-cols-2 lg:grid-cols-5 gap-3 mx-4">
+          <div class="w-full lg:grid grid-cols-2 lg:grid-cols-5 gap-3 mx-4">
 
             <ProductCard v-for="product in similar_products" :key="product" :product="product" />
             
@@ -197,6 +211,9 @@
       this.zoomBoxStyle.left = x - zoomBox.clientWidth / 2 + "px";
       this.zoomBoxStyle.top = y - zoomBox.clientHeight / 2 + "px";
     },
+    addToCart(){
+      this.$inertia.post(route('cart-products.store', {'product': this.product, 'quantity': this.form.quantity }));
+    }
     },
     props: {
       product: Object,

@@ -53,6 +53,13 @@
             </div>
 
             <div>
+            <select v-model="form.material" class="input w-1/3" name="" id="">
+              <option v-for="(material, index) in materials" :key="material" :value="material" :disabled="index == 0">{{ material }}</option>
+            </select>
+              <InputError :message="form.errors.material" />
+            </div>
+
+            <div>
               <InputWithPlaceholder v-model="form.part_number">Número de parte *</InputWithPlaceholder>
               <InputError :message="form.errors.part_number" />
             </div>
@@ -91,7 +98,7 @@
               </div>
 
               <div>
-                <InputWithPlaceholder v-model="form.model">Modelo *</InputWithPlaceholder>
+                <InputWithPlaceholder v-model="form.model">Modelo</InputWithPlaceholder>
                 <InputError :message="form.errors.model" />
               </div>
             <p class="font-bold text-black text-lg ml-4 my-2">Color:</p>
@@ -103,14 +110,14 @@
   </div>
 
           <div class="ml-56 mb-5">
-            <h2 class="text-lg font-bold mt-16">Acerca del producto</h2>
+            <h2 class="text-lg font-bold mt-16">Características del producto</h2>
             <div class="flex space-x-7">
               <div class="w-1/3">
                 <textarea v-model="form.features" class="textarea" rows="3" placeholder="Características"></textarea>
                 <InputError :message="form.errors.features" />
               </div>
               <div class="w-1/3">
-                <textarea v-model="form.description" class="textarea" rows="3" placeholder="descripción"></textarea>
+                <textarea v-model="form.description" class="textarea" rows="3" placeholder="Descripción"></textarea>
                 <InputError :message="form.errors.description" />
               </div>
             </div>
@@ -141,6 +148,7 @@
       const form = useForm({
       name: null,
       category: null,
+      material: null,
       brand: null,
       model: null,
       part_number: null,
@@ -160,10 +168,21 @@
           '----- Categoría -----',
           'Emblemas',
           'Llaveros',
+          'Tapetes',
           'Portaplacas',
           'Portadocumentos',
           'Perfumeros',
           'Parasoles',
+        ],
+        materials: [
+          '----- Material -----',
+          'Aluminio',
+          'Abs',
+          'Metal',
+          'Resina',
+          'Caucho',
+          'Textil',
+          'Otro',
         ],
       };
     },
