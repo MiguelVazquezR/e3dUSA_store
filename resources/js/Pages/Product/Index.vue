@@ -134,7 +134,7 @@
         </div>
 
 <!-- ----------------------- Products large screen ---------------------------------- -->
-          <div @scroll="chargeMoreProducts" class="col-span-6 rounded-lg p-4 grid lg:grid-cols-5 gap-4 overflow-y-scroll h-screen">
+          <div @scroll="chargeMoreProducts" class="col-span-6 rounded-lg p-4 grid lg:grid-cols-5 gap-4 ">
             <ProductCard v-for="product in products.data" :key="product" :product="product" />
           </div>
 
