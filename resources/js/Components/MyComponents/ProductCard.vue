@@ -2,7 +2,7 @@
   <div class="border border-[#9a9a9a] rounded-lg flex flex-col justify-center lg:text-sm text-xs lg:h-[500px] relative">
               <div @click="$inertia.get(route('products.show', product.id))" class="bg-[#D9D9D9] h-full rounded-t-lg cursor-pointer">
                 <figure>
-                  <img src="" alt="image">
+                  <img class="bg-cover bg-no-repeat" src="product.media[0]?.original_url" alt="Cover image">
                 </figure>
               </div>
               <div class="flex flex-col mt-1 px-3 lg:px-6 h-4/5 text-center">

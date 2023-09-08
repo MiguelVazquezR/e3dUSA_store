@@ -18,25 +18,25 @@
       <div class="rounded-lg lg:mx-24">
         <div class="lg:grid grid-cols-2">
   <!-- -------------------- Images ------------------ -->
-          <div class="bg-[#D9D9D9] rounded-md mx-36 cursor-pointer relative hidden lg:block">
+          <div class="bg-[#D9D9D9] rounded-md mx-36 relative hidden lg:block">
             <figure class="">
-              <img src="" alt="Product image"
+              <img :src="product.media[0]?.original_url" alt="Product image" class="lg:w-[550px] lg:h-96 h-64 object-contain bg-no-repeat"
               @mouseover="showZoom"
               @mousemove="updateZoomPosition"
               @mouseout="hideZoom">
             </figure>
-              <div class="border-2 border-black h-36 w-36 bottom-3 right-0 rounded-lg bg-cover" ref="zoomBox" v-if="isZoomVisible" :style="zoomBoxStyle"></div>
+              <div class="border border-gray-600 h-36 w-36 -bottom-0 right-0 rounded-lg bg-cover absolute" ref="zoomBox" v-if="isZoomVisible" :style="zoomBoxStyle"></div>
             
-            <figure class="w-24 h-24 bg-[#D9D9D9] absolute top-0 -left-28 cursor-pointer rounded-md border hover:border-[#9a9a9a]">
-              <img src="" alt="image">
+            <figure class="lg:w-36 lg:h-28 w-28 h-20 bg-[#D9D9D9] absolute  -bottom-24 left-0 lg:top-0 lg:-left-40 cursor-pointer rounded-lg border hover:border-[#9a9a9a]">
+              <img :src="product.media[1]?.original_url" alt="image" class="w-full h-full bg-cover bg-no-repeat">
             </figure>
 
-            <figure class="w-24 h-24 bg-[#D9D9D9] absolute top-28 -left-28 cursor-pointer rounded-md border hover:border-[#9a9a9a]">
-              <img src="" alt="image">
+            <figure class="lg:w-36 lg:h-28 w-28 h-20 bg-[#D9D9D9] absolute -bottom-24 left-32 lg:top-32 lg:-left-40 cursor-pointer rounded-lg border hover:border-[#9a9a9a]">
+              <img :src="product.media[2]?.original_url" alt="image" class="w-full h-full bg-cover bg-no-repeat">
             </figure>
 
-            <figure class="w-24 h-24 bg-[#D9D9D9] absolute top-56 -left-28 cursor-pointer rounded-md border hover:border-[#9a9a9a]">
-              <img src="" alt="image">
+            <figure class="lg:w-36 lg:h-28 w-28 h-20 bg-[#D9D9D9] absolute -bottom-24 left-64 lg:top-64 lg:-left-40 cursor-pointer rounded-lg border hover:border-[#9a9a9a]">
+              <img :src="product.media[3]?.original_url" alt="image" class="w-full h-full bg-cover bg-no-repeat">
             </figure>
 
             
@@ -56,9 +56,20 @@
 
 
 <!-- ------------- responsive images ---------------------- -->
-            <div class="lg:hidden">
+            <div class="lg:hidden mb-40 mt-3 relative">
               <figure class="bg-[#D9D9D9] h-44 rounded-lg">
-              <img src="" alt="Product image">
+              <img :src="product.media[0]?.original_url" class="bg-cover bg-no-repeat w-96 h-56" alt="Product image">
+            </figure>
+            <figure class="lg:w-36 lg:h-28 w-28 h-20 bg-[#D9D9D9] absolute  -bottom-36 left-0 lg:top-0 lg:-left-40 cursor-pointer rounded-lg border hover:border-[#9a9a9a]">
+              <img :src="product.media[1]?.original_url" alt="image" class="w-full h-full bg-cover bg-no-repeat">
+            </figure>
+
+            <figure class="lg:w-36 lg:h-28 w-28 h-20 bg-[#D9D9D9] absolute -bottom-36 left-28 lg:top-32 lg:-left-40 cursor-pointer rounded-lg border hover:border-[#9a9a9a]">
+              <img :src="product.media[2]?.original_url" alt="image" class="w-full h-full bg-cover bg-no-repeat">
+            </figure>
+
+            <figure class="lg:w-36 lg:h-28 w-28 h-20 bg-[#D9D9D9] absolute -bottom-36 left-56 lg:top-64 lg:-left-40 cursor-pointer rounded-lg border hover:border-[#9a9a9a]">
+              <img :src="product.media[3]?.original_url" alt="image" class="w-full h-full bg-cover bg-no-repeat">
             </figure>
             </div>
 
@@ -138,7 +149,7 @@
           </div>
 
 
-          <div class="w-full lg:grid grid-cols-2 lg:grid-cols-5 gap-3 mx-4">
+          <div class="w-full lg:grid grid-cols-5 gap-3 mx-4">
 
             <ProductCard v-for="product in similar_products" :key="product" :product="product" />
             

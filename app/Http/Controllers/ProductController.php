@@ -86,8 +86,9 @@ class ProductController extends Controller
     
     public function index()
     {
-        $products = ProductResource::collection(Product::where('is_active', true)->get());
+        $products = ProductResource::collection(Product::with('media')->where('is_active', true)->latest()->get());
 
+        // return $products;
         return inertia('Product/Index', compact('products'));
     }
 
@@ -137,16 +138,32 @@ class ProductController extends Controller
     // Crea el registro del producto después de la validación
    $product = Product::create($validated);
 
+    // Guarda la imagen de portada
+    if ($request->hasFile('media')) {
+        $product->addMedia($request->file('media'))
+            ->toMediaCollection('cover'); // Cambia 'images' por tu nombre de colección deseado
+    }
+
+    // Guarda las imágenes adicionales
+    for ($i = 1; $i <= 3; $i++) {
+        $inputName = "media$i";
+        if ($request->hasFile($inputName)) {
+            $product->addMedia($request->file($inputName))
+                ->toMediaCollection("image$i"); // Cambia 'images1', 'images2', 'images3' por tus nombres de colección deseados
+        }
+    }
+
     return to_route('products.indexAdmin'); // Redirige a la página adecuada después de crear el producto
 }
 
    
-    public function show(Product $product)
+    public function show($product_id)
     {
 
+        $product = Product::with('media')->where('id', $product_id)->first();
         $similar_products = Product::where('category', $product->category)->get(); 
         
-        // return $similar_products;
+        // return $product;
         return inertia('Product/Show', compact('product', 'similar_products'));
     }
 

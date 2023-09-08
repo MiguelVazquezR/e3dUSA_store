@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full bg-[#c9c9c9] rounded-r-lg h-1/2 border border-[#b3b2b2] p-5 text-sm">
+  <div class="w-full bg-[#c9c9c9] rounded-r-lg h-[500px] border border-[#b3b2b2] p-5 text-sm">
     <p @click="showHome = !showHome" class="mt-3 flex items-center cursor-pointer font-bold"><i class="fa-solid fa-house text-lg mr-3"></i>
     Inicio 
     <i :class="showHome ? 'fa-angle-down' : 'fa-angle-right' " class="fa-solid  ml-5"></i></p>
