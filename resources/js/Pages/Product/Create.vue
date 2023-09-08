@@ -16,8 +16,8 @@
   <!-- -------------------- Images ------------------ -->
   <div class="lg:flex space-x-5">
           <div class="bg-[#D9D9D9] rounded-md lg:ml-36 relative lg:w-[550px] lg:h-96 mx-1">
-            <figure>
-              <img ref="previewImage" src="" alt="Product image" class="lg:w-[550px] lg:h-96 bg-cover bg-no-repeat opacity-60">
+            <figure class="lg:w-[550px] lg:h-96 h-64">
+              <img ref="previewImage" src="" alt="Product image" class="lg:w-[550px] lg:h-96 h-64 object-contain bg-no-repeat opacity-60">
             </figure>
 
             <p class="text-white text-xs rounded-full px-3 py-1 absolute top-2 right-2 bg-black z-20">Portada del producto</p>
@@ -210,7 +210,7 @@
           this.form.is_percentage = null;
         }
         this.form.post(route('products.store'));
-        //this.form.reset();
+        this.form.reset();
       },
       openFileInput(ref) {
       // Simula un clic en el input de tipo file cuando se hace clic en el icono de la cámara
