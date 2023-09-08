@@ -1,6 +1,6 @@
 <template>
     <AppLayout>
-      <div class="lg:px-8 lg:py-8">
+      <div class="lg:px-8 lg:py-8 pb-20">
         <!-- ---------------------- directory ------------------------ -->
         <div class="mb-8 flex space-x-2 items-center text-sm">
             <i @click="$inertia.get('/dashboard')" class="fa-solid fa-house text-primary cursor-pointer"></i>
@@ -10,50 +10,55 @@
             <p> Crear producto</p>
         </div>
 
-        <h2 class="text-lg font-bold ml-80 mb-5">Nuevo producto</h2>
+        <h2 class="text-lg font-bold lg:ml-80 mb-5">Nuevo producto</h2>
 
           <div class="">
   <!-- -------------------- Images ------------------ -->
-  <div class="flex space-x-5">
-          <div class="bg-[#D9D9D9] rounded-md ml-36 relative lg:w-[450px] h-96">
+  <div class="lg:flex space-x-5">
+          <div class="bg-[#D9D9D9] rounded-md lg:ml-36 relative lg:w-[550px] lg:h-96 mx-1">
             <figure>
-              <img src="" alt="Product image">
+              <img ref="previewImage" src="" alt="Product image" class="lg:w-[550px] lg:h-96 bg-cover bg-no-repeat opacity-60">
             </figure>
 
-            <p class="text-white text-xs rounded-full px-3 py-1 absolute top-2 right-2 bg-black">Portada del producto</p>
+            <p class="text-white text-xs rounded-full px-3 py-1 absolute top-2 right-2 bg-black z-20">Portada del producto</p>
 
-            <i class="fa-solid fa-camera text-lg text-primary font-bold rounded-full absolute bottom-3 right-16 bg-[#CCCCCC] py-2 px-3 cursor-pointer"></i>
+            <i class="fa-solid fa-camera text-lg text-primary font-bold rounded-full absolute bottom-3 right-16 bg-[#CCCCCC] py-2 px-3 cursor-pointer" @click="openFileInput('fileInput')"></i>
+             <input @input="form.media = $event.target.files[0]" type="file" ref="fileInput" style="display: none" @change="handleFileChange" />
+
             <i class="fa-solid fa-trash-can text-lg text-primary font-bold rounded-full absolute bottom-3 right-4 bg-[#CCCCCC] py-2 px-3 cursor-pointer"></i>
             
-            <figure class="w-24 h-24 bg-[#D9D9D9] absolute top-0 -left-28 cursor-pointer rounded-md border hover:border-[#9a9a9a]">
-              <img src="" alt="image">
-            </figure>
+             <div @click="openFileInput('fileInput1')" class="lg:w-36 lg:h-28 w-28 h-20 bg-[#D9D9D9] absolute -bottom-24 left-0 lg:top-0 lg:-left-40 cursor-pointer rounded-md border hover:border-[#9a9a9a]">
+              <img ref="thumbnail1" src="" alt="image" class="w-full h-full bg-cover bg-no-repeat opacity-60">
+              <input @input="form.media1 = $event.target.files[0]" type="file" ref="fileInput1" style="display: none" @change="handleFileChange1" />
+            </div>
 
-            <figure class="w-24 h-24 bg-[#D9D9D9] absolute top-28 -left-28 cursor-pointer rounded-md border hover:border-[#9a9a9a]">
-              <img src="" alt="image">
-            </figure>
+            <div @click="openFileInput('fileInput2')" class="lg:w-36 lg:h-28 w-28 h-20 bg-[#D9D9D9] absolute -bottom-24 left-32 lg:top-32 lg:-left-40 cursor-pointer rounded-md border hover:border-[#9a9a9a]">
+              <img ref="thumbnail2" src="" alt="image" class="w-full h-full bg-cover bg-no-repeat opacity-60">
+              <input @input="form.media2 = $event.target.files[0]" type="file" ref="fileInput2" style="display: none" @change="handleFileChange2" />
+            </div>
 
-            <figure class="w-24 h-24 bg-[#D9D9D9] absolute top-56 -left-28 cursor-pointer rounded-md border hover:border-[#9a9a9a]">
-              <img src="" alt="image">
-            </figure>     
+            <div @click="openFileInput('fileInput3')" class="lg:w-36 lg:h-28 w-28 h-20 bg-[#D9D9D9] absolute -bottom-24 left-64 lg:top-64 lg:-left-40 cursor-pointer rounded-md border hover:border-[#9a9a9a]">
+              <img ref="thumbnail3" src="" alt="image" class="w-full h-full bg-cover bg-no-repeat opacity-60">
+              <input @input="form.media3 = $event.target.files[0]" type="file" ref="fileInput3" style="display: none" @change="handleFileChange3" />
+            </div>     
 
           </div>
 
-          <div class="w-1/2 space-y-3">
+          <div class="lg:w-1/2 space-y-3 pr-4 mt-28 lg:mt-0">
           <div>
             <InputWithPlaceholder v-model="form.name">Nombre del producto *</InputWithPlaceholder>
             <InputError :message="form.errors.name" />
           </div>
 
             <div>
-            <select v-model="form.category" class="input w-1/3" name="" id="">
+            <select v-model="form.category" class="input lg:w-1/3" name="" id="">
               <option v-for="(category, index) in categories" :key="category" :value="category" :disabled="index == 0">{{ category }}</option>
             </select>
               <InputError :message="form.errors.category" />
             </div>
 
             <div>
-            <select v-model="form.material" class="input w-1/3" name="" id="">
+            <select v-model="form.material" class="input lg:w-1/3" name="" id="">
               <option v-for="(material, index) in materials" :key="material" :value="material" :disabled="index == 0">{{ material }}</option>
             </select>
               <InputError :message="form.errors.material" />
@@ -109,14 +114,14 @@
           </div>
   </div>
 
-          <div class="ml-56 mb-5">
-            <h2 class="text-lg font-bold mt-16">Características del producto</h2>
+          <div class="lg:ml-56 lg:mb-5 mx-3">
+            <h2 class="text-lg font-bold mt-16 mb-4">Acerca del producto</h2>
             <div class="flex space-x-7">
-              <div class="w-1/3">
+              <div class="lg:w-1/3">
                 <textarea v-model="form.features" class="textarea" rows="3" placeholder="Características"></textarea>
                 <InputError :message="form.errors.features" />
               </div>
-              <div class="w-1/3">
+              <div class="lg:w-1/3">
                 <textarea v-model="form.description" class="textarea" rows="3" placeholder="Descripción"></textarea>
                 <InputError :message="form.errors.description" />
               </div>
@@ -126,7 +131,6 @@
 
           <div>
           </div>
-            {{form}}
         </div>
       </div>
     </AppLayout>
@@ -161,6 +165,10 @@
       colors: null,
       features: [],  
       has_discount: false,
+      media: [],
+      media1: [],
+      media2: [],
+      media3: [],
     });
       return {
         form,
@@ -203,7 +211,79 @@
         }
         this.form.post(route('products.store'));
         //this.form.reset();
+      },
+      openFileInput(ref) {
+      // Simula un clic en el input de tipo file cuando se hace clic en el icono de la cámara
+      this.$refs[ref].click();
+    },
+    handleFileChange(event) {
+      const image = event.target.files[0];
+      // Comprueba si se seleccionó un archivo y es una imagen
+      if (image && image.type.startsWith('image/')) {
+        const reader = new FileReader();
+
+
+        reader.onload = () => {
+          // Asigna la vista previa de la imagen al elemento img con ref="previewImage"
+          this.$refs.previewImage.src = reader.result;
+        };
+
+        // Lee el archivo como una URL de datos
+        reader.readAsDataURL(image);
       }
+    },
+
+    handleFileChange1(event) {
+       const image1 = event.target.files[0];
+       console.log(image1);
+      // Comprueba si se seleccionó un archivo y es una imagen
+      if (image1 && image1.type.startsWith('image/')) {
+        const reader = new FileReader();
+
+
+        reader.onload = () => {
+          // Asigna la vista previa de la imagen al elemento img con ref="thumbnail1"
+          this.$refs.thumbnail1.src = reader.result;
+        };
+
+        // Lee el archivo como una URL de datos
+        reader.readAsDataURL(image1);
+      }
+    },
+
+    handleFileChange2(event) {
+       const image2 = event.target.files[0];
+      // Comprueba si se seleccionó un archivo y es una imagen
+      if (image2 && image2.type.startsWith('image/')) {
+        const reader = new FileReader();
+
+
+        reader.onload = () => {
+          // Asigna la vista previa de la imagen al elemento img con ref="thumbnail2"
+          this.$refs.thumbnail2.src = reader.result;
+        };
+
+        // Lee el archivo como una URL de datos
+        reader.readAsDataURL(image2);
+      }
+    },
+
+    handleFileChange3(event) {
+       const image3 = event.target.files[0];
+      // Comprueba si se seleccionó un archivo y es una imagen
+      if (image3 && image3.type.startsWith('image/')) {
+        const reader = new FileReader();
+
+
+        reader.onload = () => {
+          // Asigna la vista previa de la imagen al elemento img con ref="thumbnail3"
+          this.$refs.thumbnail3.src = reader.result;
+        };
+
+        // Lee el archivo como una URL de datos
+        reader.readAsDataURL(image3);
+      }
+    },
     },
     props: {
       

@@ -86,7 +86,7 @@ class ProductController extends Controller
     
     public function index()
     {
-        $products = ProductResource::collection(Product::where('is_active', true)->paginate(10));
+        $products = ProductResource::collection(Product::where('is_active', true)->get());
 
         return inertia('Product/Index', compact('products'));
     }
