@@ -1,7 +1,7 @@
 <template>
   <div @click="$inertia.get(route('products.show', discount_product.id))" class="py-5 px-3 flex flex-col space-x-3 justify-center cursor-pointer rounded-lg border text-center border-[#9A9A9A] mt-3 lg:mt-0">
     <figure>
-      <img src="@/../../../../public/storage/images/honda.png" alt="Honda" />
+      <img :src="discount_product.media[0]?.original_url" alt="" class="object-contain bg-no-repeat w-52 h-36">
     </figure>
     <h3 class="font-bold text-lg text-center">{{ discount_product?.name }}</h3>
     <p class="text-xs text-">{{ discount_product?.description }}</p>

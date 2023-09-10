@@ -1,6 +1,6 @@
 <template>
   <AppLayout>
-    <div class="lg:px-8 lg:py-8 pb-12">
+    <div class="lg:px-8 lg:py-8 pb-12 py-5">
       <!-- ---------------------- directory ------------------------ -->
       <div class="flex justify-between items-center mx-1 mt-2 text-sm">
         <div class="mb-8 flex items-center space-x-2">
@@ -13,12 +13,12 @@
         </Link>
       </div>
 
-      <div class="lg:hidden border border-[#9A9A9A] py-1 px-2 flex justify-between mx-4 rounded-md mb-1">
+      <div class="lg:hidden border border-[#9A9A9A] py-1 px-2 flex justify-between mx-4 rounded-md mb-1 mt-4">
         <p @click="orderModal = true" class="text-primary border-r border-[#9A9A9A] text-center w-1/2"><i class="fa-solid fa-sort mr-3"></i>Ordenar</p>
         <p @click="filterModal = true" class="text-primary text-center w-1/2"><i class="fa-solid fa-arrow-up-short-wide mr-3"></i>Filtros</p>
       </div>
 
-      <div class="hidden lg:block lg:grid lg:grid-cols-7 gap-7">
+      <div class="hidden lg:block lg:grid lg:grid-cols-7 gap-7 mt-5">
         <div class="flex flex-col rounded-lg border border-[#9A9A9A] p-4">
           <div class="flex justify-between mb-2">
             <p>Filtros</p>
@@ -134,15 +134,22 @@
         </div>
 
 <!-- ----------------------- Products large screen ---------------------------------- -->
-          <div @scroll="chargeMoreProducts" class="col-span-6 rounded-lg p-4 grid lg:grid-cols-5 gap-4 ">
+          <div v-if="products.data.length" @scroll="chargeMoreProducts" class="col-span-6 rounded-lg p-4 grid lg:grid-cols-5 gap-4 ">
             <ProductCard v-for="product in products.data" :key="product" :product="product" />
+          </div>
+
+          <div class="containter mx-auto flex justify-center" v-else>
+            <p class="text-sm text-center text-gray-500">No hay productos para mostrar</p>
           </div>
 
       </div>
 
 <!-- --------------- Products resposive view ------------------------ -->
-      <div @scroll="chargeMoreProducts" class="lg:hidden col-span-6 rounded-lg p-4 grid grid-cols-2 gap-2">
+      <div v-if="products.data.length" @scroll="chargeMoreProducts" class="lg:hidden col-span-6 rounded-lg p-4 grid grid-cols-2 gap-2 mt-3">
             <ProductCard v-for="product in products.data" :key="product" :product="product" />
+          </div>
+          <div v-else>
+            <p class="text-sm text-center text-gray-500 my-5">No hay productos para mostrar</p>
           </div>
     </div>
 

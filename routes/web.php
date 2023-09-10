@@ -8,6 +8,7 @@ use App\Http\Controllers\NotificationEmailController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SaleController;
+use App\Http\Controllers\UserController;
 use App\Models\Product;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -39,8 +40,7 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
-        $discount_products = Product::latest()->whereNotNull('discount')->get()->take(5);
-        // return $discount_products;
+        $discount_products = Product::with('media')->latest()->whereNotNull('discount')->get()->take(5);
         return Inertia::render('Dashboard', compact('discount_products'));
     })->name('dashboard');
 });
@@ -48,6 +48,7 @@ Route::middleware([
 Route::resource('products', ProductController::class);
 Route::get('/products-index-admin', [ProductController::class, 'indexAdmin'])->name('products.indexAdmin'); //agregar un middelware de admin
 Route::post('/products-filtered', [ProductController::class, 'filter'])->name('products.filter');
+Route::get('/products-search', [ProductController::class, 'search'])->name('products.search');
 
 
 Route::resource('carts', CartController::class);
@@ -70,5 +71,8 @@ Route::resource('payment-methods', PaymentMethodController::class);
 
 
 Route::resource('notification-emails', NotificationEmailController::class);
+
+
+Route::resource('users', UserController::class);
 
 

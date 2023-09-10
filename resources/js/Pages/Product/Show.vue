@@ -1,6 +1,6 @@
 <template>
     <AppLayout>
-      <div class="lg:px-8 lg:py-8 pb-20">
+      <div class="lg:px-8 lg:py-16 pb-20 pt-5">
       <!-- ---------------------- directory ------------------------ -->
       <div class="flex justify-between items-center mx-1 mt-2 text-sm">
         <div class="mb-8 flex items-center space-x-2">
@@ -15,7 +15,7 @@
         </Link>
       </div>
 
-      <div class="rounded-lg lg:mx-24">
+      <div class="rounded-lg lg:mx-24 mt-4">
         <div class="lg:grid grid-cols-2">
   <!-- -------------------- Images ------------------ -->
           <div class="bg-[#D9D9D9] rounded-md mx-36 relative hidden lg:block">
