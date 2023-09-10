@@ -161,8 +161,7 @@ class ProductController extends Controller
     {
 
         $product = Product::with('media')->where('id', $product_id)->first();
-        $similar_products = Product::where('category', $product->category)->get(); 
-        
+        $similar_products = Product::with('media')->where('category', $product->category)->get();         
         // return $product;
         return inertia('Product/Show', compact('product', 'similar_products'));
     }
@@ -170,7 +169,7 @@ class ProductController extends Controller
     
     public function edit(Product $product)
     {
-        //
+        return inertia('Product/Edit', compact('product'));
     }
 
    

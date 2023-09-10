@@ -14,14 +14,13 @@ class CartController extends Controller
     
     public function index()
     {        
-        $cart_products = CartProduct::with('product')->where('cart_id', auth()->id())->get();
+        $cart_products = CartProduct::with('product.media')->where('cart_id', auth()->id())->get();
         $discounts = Discount::where('expire_date', '>', now())->get();
         $subtotal = 0;
 
          foreach ($cart_products as $product) {
            $subtotal += $product->quantity * $product['product']->price;  
         }
-
         return inertia('Cart/Index', compact('cart_products', 'subtotal', 'discounts'));
     }
 
@@ -29,7 +28,7 @@ class CartController extends Controller
     {
         $addresses = Address::where('user_id', auth()->id())->get();
         $invoices_info = Invoice::where('user_id', auth()->id())->get();
-        $cart_products = CartProduct::with('product')->where('cart_id', auth()->id())->get();
+        $cart_products = CartProduct::with('product.media')->where('cart_id', auth()->id())->get();
         $subtotal = 0;
 
                 foreach ($cart_products as $product) {

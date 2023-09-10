@@ -35,7 +35,9 @@
                 <tr v-for="product_detail in cart_products" :key="product_detail">
                     <td class="py-2">
                         <div class="flex space-x-4">
-                            <div class="w-36 h-24 rounded-lg border"></div>
+                            <div class="w-36 h-24 rounded-lg border">
+                              <img :src="product_detail.product?.media[0]?.original_url" alt="" class="object-contain bg-no-repeat w-36 h-24">
+                            </div>
                             <div class="text-sm">
                                 <p class="font-bold">{{ product_detail.product.name }}</p>
                                 <p>Marca: {{ product_detail.product.brand }}</p>
@@ -56,8 +58,8 @@
 <section class="lg:hidden">
           <div v-for="product_detail in cart_products" :key="product_detail" class="text-xs">
             <div class="p-5 flex space-x-3">
-              <figure @click="$inertia.get(route('products.show', product_detail.product?.id))" class="bg-[#D9D9D9] w-28 h-24 rounded-md">
-                <img src="" alt="">
+              <figure @click="$inertia.get(route('products.show', product_detail.product?.id))" class="bg-[#D9D9D9] w-36 h-24 rounded-md">
+                <img :src="product_detail.product?.media[0]?.original_url" alt="" class="object-contain bg-no-repeat w-36 h-24">
               </figure>
               <div>
                 <p @click="$inertia.get(route('products.show', product_detail.product?.id))" class="cursor-pointer font-bold">{{ product_detail.product.name }}</p>
