@@ -3,7 +3,11 @@
 <section class="hidden lg:block">
   <div class="flex justify-between">
                   <div class="flex space-x-4">
-                    <div @click="$inertia.get(route('products.show', cart_product.product?.id))" class="w-40 h-28 rounded-lg border cursor-pointer"></div>
+                    <div @click="$inertia.get(route('products.show', cart_product.product?.id))" class="rounded-lg cursor-pointer">
+                      <figure class="w-40 h-28">
+                        <img :src="cart_product.product?.media[0]?.original_url" alt="" class="object-contain bg-no-repeat w-40 h-28">
+                      </figure>
+                    </div>
                       <div>
                         <p @click="$inertia.get(route('products.show', cart_product.product?.id))" class="cursor-pointer font-bold">{{ cart_product.product.name }}</p>
                         <p>Marca: {{ cart_product.product.brand }}</p>
@@ -34,7 +38,7 @@
 <section class="lg:hidden text-xs">
   <div class="p-5 flex space-x-3">
     <figure @click="$inertia.get(route('products.show', cart_product.product?.id))" class="bg-[#D9D9D9] w-28 h-24 rounded-md">
-      <img src="" alt="">
+      <img :src="cart_product.product?.media[0]?.original_url" alt="" class="object-contain bg-no-repeat w-28 h-24">
     </figure>
     <div>
       <p @click="$inertia.get(route('products.show', cart_product.product?.id))" class="cursor-pointer font-bold">{{ cart_product.product.name }}</p>

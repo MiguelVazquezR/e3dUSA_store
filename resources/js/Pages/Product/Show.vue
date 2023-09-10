@@ -57,19 +57,19 @@
 
 <!-- ------------- responsive images ---------------------- -->
             <div class="lg:hidden mb-40 mt-3 relative">
-              <figure class="bg-[#D9D9D9] h-44 rounded-lg">
-              <img :src="product.media[0]?.original_url" class="bg-cover bg-no-repeat w-96 h-56" alt="Product image">
+              <figure class="bg-[#D9D9D9] rounded-lg">
+              <img :src="product.media[0]?.original_url" class="object-contain bg-no-repeat w-96 h-56" alt="Product image">
             </figure>
-            <figure class="lg:w-36 lg:h-28 w-28 h-20 bg-[#D9D9D9] absolute  -bottom-36 left-0 lg:top-0 lg:-left-40 cursor-pointer rounded-lg border hover:border-[#9a9a9a]">
-              <img :src="product.media[1]?.original_url" alt="image" class="w-full h-full bg-cover bg-no-repeat">
-            </figure>
-
-            <figure class="lg:w-36 lg:h-28 w-28 h-20 bg-[#D9D9D9] absolute -bottom-36 left-28 lg:top-32 lg:-left-40 cursor-pointer rounded-lg border hover:border-[#9a9a9a]">
-              <img :src="product.media[2]?.original_url" alt="image" class="w-full h-full bg-cover bg-no-repeat">
+            <figure class="lg:w-36 lg:h-28 w-28 h-20 bg-[#D9D9D9] absolute  -bottom-24 left-0 lg:top-0 lg:-left-40 cursor-pointer rounded-lg border hover:border-[#9a9a9a]">
+              <img :src="product.media[1]?.original_url" alt="image" class="w-full h-full object-contain bg-no-repeat">
             </figure>
 
-            <figure class="lg:w-36 lg:h-28 w-28 h-20 bg-[#D9D9D9] absolute -bottom-36 left-56 lg:top-64 lg:-left-40 cursor-pointer rounded-lg border hover:border-[#9a9a9a]">
-              <img :src="product.media[3]?.original_url" alt="image" class="w-full h-full bg-cover bg-no-repeat">
+            <figure class="lg:w-36 lg:h-28 w-28 h-20 bg-[#D9D9D9] absolute -bottom-24 left-28 lg:top-32 lg:-left-40 cursor-pointer rounded-lg border hover:border-[#9a9a9a]">
+              <img :src="product.media[2]?.original_url" alt="image" class="w-full h-full object-contain bg-no-repeat">
+            </figure>
+
+            <figure class="lg:w-36 lg:h-28 w-28 h-20 bg-[#D9D9D9] absolute -bottom-24 left-56 lg:top-64 lg:-left-40 cursor-pointer rounded-lg border hover:border-[#9a9a9a]">
+              <img :src="product.media[3]?.original_url" alt="image" class="w-full h-full object-contain bg-no-repeat">
             </figure>
             </div>
 
@@ -105,7 +105,7 @@
 
             <div class="flex items-center space-x-4 my-4">
               <p class="font-bold text-sm">Cantidad:</p>
-              <input v-model="form.quantity" type="number" min="1" class="input w-20 h-6 bg-[#D9D9D9] border border-transparent rounded-xl">
+              <input v-model="form.quantity" type="number" min="1" :max="product.stock" class="input w-20 h-6 bg-[#D9D9D9] border border-transparent rounded-xl">
               <p class="text-xs text-gray-500">{{ product.stock }} disponibles </p>
             </div>
 

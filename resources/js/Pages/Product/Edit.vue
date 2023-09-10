@@ -7,10 +7,10 @@
             <i class="fa-solid fa-angle-right text-primary"></i>
             <p @click="$inertia.get(route('products.index'))" class="cursor-pointer text-primary">Productos</p>
             <i class="fa-solid fa-angle-right text-primary"></i>
-            <p> Crear producto</p>
+            <p> Editar producto</p>
         </div>
 
-        <h2 class="text-lg font-bold lg:ml-80 mb-5">Nuevo producto</h2>
+        <h2 class="text-lg font-bold lg:ml-80 mb-5">Editar {{ product.name }} </h2>
 
           <div class="">
   <!-- -------------------- Images ------------------ -->
@@ -126,7 +126,7 @@
                 <InputError :message="form.errors.description" />
               </div>
             </div>
-              <PrimaryButton @click="store" :disabled="form.processing" class="my-4">Crear producto</PrimaryButton>
+              <PrimaryButton @click="update" :disabled="form.processing" class="my-4">Actualizar producto</PrimaryButton>
           </div>
 
           <div>
@@ -150,20 +150,20 @@
 
     data() {
       const form = useForm({
-      name: null,
-      category: null,
-      material: null,
-      brand: null,
-      model: null,
-      part_number: null,
-      description: null,
-      price: null,
-      is_percentage: null,
-      stock: null,
-      discount: null,
-      colors: null,
-      features: null,  
-      has_discount: false,
+      name: this.product.name,
+      category: this.product.category,
+      material: this.product.material,
+      brand: this.product.brand,
+      model: this.product.model,
+      part_number: this.product.part_number,
+      description: this.product.description,
+      price: this.product.price,
+      is_percentage: Boolean(this.product.is_percentage),
+      stock: this.product.stock,
+      discount: this.product.discount,
+      colors: this.product.colors,
+      features: this.product.features,
+      has_discount: Boolean(this.product.has_discount),
       media: [],
       media1: [],
       media2: [],
@@ -203,12 +203,12 @@
       Link,
     },
     methods: {  
-      store(){
+      update(){
         if(this.form.has_discount == false){
           this.form.discount = null;
           this.form.is_percentage = null;
         }
-        this.form.post(route('products.store'));
+        this.form.put(route('products.update'));
         this.form.reset();
       },
       openFileInput(ref) {
@@ -285,7 +285,7 @@
     },
     },
     props: {
-      
+      product: Object,
     },
   };
   </script>
