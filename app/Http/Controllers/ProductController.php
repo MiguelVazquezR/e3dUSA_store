@@ -76,7 +76,7 @@ class ProductController extends Controller
 //             $query->orWhere('color', $request->input('color'));
 //         }
     
-       $filtered_products = ProductResource::collection($query->where('is_active', true)->get());
+       $filtered_products = ProductResource::collection($query->with('media')->where('is_active', true)->get());
 
     //    dd($filtered_products);
     
@@ -182,5 +182,15 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+    // Realiza la búsqueda en la base de datos
+    $results = Product::where('name', 'like', "%$query%")->get()->take(7);
+
+    return response()->json($results);
     }
 }

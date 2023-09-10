@@ -26,13 +26,20 @@
         <!-- --------------------- Products' cart section -------------------  -->
         <div class="border border-[#9A9A9A] rounded-lg w-2/3 p-5">
           <!-- ------ product cart component ------ -->
+          <div v-if="cart_products.length" >
+
           <CartProductCard
             v-for="cart_product in cart_products"
             :key="cart_product"
             :cart_product="cart_product"
           />
+          </div>
           <!-- ------ product cart component end ------ -->
+          <div v-else>
+          <p class="text-sm text-gray-500 text-center">No hay productos en tu carrito</p>
         </div>
+        </div>
+        
 
         <!-- ------------------ Total payment section ------------ -->
         <div class="w-1/3">

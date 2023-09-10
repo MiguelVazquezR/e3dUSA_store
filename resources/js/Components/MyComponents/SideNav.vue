@@ -18,7 +18,7 @@
     <ul v-if="showSales" class="ml-6">
         <li class="hover:text-white hover:bg-primary px-2 cursor-pointer rounded-lg" v-for="sale_option in sales_options" :key="sale_option">{{ sale_option }}</li>
     </ul>
-    <p @click="showSales = !showSales" class="mt-3 flex items-center cursor-pointer font-bold"><i class="fa-solid fa-users text-lg mr-3"></i>Usuarios</p>
+    <p @click="$inertia.get(route('users.index'))" class="mt-3 flex items-center cursor-pointer font-bold"><i class="fa-solid fa-users text-lg mr-3"></i>Usuarios</p>
     <p @click="showSales = !showSales" class="mt-3 flex items-center cursor-pointer font-bold"><i class="fa-solid fa-clipboard-check text-lg mr-3"></i>Inventario</p>
 
 

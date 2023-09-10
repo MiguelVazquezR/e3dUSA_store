@@ -9,6 +9,7 @@ import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import ThirthButton from '@/Components/MyComponents/ThirthButton.vue';
 import SideNav from '@/Components/MyComponents/SideNav.vue';
+import Axios from 'axios';
 
 defineProps({
     title: String,
@@ -70,27 +71,22 @@ const showSideNavToggle = () => {
  const search = () => {
       // Aquí puedes realizar una solicitud asincrónica al servidor para buscar resultados
       // y actualizar la lista de resultados.
-      // Por ejemplo, puedes utilizar Axios para hacer la solicitud a tu API Laravel.
-      // Axios.get('/api/search', { params: { query: searchTerm.value } })
-      //   .then(response => {
-      //     searchResults.value = response.data;
-      //   })
-      //   .catch(error => {
-      //     console.error(error);
-      //   });
+    //   Por ejemplo, puedes utilizar Axios para hacer la solicitud a tu API Laravel.
+      Axios.get('/products-search', { params: { query: searchTerm.value } })
+        .then(response => {
+            searchResults.value = response.data;
+        })
+        .catch(error => {
+            console.error(error);
+        });
 
       // En este ejemplo, se simula una lista de resultados de búsqueda.
       // Debes reemplazar esto con una llamada a tu API real.
-      searchResults.value = [
-        { id: 1, name: "Producto 1" },
-        { id: 2, name: "Producto 2" },
-        { id: 3, name: "Producto 3" },
-      ];
     };
 
     const selectResult = (result) => {
       // Maneja la selección de un resultado (por ejemplo, redirigir a la página del producto).
-      console.log("Resultado seleccionado:", result);
+    //   this.$inertia.get(route('products.show', result));
     };
 
     const closeResults = () => {
@@ -98,10 +94,17 @@ const showSideNavToggle = () => {
       isFocused.value = false;
       console.log(isFocused)
     };
+  const delayBlur = () => {
+      // Agrega un retraso de 200 milisegundos (ajústalo según tus necesidades)
+      setTimeout(() => {
+        isFocused.value = false;
+      }, 100);
+    };
 
     // Observa cambios en isFocused y limpia los resultados cuando pierde el foco
     watch(isFocused, (newVal) => {
       if (!newVal) {
+        if(searchTerm == null)
         searchResults.value = [];
       }
     });
@@ -123,7 +126,7 @@ const showSideNavToggle = () => {
                     </Link>
                 </div>
                 <div>
-                                <div class="relative">
+                                <div class="relative z-50">
                                 <input
                                     type="text"
                                     placeholder="Buscar"
@@ -131,16 +134,16 @@ const showSideNavToggle = () => {
                                     v-model="searchTerm"
                                     @input="search"
                                     @focus="isFocused = true"
-                                    @blur="isFocused = false"
+                                    @blur="delayBlur"
                                     ref="searchInput"
                                 />
                                 <i class="fa-solid fa-magnifying-glass absolute text-sm text-[#9A9A9A] top-[9px] right-2"></i>
                                 </div>
 
                                 <!-- Lista de resultados -->
-                                <ul v-if="searchResults.length && isFocused" class="bg-gray-200 border border-gray-300 shadow-md rounded-md absolute w-[350px] p-1">
-                                <li class="cursor-pointer hover:bg-gray-300 px-3 rounded-full py-1" v-for="result in searchResults" :key="result.id" @click="selectResult(result)">
-                                    {{ result.name }}
+                                <ul v-if="searchResults.length && isFocused" style="z-index: 9999;" class="bg-gray-200 border border-gray-300 shadow-md rounded-md absolute w-[350px] p-1">
+                                <li style="z-index: 9999;" class="cursor-pointer hover:bg-gray-300 px-3 rounded-full py-1" v-for="result in searchResults" :key="result.id" @click="selectResult(result)">
+                                    <Link :href="route('products.show', result.id)"> {{ result.name }} </Link>
                                 </li>
                                 </ul>
                             </div>
@@ -167,14 +170,14 @@ const showSideNavToggle = () => {
                             
                             <div class="relative">
                                 <ThirthButton @click="showCategories = !showCategories" class="h-7 lg:flex items-center hidden lg:block">Categorias <i class="fa-solid fa-angle-down ml-2"></i></ThirthButton>
-                                <ul v-if="showCategories" class="bg-gray-200 border border-gray-300 shadow-md rounded-md absolute p-1 w-40 text-sm z-30">
-                                    <li class="cursor-pointer hover:bg-gray-300 px-3 py-1 rounded-full" v-for="category in categories" :key="category" @click="selectResult(result)">
-                                        {{ category.label }}
+                                <ul style="z-index: 9999;" v-if="showCategories" class="bg-gray-200 border border-gray-300 shadow-md rounded-md absolute p-1 w-40 text-sm ">
+                                    <li style="z-index: 9999;" class="cursor-pointer hover:bg-gray-300 px-3 py-1 rounded-full" v-for="category in categories" :key="category" @click="selectResult(result)">
+                                        <Link :href="route('products.index')"> {{ category.label }} </Link>
                                     </li>
                                 </ul>
                             </div>
                            <div>
-                                <div class="relative">
+                                <div class="relative z-50">
                                 <input
                                     type="text"
                                     placeholder="Buscar"
@@ -182,16 +185,16 @@ const showSideNavToggle = () => {
                                     v-model="searchTerm"
                                     @input="search"
                                     @focus="isFocused = true"
-                                    @blur="isFocused = false"
+                                    @blur="delayBlur"
                                     ref="searchInput"
                                 />
                                 <i class="fa-solid fa-magnifying-glass absolute text-sm text-[#9A9A9A] top-[9px] right-2"></i>
                                 </div>
 
                                 <!-- Lista de resultados -->
-                                <ul v-if="searchResults.length && isFocused" class="bg-gray-200 border border-gray-300 shadow-md rounded-md absolute w-[600px] p-1">
-                                <li class="cursor-pointer hover:bg-gray-300 px-3 rounded-full py-1" v-for="result in searchResults" :key="result.id" @click="selectResult(result)">
-                                    {{ result.name }}
+                                <ul style="z-index: 9999;" v-if="searchResults.length && isFocused" class="bg-gray-200 border border-gray-300 shadow-md rounded-md absolute w-[600px] p-1">
+                                <li style="z-index: 9999;" class="cursor-pointer hover:bg-gray-300 px-3 rounded-full py-1" v-for="result in searchResults" :key="result.id">
+                                   <Link :href="route('products.show', result.id)"> {{ result.name }} </Link>
                                 </li>
                                 </ul>
                             </div>
@@ -522,9 +525,10 @@ const showSideNavToggle = () => {
                     <i class="fa-solid fa-cart-shopping text-xl"></i>
                     <p class="text-xs">Carrito</p>
                 </div>
-                <div class="flex flex-col justify-center text-center text-white">
-                    <i class="fa-solid fa-bars text-xl "></i>
-                    <p class="text-xs">Categorías</p>
+                
+                <div @click="$inertia.get(route('products.index'))" :class="route().current('products.*') ? 'text-primary border-t-[4px] border-[#D90537]' : 'text-white'" class="flex flex-col justify-center text-center px-2">
+                    <i class="fa-solid fa-boxes-stacked text-xl "></i>
+                    <p class="text-xs">Productos</p>
                 </div>
             </div>  
         </nav>

@@ -136,8 +136,11 @@
                 <div class="mt-7">
                     <h2 class="text-xl text-left ">Productos recomendados <span class="text-primary hover:underline ml-3 cursor-pointer underline">Ver más</span></h2>
 
-                    <div class="mt-5 grid grid-cols-2 gap-2 lg:grid-cols-5 lg:gap-4 transition ease-linear duration-300">
+                    <div v-if="discount_products.length" class="mt-5 grid grid-cols-2 gap-2 lg:grid-cols-5 lg:gap-4 transition ease-linear duration-300">
                         <DiscountProduct v-for="discount_product in discount_products" :key="discount_product" :discount_product="discount_product" />
+                    </div>
+                    <div v-else>
+                        <p class="text-sm text-ceter my-9 text-gray-500">No hay productos para mostrar</p>
                     </div>
                 </div>
 <!-- --------------------- Productos recomendados end ----------------------------- -->
