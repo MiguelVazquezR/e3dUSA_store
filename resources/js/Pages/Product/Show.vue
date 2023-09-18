@@ -1,5 +1,5 @@
 <template>
-    <AppLayout>
+    <AppLayout title="Ver producto">
       <div class="lg:px-8 lg:py-16 pb-20 pt-5">
       <!-- ---------------------- directory ------------------------ -->
       <div class="flex justify-between items-center mx-1 mt-2 text-sm">
@@ -27,16 +27,16 @@
             </figure>
               <div class="border border-gray-600 h-36 w-36 -bottom-0 right-0 rounded-lg bg-cover absolute" ref="zoomBox" v-if="isZoomVisible" :style="zoomBoxStyle"></div>
             
-            <figure class="lg:w-36 lg:h-28 w-28 h-20 bg-[#D9D9D9] absolute  -bottom-24 left-0 lg:top-0 lg:-left-40 cursor-pointer rounded-lg border hover:border-[#9a9a9a]">
-              <img :src="product.media[1]?.original_url" alt="image" class="w-full h-full bg-cover bg-no-repeat">
+            <figure v-if="product.media[1]?.original_url" class="lg:w-36 lg:h-28 w-28 h-20 bg-[#D9D9D9] absolute  -bottom-24 left-0 lg:top-0 lg:-left-40 cursor-pointer rounded-lg border hover:border-[#9a9a9a]">
+              <img :src="product.media[1]?.original_url" alt="image" class="w-full h-full bg-cover bg-no-repeat rounded-lg">
             </figure>
 
-            <figure class="lg:w-36 lg:h-28 w-28 h-20 bg-[#D9D9D9] absolute -bottom-24 left-32 lg:top-32 lg:-left-40 cursor-pointer rounded-lg border hover:border-[#9a9a9a]">
-              <img :src="product.media[2]?.original_url" alt="image" class="w-full h-full bg-cover bg-no-repeat">
+            <figure v-if="product.media[2]?.original_url" class="lg:w-36 lg:h-28 w-28 h-20 bg-[#D9D9D9] absolute -bottom-24 left-32 lg:top-32 lg:-left-40 cursor-pointer rounded-lg border hover:border-[#9a9a9a]">
+              <img :src="product.media[2]?.original_url" alt="image" class="w-full h-full bg-cover bg-no-repeat rounded-lg">
             </figure>
 
-            <figure class="lg:w-36 lg:h-28 w-28 h-20 bg-[#D9D9D9] absolute -bottom-24 left-64 lg:top-64 lg:-left-40 cursor-pointer rounded-lg border hover:border-[#9a9a9a]">
-              <img :src="product.media[3]?.original_url" alt="image" class="w-full h-full bg-cover bg-no-repeat">
+            <figure v-if="product.media[3]?.original_url" class="lg:w-36 lg:h-28 w-28 h-20 bg-[#D9D9D9] absolute -bottom-24 left-64 lg:top-64 lg:-left-40 cursor-pointer rounded-lg border hover:border-[#9a9a9a]">
+              <img :src="product.media[3]?.original_url" alt="image" class="w-full h-full bg-cover bg-no-repeat rounded-lg">
             </figure>
 
             
@@ -75,15 +75,20 @@
 
 <!-- ------------- if product has discount. Original price ------------- -->
             <div v-if="product.discount" class="relative -mb-6">
-              <h3 class="text-sm my-3 line-through">${{ (product.price * form.quantity).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</h3>
+              <h3 class="text-sm my-3 line-through">${{ product.price }}</h3>
+              <!-- <h3 class="text-sm my-3 line-through">${{ (product.price * form.quantity).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</h3> -->
             </div>
  <!-- ------------- Final price with or without discount -------------->
             <div class="relative inline-block">
-              <h3 class="text-primary font-bold text-xl my-3">${{product?.is_percentage ? ((product?.price * (100 - product?.discount) * 0.01) * form.quantity).toString().split('.')[0]
-            : ((product?.price - product?.discount) * form.quantity).toString().split('.')[0]
+              <h3 class="text-primary font-bold text-xl my-3">${{product?.is_percentage ? ((product?.price * (100 - product?.discount) * 0.01)).toString().split('.')[0]
+            : (product?.price - product?.discount).toString().split('.')[0]
               }}
              </h3>
-              <h3 class="text-primary font-bold text-xs absolute top-3 -right-4">{{(( product.price * form.quantity).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")).toString().split('.')[1] ?? '00' }}</h3>
+             <!-- <h3 class="text-primary font-bold text-xl my-3">${{product?.is_percentage ? ((product?.price * (100 - product?.discount) * 0.01) * form.quantity).toString().split('.')[0]
+            : ((product?.price - product?.discount) * form.quantity).toString().split('.')[0]
+              }}
+             </h3> -->
+              <h3 class="text-primary font-bold text-xs absolute top-3 -right-4">{{(( product.price).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")).toString().split('.')[1] ?? '00' }}</h3>
             </div>
             <div class="flex space-x-7 mt-3">
               <p class="font-bold text-sm">Marca:</p>
@@ -133,7 +138,9 @@
 
         <div class="flex justify-center items-center space-x-2 cursor-pointer mt-5">
           <p class="text-primary">Ver más</p>
-          <i class="fa-solid fa-angle-down text-white rounded-full bg-primary p-1"></i>
+          <button class="rounded-full w-6 h-6 flex items-center justify-center bg-primary">
+            <i class="fa-solid fa-angle-down text-white text-xs"></i>
+          </button>
         </div>
       </div>
 

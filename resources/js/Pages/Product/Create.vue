@@ -1,5 +1,5 @@
 <template>
-    <AppLayout>
+    <AppLayout title="Crear producto">
       <div class="lg:px-8 lg:py-8 pb-20">
         <!-- ---------------------- directory ------------------------ -->
         <div class="mb-8 flex space-x-2 items-center text-sm">
@@ -17,7 +17,7 @@
   <div class="lg:flex space-x-5">
           <div class="bg-[#D9D9D9] rounded-md lg:ml-36 relative lg:w-[550px] lg:h-96 mx-1">
             <figure class="lg:w-[550px] lg:h-96 h-64">
-              <img ref="previewImage" src="" alt="Product image" class="lg:w-[550px] lg:h-96 h-64 object-contain bg-no-repeat opacity-60">
+              <img ref="previewImage" src="@/../../public/images/add-image.png" alt="Product image" class="lg:w-[550px] lg:h-96 h-64 object-contain bg-no-repeat opacity-60">
             </figure>
 
             <p class="text-white text-xs rounded-full px-3 py-1 absolute top-2 right-2 bg-black z-20">Portada del producto</p>
@@ -28,17 +28,17 @@
             <i class="fa-solid fa-trash-can text-lg text-primary font-bold rounded-full absolute bottom-3 right-4 bg-[#CCCCCC] py-2 px-3 cursor-pointer"></i>
             
              <div @click="openFileInput('fileInput1')" class="lg:w-36 lg:h-28 w-28 h-20 bg-[#D9D9D9] absolute -bottom-24 left-0 lg:top-0 lg:-left-40 cursor-pointer rounded-md border hover:border-[#9a9a9a]">
-              <img ref="thumbnail1" src="" alt="image" class="w-full h-full bg-cover bg-no-repeat opacity-60">
+              <img ref="thumbnail1" src="@/../../public/images/add-image.png" alt="image" class="w-full h-full bg-cover bg-no-repeat opacity-60">
               <input @input="form.media1 = $event.target.files[0]" type="file" ref="fileInput1" style="display: none" @change="handleFileChange1" />
             </div>
 
             <div @click="openFileInput('fileInput2')" class="lg:w-36 lg:h-28 w-28 h-20 bg-[#D9D9D9] absolute -bottom-24 left-32 lg:top-32 lg:-left-40 cursor-pointer rounded-md border hover:border-[#9a9a9a]">
-              <img ref="thumbnail2" src="" alt="image" class="w-full h-full bg-cover bg-no-repeat opacity-60">
+              <img ref="thumbnail2" src="@/../../public/images/add-image.png" alt="image" class="w-full h-full bg-cover bg-no-repeat opacity-60">
               <input @input="form.media2 = $event.target.files[0]" type="file" ref="fileInput2" style="display: none" @change="handleFileChange2" />
             </div>
 
             <div @click="openFileInput('fileInput3')" class="lg:w-36 lg:h-28 w-28 h-20 bg-[#D9D9D9] absolute -bottom-24 left-64 lg:top-64 lg:-left-40 cursor-pointer rounded-md border hover:border-[#9a9a9a]">
-              <img ref="thumbnail3" src="" alt="image" class="w-full h-full bg-cover bg-no-repeat opacity-60">
+              <img ref="thumbnail3" src="@/../../public/images/add-image.png" alt="image" class="w-full h-full bg-cover bg-no-repeat opacity-60">
               <input @input="form.media3 = $event.target.files[0]" type="file" ref="fileInput3" style="display: none" @change="handleFileChange3" />
             </div>     
 
@@ -51,14 +51,14 @@
           </div>
 
             <div>
-            <select v-model="form.category" class="input lg:w-1/3" name="" id="">
+            <select v-model="form.category" class="input lg:w-1/3 h-11" name="" id="">
               <option v-for="(category, index) in categories" :key="category" :value="category" :disabled="index == 0">{{ category }}</option>
             </select>
               <InputError :message="form.errors.category" />
             </div>
 
             <div>
-            <select v-model="form.material" class="input lg:w-1/3" name="" id="">
+            <select v-model="form.material" class="input lg:w-1/3 h-11" name="" id="">
               <option v-for="(material, index) in materials" :key="material" :value="material" :disabled="index == 0">{{ material }}</option>
             </select>
               <InputError :message="form.errors.material" />
@@ -151,8 +151,8 @@
     data() {
       const form = useForm({
       name: null,
-      category: null,
-      material: null,
+      category: '----- Categoría -----',
+      material: '----- Material -----',
       brand: null,
       model: null,
       part_number: null,
@@ -208,7 +208,15 @@
           this.form.discount = null;
           this.form.is_percentage = null;
         }
-        this.form.post(route('products.store'));
+        this.form.post(route('products.store'), {
+          onSuccess: () => {
+            this.$notify({
+              title: 'Correcto',
+              message: 'Se ha registrado el producto',
+              type: 'success',
+            });
+          },
+        });
         this.form.reset();
       },
       openFileInput(ref) {

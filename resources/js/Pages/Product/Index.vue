@@ -18,7 +18,7 @@
         <p @click="filterModal = true" class="text-primary text-center w-1/2"><i class="fa-solid fa-arrow-up-short-wide mr-3"></i>Filtros</p>
       </div>
 
-      <div class="hidden lg:block lg:grid lg:grid-cols-7 gap-7 mt-5">
+      <div class="hidden lg:grid lg:grid-cols-7 gap-7 mt-5">
         <div class="flex flex-col rounded-lg border border-[#9A9A9A] p-4">
           <div class="flex justify-between mb-2">
             <p>Filtros</p>
@@ -138,7 +138,7 @@
             <ProductCard v-for="product in products.data" :key="product" :product="product" />
           </div>
 
-          <div class="containter mx-auto flex justify-center" v-else>
+          <div class="flex justify-center col-span-6" v-else>
             <p class="text-sm text-center text-gray-500">No hay productos para mostrar</p>
           </div>
 
@@ -149,7 +149,7 @@
             <ProductCard v-for="product in products.data" :key="product" :product="product" />
           </div>
           <div v-else>
-            <p class="text-sm text-center text-gray-500 my-5">No hay productos para mostrar</p>
+            <p class="text-sm text-center text-gray-500 my-5">No hay productos para mostrar en la sección se productos relacionados</p>
           </div>
     </div>
 

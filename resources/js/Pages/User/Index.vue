@@ -1,5 +1,5 @@
 <template>
-  <AppLayout title="Usuarios |">
+  <AppLayout title="Usuarios">
 
     <div class="lg:px-20 lg:py-8">
 
@@ -27,33 +27,25 @@
         <table class="w-full">
               <thead>
                 <tr class="text-left">
-                  <th class="font-normal pb-5"># parte<i class="fa-solid fa-arrow-down-long ml-3"></i></th>
+                  <th class="font-normal pb-5">#ID<i class="fa-solid fa-arrow-down-long ml-3"></i></th>
                   <th class="font-normal pb-5">Nombre<i class="fa-solid fa-arrow-down-long ml-3"></i></th>
                   <th class="font-normal pb-5">Correo <i class="fa-solid fa-arrow-down-long ml-3"></i></th>
-                  <th class="font-normal pb-5">Compras <i class="fa-solid fa-arrow-down-long ml-3"></i></th>
-                  <th class="font-normal pb-5">Estatus <i class="fa-solid fa-arrow-down-long ml-3"></i></th>
                   <th class="font-normal pb-5">Fecha de registro <i class="fa-solid fa-arrow-down-long ml-3"></i></th>
                 </tr>
               </thead>
               <tbody>
                 <tr @click="$inertia.get(route('users.show', user.id))" v-for="user in filteredTableData" :key="user" class="mb-4 cursor-pointer hover:bg-[#d9d9d9]">
                   <td class="text-left pb-3 rounded-l-md">
-                    {{ 'user.part_number' }}
+                    {{ user.id }}
                   </td>
                   <td class="text-left pb-3">
                     <span class>{{ user.name }}</span>
                   </td>
                   <td class="text-left pb-3">
-                    ${{ 'user.price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")' }}
-                  </td>
-                  <td class="text-left pb-3">
-                    {{ 'user.category' }}
-                  </td>
-                  <td :class="user.is_admin ? 'text-green-500' : 'text-red-500'" class="text-left pb-3">
-                    {{ user.is_admin ? 'Activo' : 'Inactivo' }}
+                    {{ user.email }}
                   </td>
                   <td class="text-left pb-3 rounded-r-md">
-                    {{ user.created_at }}
+                    {{ user.created_at.split('T')[0] }}
                   </td>
                 </tr>
               </tbody>
