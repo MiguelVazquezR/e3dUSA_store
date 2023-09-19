@@ -21,8 +21,9 @@
           <p>Precio: ${{ cart_product.product?.price?.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</p>
           <div class="flex items-center space-x-4 my-4">
             <p class="font-bold text-sm">Cantidad:</p>
-            <input v-model="form.quantity" type="number" min="1"
-              class="input w-20 h-6 bg-[#D9D9D9] border border-transparent rounded-xl">
+            <input @change="updateQuantity()" v-model="form.quantity" type="number" min="1" :disabled="loading"
+              class="input w-20 h-6 bg-[#D9D9D9] border border-transparent rounded-xl disabled:cursor-not-allowed disabled:opacity-50">
+            <i v-if="loading" class="fa-solid fa-spinner fa-spin text-sm text-primary"></i>
           </div>
           <p class="text-secondary">Total: ${{ (cart_product.product?.price *
             form.quantity).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</p>
@@ -57,10 +58,12 @@
     </div>
     <div class="flex justify-between px-8">
       <div class="flex items-center">
-        <button @click="form.quantity > 1 ? form.quantity -= 1 : ''"
-          class="rounded-l-md bg-[#D9D9D9] w-6 h-5 font-bold">-</button>
+        <button @click="decreaseQuantity()" :disabled="loading"
+          class="rounded-l-md bg-[#D9D9D9] w-6 h-5 font-bold disabled:cursor-not-allowed disabled:opacity-50">-</button>
         <p class="px-3 text-base text-secondary">{{ form.quantity }}</p>
-        <button @click="form.quantity += 1" class="rounded-r-md bg-[#D9D9D9] w-6 h-5 font-bold">+</button>
+        <button @click="increaseQuantity()" :disabled="loading"
+          class="rounded-r-md bg-[#D9D9D9] w-6 h-5 font-bold disabled:cursor-not-allowed disabled:opacity-50">+</button>
+        <i v-if="loading" class="fa-solid fa-spinner fa-spin text-sm text-primary ml-2"></i>
       </div>
       <div class="flex">
         <button @click="deleteConfirm = true" class="bg-[#D9D9D9] rounded-sm mr-2 text-xs px-2"><i
@@ -95,6 +98,7 @@ import { Link, useForm } from "@inertiajs/vue3";
 import DialogModal from "@/Components/DialogModal.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import CancelButton from "@/Components/MyComponents/CancelButton.vue";
+import axios from "axios";
 
 export default {
   data() {
@@ -103,11 +107,13 @@ export default {
     });
     return {
       form,
+      oldQuantity: null,
       deleteConfirm: false,
+      loading: false,
     }
   },
   props: {
-    cart_product: Object
+    cart_product: Array
   },
   components: {
     Link,
@@ -116,10 +122,46 @@ export default {
     CancelButton
   },
   methods: {
+    updateQuantity() {
+      if (this.oldQuantity < this.form.quantity) this.increaseQuantity(false);
+      else this.decreaseQuantity(false);
+      this.oldQuantity = this.form.quantity;
+    },
+    async decreaseQuantity(isMobileView = true) {
+      if (this.form.quantity > 1) {
+        this.loading = true;
+        try {
+          const response = await axios.put(route('cart-products.decrease-quantity', this.cart_product));
+          if (response.status === 200) {
+            if (isMobileView) this.form.quantity -= 1;
+          }
+        } catch (error) {
+          console.log(error);
+        } finally {
+          this.loading = false;
+        }
+      }
+    },
+    async increaseQuantity(isMobileView = true) {
+      this.loading = true;
+      try {
+        const response = await axios.put(route('cart-products.increase-quantity', this.cart_product));
+        if (response.status === 200) {
+          if (isMobileView) this.form.quantity += 1;
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.loading = false;
+      }
+    },
     deleteItem() {
       this.$inertia.delete(route('cart-products.destroy', this.cart_product.id));
     }
   },
+  mounted() {
+    this.oldQuantity = this.cart_product.quantity;
+  }
 }
 </script>
 

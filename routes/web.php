@@ -56,6 +56,8 @@ Route::get('/payment-verification', [CartController::class, 'paymentVerification
 
 
 Route::resource('cart-products', CartProductController::class);
+Route::put('cart-products/decrease-quantity/{cart_product}', [CartProductController::class, 'decreaseQuantity'])->name('cart-products.decrease-quantity');
+Route::put('cart-products/increase-quantity/{cart_product}', [CartProductController::class, 'increaseQuantity'])->name('cart-products.increase-quantity');
 
 
 Route::resource('sales', SaleController::class);

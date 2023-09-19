@@ -58,4 +58,18 @@ class CartProductController extends Controller
     {
         $cart_product->delete();
     }
+
+    public function decreaseQuantity(CartProduct $cart_product)
+    {
+        $cart_product->decrement('quantity', 1);
+
+        return response()->json([]);
+    }
+
+    public function increaseQuantity(CartProduct $cart_product)
+    {
+        $cart_product->increment('quantity', 1);
+
+        return response()->json([]);
+    }
 }

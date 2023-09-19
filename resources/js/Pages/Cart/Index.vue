@@ -1,176 +1,140 @@
 <template>
-  <AppLayout>
+  <AppLayout title="Carrito">
     <div class="lg:px-10 lg:py-8 pb-20">
       <!-- ---------------------- directory ------------------------ -->
       <div class="mb-8 flex items-center space-x-2 text-sm">
-        <i
-          @click="$inertia.get('/dashboard')"
-          class="fa-solid fa-house text-primary cursor-pointer"
-        ></i>
+        <i @click="$inertia.get('/dashboard')" class="fa-solid fa-house text-primary cursor-pointer"></i>
         <i class="fa-solid fa-angle-right text-primary"></i>
-        <p
-          @click="$inertia.get(route('products.index'))"
-          class="cursor-pointer text-primary"
-        >
+        <p @click="$inertia.get(route('products.index'))" class="cursor-pointer text-primary">
           Productos
         </p>
         <i class="fa-solid fa-angle-right text-primary"></i>
         <p>Carrito</p>
       </div>
 
-<!-- ------------------------ Large screen view starts ------------------------ -->
-<section class="hidden lg:block">
-      <h2 class="text-secondary ml-7 my-3">Productos</h2>
+      <!-- ------------------------ Large screen view starts ------------------------ -->
+      <section class="hidden lg:block">
+        <h2 class="text-secondary ml-7 my-3">Productos</h2>
 
-      <div class="flex space-x-5">
-        <!-- --------------------- Products' cart section -------------------  -->
-        <div class="border border-[#9A9A9A] rounded-lg w-2/3 p-5">
-          <!-- ------ product cart component ------ -->
-          <div v-if="cart_products.length" >
+        <div class="flex space-x-5">
+          <!-- --------------------- Products' cart section -------------------  -->
+          <div class="border border-[#9A9A9A] rounded-lg w-2/3 p-5">
+            <!-- ------ product cart component ------ -->
+            <div v-if="cart_products.length">
 
-          <CartProductCard
-            v-for="cart_product in cart_products"
-            :key="cart_product"
-            :cart_product="cart_product"
-          />
+              <CartProductCard v-for="cart_product in cart_products" :key="cart_product" :cart_product="cart_product" />
+            </div>
+            <!-- ------ product cart component end ------ -->
+            <div v-else>
+              <p class="text-sm text-gray-500 text-center">No hay productos en tu carrito</p>
+            </div>
           </div>
-          <!-- ------ product cart component end ------ -->
-          <div v-else>
-          <p class="text-sm text-gray-500 text-center">No hay productos en tu carrito</p>
+
+
+          <!-- ------------------ Total payment section ------------ -->
+          <div class="w-1/3">
+            <div class="border border-[#9A9A9A] rounded-lg p-5 flex flex-col space-y-2">
+              <div class="flex justify-between">
+                <p class="font-bold text-sm">Subtotal:</p>
+                <p class="text-sm">
+                  ${{ subtotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
+                </p>
+              </div>
+              <div class="flex justify-between">
+                <p class="font-bold text-sm">Costo de envío:</p>
+                <p class="text-sm">${{ shipping_cost }}</p>
+              </div>
+              <div class="flex justify-between">
+                <p class="font-bold text-primary text-sm">Descuento:</p>
+                <p class="text-sm text-primary">
+                  ${{ discount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
+                </p>
+              </div>
+              <div class="flex justify-between">
+                <p class="font-bold text-sm text-secondary">Total:</p>
+                <p class="text-sm text-secondary">
+                  ${{ total.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
+                </p>
+              </div>
+            </div>
+            <p class="text-secondary text-xs mt-2 mb-5">
+              *El pedido debe solicitarse con al menos una semana de anticipación
+            </p>
+            <div class="text-center">
+              <PrimaryButton @click="$inertia.get(route('carts.payment-verification'))" class="px-24">Continuar
+              </PrimaryButton>
+            </div>
+            <h2 class="text-secondary ml-7 my-4 mb-3">Cupón de descuento</h2>
+            <div class="w-full flex space-x-3">
+              <input v-model="discount_code" type="text" class="input" placeholder="Ingresa un cupón de descuento" />
+              <PrimaryButton @click="apllyDiscount">Aplicar</PrimaryButton>
+            </div>
+          </div>
         </div>
-        </div>
-        
+      </section>
+      <!-- ------------------------ Large screen view ends ------------------------ -->
 
-        <!-- ------------------ Total payment section ------------ -->
-        <div class="w-1/3">
-          <div class="border border-[#9A9A9A] rounded-lg p-5 flex flex-col space-y-2">
-            <div class="flex justify-between">
-              <p class="font-bold text-sm">Subtotal:</p>
-              <p class="text-sm">
-                ${{ subtotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
-              </p>
-            </div>
-            <div class="flex justify-between">
-              <p class="font-bold text-sm">Costo de envío:</p>
-              <p class="text-sm">${{ shipping_cost }}</p>
-            </div>
-            <div class="flex justify-between">
-              <p class="font-bold text-primary text-sm">Descuento:</p>
-              <p class="text-sm text-primary">
-                ${{ discount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
-              </p>
-            </div>
-            <div class="flex justify-between">
-              <p class="font-bold text-sm text-secondary">Total:</p>
-              <p class="text-sm text-secondary">
-                ${{ total.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
-              </p>
-            </div>
-          </div>
-          <p class="text-secondary text-xs mt-2 mb-5">
-            *El pedido debe solicitarse con al menos una semana de anticipación
-          </p>
-          <div class="text-center">
-            <PrimaryButton
-              @click="$inertia.get(route('carts.payment-verification'))"
-              class="px-24"
-              >Continuar</PrimaryButton
-            >
-          </div>
-          <h2 class="text-secondary ml-7 my-4 mb-3">Cupón de descuento</h2>
+
+      <!-- ------------------------ responsive screen view starts ------------------------ -->
+      <section class="lg:hidden px-6">
+        <div>
+          <CartProductCard v-for="cart_product in cart_products" :key="cart_product" :cart_product="cart_product" />
+        </div>
+
+        <div>
+          <h2 class="text-secondary my-3">Cupón de descuento</h2>
           <div class="w-full flex space-x-3">
-            <input
-              v-model="discount_code"
-              type="text"
-              class="input"
-              placeholder="Ingresa un cupón de descuento"
-            />
+            <input v-model="discount_code" type="text" class="input" placeholder="Ingresa un cupón de descuento" />
             <PrimaryButton @click="apllyDiscount">Aplicar</PrimaryButton>
           </div>
         </div>
-      </div>
-</section>
-<!-- ------------------------ Large screen view ends ------------------------ -->
 
-
-<!-- ------------------------ responsive screen view starts ------------------------ -->
-<section class="lg:hidden px-6">
-  <div>
-    <CartProductCard
-            v-for="cart_product in cart_products"
-            :key="cart_product"
-            :cart_product="cart_product"
-          />
-  </div>
-
-  <div>
-    <h2 class="text-secondary my-3">Cupón de descuento</h2>
-    <div class="w-full flex space-x-3">
-      <input
-        v-model="discount_code"
-        type="text"
-        class="input"
-        placeholder="Ingresa un cupón de descuento"
-      />
-      <PrimaryButton @click="apllyDiscount">Aplicar</PrimaryButton>
-    </div>
-  </div>
-
-  <div class="mt-5">
-    <div class="flex justify-between">
-      <p class="font-bold text-sm">Subtotal:</p>
-      <p class="text-sm">
-        ${{ subtotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
-      </p>
-    </div>
-    <div class="flex justify-between">
-      <p class="font-bold text-sm">Costo de envío:</p>
-      <p class="text-sm">${{ shipping_cost }}</p>
-    </div>
-    <div class="flex justify-between">
-      <p class="font-bold text-primary text-sm">Descuento:</p>
-      <p class="text-sm text-primary">
-        ${{ discount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
-      </p>
-    </div>
-    <div class="flex justify-between">
-      <p class="font-bold text-sm text-secondary">Total:</p>
-      <p class="text-sm text-secondary">
-        ${{ total.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
-      </p>
-    </div>
-  </div>
-  <p class="text-secondary text-center text-xs mt-2 mb-5">
-            *El pedido debe solicitarse con al menos una semana de anticipación
-          </p>
-          <div class="text-center">
-            <PrimaryButton
-              @click="$inertia.get(route('carts.payment-verification'))"
-              class="px-24"
-              >Continuar</PrimaryButton
-            >
+        <div class="mt-5">
+          <div class="flex justify-between">
+            <p class="font-bold text-sm">Subtotal:</p>
+            <p class="text-sm">
+              ${{ subtotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
+            </p>
           </div>
-</section>
-<!-- ------------------------ responsive screen view ends ------------------------ -->
+          <div class="flex justify-between">
+            <p class="font-bold text-sm">Costo de envío:</p>
+            <p class="text-sm">${{ shipping_cost }}</p>
+          </div>
+          <div class="flex justify-between">
+            <p class="font-bold text-primary text-sm">Descuento:</p>
+            <p class="text-sm text-primary">
+              ${{ discount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
+            </p>
+          </div>
+          <div class="flex justify-between">
+            <p class="font-bold text-sm text-secondary">Total:</p>
+            <p class="text-sm text-secondary">
+              ${{ total.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
+            </p>
+          </div>
+        </div>
+        <p class="text-secondary text-center text-xs mt-2 mb-5">
+          *El pedido debe solicitarse con al menos una semana de anticipación
+        </p>
+        <div class="text-center">
+          <PrimaryButton @click="$inertia.get(route('carts.payment-verification'))" class="px-24">Continuar
+          </PrimaryButton>
+        </div>
+      </section>
+      <!-- ------------------------ responsive screen view ends ------------------------ -->
 
 
-      <ThirthButton
-        @click="$inertia.get(route('products.index'))"
-        class="border-[#D90537] !text-primary ml-6 mt-9"
-        >Seguir comprando</ThirthButton
-      >
+      <ThirthButton @click="$inertia.get(route('products.index'))" class="border-[#D90537] !text-primary ml-6 mt-9">Seguir
+        comprando</ThirthButton>
     </div>
 
     <!-- -------------- Modal starts----------------------- -->
-    <DialogModal
-      :show="discountUsedModal || discountNotFound"
-      @close="
-        safeShippingModal = false;
-        onTimeModal = false;
-        discountUsedModal = false;
-        discountNotFound = false;
-      "
-    >
+    <DialogModal :show="discountUsedModal || discountNotFound" @close="
+      safeShippingModal = false;
+    onTimeModal = false;
+    discountUsedModal = false;
+    discountNotFound = false;
+    ">
       <template #title>
         <p v-if="discountUsedModal">
           <i class="fa-solid fa-circle-exclamation text-red-600 mr-2"></i> Descuento
@@ -191,14 +155,11 @@
         </p>
       </template>
       <template #footer>
-        <CancelButton
-          @click="
-            discountUsedModal = false;
-            discountNotFound = false;
-          "
-        >
-          Cerrar</CancelButton
-        >
+        <CancelButton @click="
+          discountUsedModal = false;
+        discountNotFound = false;
+        ">
+          Cerrar</CancelButton>
       </template>
     </DialogModal>
     <!-- --------------------------- Modal ends ------------------------------------ -->
