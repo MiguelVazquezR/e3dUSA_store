@@ -1,5 +1,5 @@
 <template>
-  <AppLayout>
+  <AppLayout title="Productos">
     <div class="lg:px-8 lg:py-8 pb-12 py-5">
       <!-- ---------------------- directory ------------------------ -->
       <div class="flex justify-between items-center mx-1 mt-2 text-sm">

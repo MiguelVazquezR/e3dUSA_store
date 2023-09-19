@@ -48,8 +48,8 @@ Route::middleware([
 Route::resource('products', ProductController::class);
 Route::get('/products-index-admin', [ProductController::class, 'indexAdmin'])->name('products.indexAdmin'); //agregar un middelware de admin
 Route::post('/products-filtered', [ProductController::class, 'filter'])->name('products.filter');
+Route::post('/update-with-media/{product}', [ProductController::class, 'updateWithMedia'])->name('products.update-with-media');
 Route::get('/products-search', [ProductController::class, 'search'])->name('products.search');
-
 
 Route::resource('carts', CartController::class);
 Route::get('/payment-verification', [CartController::class, 'paymentVerification'])->name('carts.payment-verification');

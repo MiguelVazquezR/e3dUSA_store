@@ -1,5 +1,5 @@
 <template>
-  <AppLayout title="Productos |">
+  <AppLayout title="Productos">
 
     <div class="lg:px-20 lg:py-8">
 

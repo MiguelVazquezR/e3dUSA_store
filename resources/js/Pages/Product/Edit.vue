@@ -226,8 +226,29 @@ export default {
         this.form.discount = null;
         this.form.is_percentage = null;
       }
-      this.form.put(route('products.update'));
-      this.form.reset();
+
+      if (this.form.media != [] || this.form.media1 != [] || this.form.media2 != [] || this.form.media3 != []) {
+        this.form.post(route('products.update-with-media', this.product), {
+          _method: 'put',
+          onSuccess: () => {
+            this.$notify({
+              title: 'Correcto',
+              message: 'Se ha actualizado el producto',
+              type: 'success',
+            });
+          },
+        });
+      } else {
+        this.form.put(route('products.update', this.product), {
+          onSuccess: () => {
+            this.$notify({
+              title: 'Correcto',
+              message: 'Se ha actualizado el producto',
+              type: 'success',
+            });
+          },
+        });
+      }
     },
     openFileInput(ref) {
       // Simula un clic en el input de tipo file cuando se hace clic en el icono de la cámara
@@ -302,14 +323,13 @@ export default {
     },
   },
   mounted() {
-    console.log(this.images)
     if (this.images[0].length) this.$refs.previewImage.src = this.images[0][0].original_url;
     if (this.images[1].length) this.$refs.thumbnail1.src = this.images[1][0].original_url;
     if (this.images[2].length) this.$refs.thumbnail2.src = this.images[2][0].original_url;
     if (this.images[3].length) this.$refs.thumbnail3.src = this.images[3][0].original_url;
   },
   props: {
-    product: Object,
+    product: Array,
     images: Array,
   },
 };

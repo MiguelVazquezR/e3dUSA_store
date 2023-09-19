@@ -161,10 +161,16 @@ class ProductController extends Controller
     public function show($product_id)
     {
 
-        $product = Product::with('media')->where('id', $product_id)->first();
+        $product = Product::find($product_id);
+        $images = [
+            $product->getMedia('cover'),
+            $product->getMedia('image1'),
+            $product->getMedia('image2'),
+            $product->getMedia('image3'),
+        ];
         $similar_products = Product::with('media')->where('category', $product->category)->get();
-        // return $product;
-        return inertia('Product/Show', compact('product', 'similar_products'));
+
+        return inertia('Product/Show', compact('product', 'similar_products', 'images'));
     }
 
 
@@ -183,7 +189,91 @@ class ProductController extends Controller
 
     public function update(Request $request, Product $product)
     {
-        //
+        $discount_validations = 'nullable';
+
+        if ($request->has_discount) {
+            if ($request->is_percentage === true) {
+                $discount_validations = 'required|numeric|min:0|max:100';
+            } else {
+                $discount_validations = 'required|numeric|min:0|max:' . $request->price;
+            }
+        }
+
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'category' => 'required|string',
+            'material' => 'required|string',
+            'brand' => 'required|string',
+            'model' => 'nullable|string',
+            'colors' => 'nullable|array',
+            'part_number' => 'required|string',
+            'description' => 'required',
+            'price' => 'required|numeric|min:0',
+            'is_percentage' => $request->has_discount ? 'required' : 'nullable',
+            'stock' => 'required|numeric|min:0',
+            'discount' => $discount_validations,
+            'features' => 'nullable',
+        ]);
+
+        // Crea el registro del producto después de la validación
+        $product->update($validated);
+
+        return to_route('products.indexAdmin'); // Redirige a la página adecuada después de crear el producto
+    }
+
+    public function updateWithMedia(Request $request, Product $product)
+    {
+        $discount_validations = 'nullable';
+
+        if ($request->has_discount) {
+            if ($request->is_percentage === true) {
+                $discount_validations = 'required|numeric|min:0|max:100';
+            } else {
+                $discount_validations = 'required|numeric|min:0|max:' . $request->price;
+            }
+        }
+
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'category' => 'required|string',
+            'material' => 'required|string',
+            'brand' => 'required|string',
+            'model' => 'nullable|string',
+            'colors' => 'nullable|array',
+            'part_number' => 'required|string',
+            'description' => 'required',
+            'price' => 'required|numeric|min:0',
+            'is_percentage' => $request->has_discount ? 'required' : 'nullable',
+            'stock' => 'required|numeric|min:0',
+            'discount' => $discount_validations,
+            'features' => 'nullable',
+        ]);
+
+        // Crea el registro del producto después de la validación
+        $product->update($validated);
+        
+        // Elimina las imágenes existentes que ya no se utilizan
+        if($request->hasFile('media')) $product->clearMediaCollection('cover');
+        if($request->hasFile('media1')) $product->clearMediaCollection('image1');
+        if($request->hasFile('media2')) $product->clearMediaCollection('image2');
+        if($request->hasFile('media3')) $product->clearMediaCollection('image3');
+        
+        // Guarda la imagen de portada
+        if ($request->hasFile('media')) {
+            $product->addMedia($request->file('media'))
+                ->toMediaCollection('cover'); // Cambia 'images' por tu nombre de colección deseado
+        }
+
+        // Guarda las imágenes adicionales
+        for ($i = 1; $i <= 3; $i++) {
+            $inputName = "media$i";
+            if ($request->hasFile($inputName)) {
+                $product->addMedia($request->file($inputName))
+                    ->toMediaCollection("image$i"); // Cambia 'images1', 'images2', 'images3' por tus nombres de colección deseados
+            }
+        }
+
+        return to_route('products.indexAdmin'); // Redirige a la página adecuada después de crear el producto
     }
 
 

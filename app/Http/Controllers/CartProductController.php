@@ -23,7 +23,6 @@ class CartProductController extends Controller
     
     public function store(Request $request)
     {
-
         $cart = Cart::where('user_id', auth()->id())->first();
         
         CartProduct::create([
@@ -32,6 +31,8 @@ class CartProductController extends Controller
             'product_id' => $request->product['id'],
             'created_at' => now(),
         ]);
+
+        // return response()->json(['message' => "Se guardó \"{$request->product['name']}\" al carrito"]);
     }
 
     
