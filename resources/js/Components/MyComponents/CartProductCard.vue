@@ -19,11 +19,12 @@
       <div class="flex space-x-4 mr-14">
         <div class="text-center space-y-3">
           <p>Precio: ${{ cart_product.product?.price?.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</p>
-          <div class="flex items-center space-x-4 my-4">
+          <div class="flex items-center space-x-4 my-4 relative">
             <p class="font-bold text-sm">Cantidad:</p>
             <input @change="updateQuantity()" v-model="form.quantity" type="number" min="1" :disabled="loading"
               class="input w-20 h-6 bg-[#D9D9D9] border border-transparent rounded-xl disabled:cursor-not-allowed disabled:opacity-50">
-            <i v-if="loading" class="fa-solid fa-spinner fa-spin text-sm text-primary"></i>
+              <div></div>
+            <i v-if="loading" class="absolute right-0 top-0 fa-solid fa-spinner fa-spin text-sm text-primary"></i>
           </div>
           <p class="text-secondary">Total: ${{ (cart_product.product?.price *
             form.quantity).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</p>
