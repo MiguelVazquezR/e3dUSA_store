@@ -22,8 +22,9 @@
           <div class="flex items-center space-x-4 my-4 relative">
             <p class="font-bold text-sm">Cantidad:</p>
             <input @change="updateQuantity()" v-model="form.quantity" type="number" min="1" :disabled="loading"
+              :id="'myNumberInput' + cart_product.id"
               class="input w-20 h-6 bg-[#D9D9D9] border border-transparent rounded-xl disabled:cursor-not-allowed disabled:opacity-50">
-              <div></div>
+            <div></div>
             <i v-if="loading" class="absolute right-0 top-0 fa-solid fa-spinner fa-spin text-sm text-primary"></i>
           </div>
           <p class="text-secondary">Total: ${{ (cart_product.product?.price *
@@ -113,8 +114,9 @@ export default {
       loading: false,
     }
   },
+  emits: ['updatedQuantity'],
   props: {
-    cart_product: Array
+    cart_product: Object,
   },
   components: {
     Link,
@@ -135,6 +137,7 @@ export default {
           const response = await axios.put(route('cart-products.decrease-quantity', this.cart_product));
           if (response.status === 200) {
             if (isMobileView) this.form.quantity -= 1;
+            this.$emit('updated-quantity', {operator:'-', quantity:1});
           }
         } catch (error) {
           console.log(error);
@@ -149,6 +152,7 @@ export default {
         const response = await axios.put(route('cart-products.increase-quantity', this.cart_product));
         if (response.status === 200) {
           if (isMobileView) this.form.quantity += 1;
+          this.$emit('updatedQuantity', {operator:'+', quantity:1});
         }
       } catch (error) {
         console.log(error);
@@ -158,12 +162,25 @@ export default {
     },
     deleteItem() {
       this.$inertia.delete(route('cart-products.destroy', this.cart_product.id));
+      this.deleteConfirm = false;
+      this.$emit('updatedQuantity', {operator:'-', quantity:this.form.quantity});
     }
   },
   mounted() {
     this.oldQuantity = this.cart_product.quantity;
+
+    const numberInput = document.getElementById('myNumberInput' + this.cart_product.id);
+    numberInput.addEventListener('keydown', (event) => {
+      // Obtén el código de la tecla presionada
+      const keyCode = event.keyCode || event.which;
+
+      // Verifica si la tecla presionada es un número (0-9)
+      if ((keyCode >= 48 && keyCode <= 57) || keyCode === 101 || keyCode === 69) {
+        // Evita que el evento de teclado se propague
+        event.preventDefault();
+      }
+    });
+
   }
 }
 </script>
-
-<style></style>

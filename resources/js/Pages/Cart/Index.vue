@@ -21,15 +21,13 @@
           <div class="border border-[#9A9A9A] rounded-lg w-2/3 p-5">
             <!-- ------ product cart component ------ -->
             <div v-if="cart_products.length">
-
-              <CartProductCard v-for="cart_product in cart_products" :key="cart_product" :cart_product="cart_product" />
+              <CartProductCard @updatedQuantity="updateSubtotal($event, cart_product.product.price)" v-for="cart_product in cart_products" :key="cart_product" :cart_product="cart_product" />
             </div>
             <!-- ------ product cart component end ------ -->
             <div v-else>
               <p class="text-sm text-gray-500 text-center">No hay productos en tu carrito</p>
             </div>
           </div>
-
 
           <!-- ------------------ Total payment section ------------ -->
           <div class="w-1/3">
@@ -78,7 +76,7 @@
       <!-- ------------------------ responsive screen view starts ------------------------ -->
       <section class="lg:hidden px-6">
         <div>
-          <CartProductCard v-for="cart_product in cart_products" :key="cart_product" :cart_product="cart_product" />
+          <CartProductCard @updatedQuantity="updateSubtotal($event, cart_product.product.price)" v-for="cart_product in cart_products" :key="cart_product" :cart_product="cart_product" />
         </div>
 
         <div>
@@ -122,7 +120,6 @@
         </div>
       </section>
       <!-- ------------------------ responsive screen view ends ------------------------ -->
-
 
       <ThirthButton @click="$inertia.get(route('products.index'))" class="border-[#D90537] !text-primary ml-6 mt-9">Seguir
         comprando</ThirthButton>
@@ -184,6 +181,7 @@ export default {
       discount_object: null,
       discount: 0,
       subtotal_mounted: 0,
+      subtotal: 0,
       shipping_cost: 0,
       total: 0,
       discount_used: false,
@@ -194,8 +192,7 @@ export default {
   props: {
     cart_products: Array,
     discounts: Array,
-    subtotal: Number,
-  },
+    },
   components: {
     AppLayout,
     ThirthButton,
@@ -232,15 +229,31 @@ export default {
         this.discountUsedModal = true;
       }
     },
+    calcSubtotal() {
+      this.subtotal = this.cart_products.reduce((accumulator, currentCartProduct) => {
+        return accumulator + (currentCartProduct.quantity * currentCartProduct.product.price);
+      }, 0);
+    },
+    updateSubtotal(data, productPrice) {
+      if (data.operator == '-') this.subtotal -= productPrice * data.quantity;
+      else this.subtotal += productPrice * data.quantity;
+      this.calcTotal();
+    },
+    calcTotal() {
+      this.subtotal_mounted = this.subtotal;
+      if (this.subtotal < 500) {
+        this.shipping_cost = 150;
+      } else {
+        this.shipping_cost = 0;
+      }
+      this.total = this.subtotal_mounted + this.shipping_cost - this.discount;
+    }
   },
   mounted() {
-    this.subtotal_mounted = this.subtotal;
-    if (this.subtotal < 500) {
-      this.shipping_cost = 150;
-    } else {
-      this.shipping_cost = 0;
-    }
-    this.total = this.subtotal_mounted + this.shipping_cost - this.discount;
+    // calcular subtotal
+    this.calcSubtotal();
+    // calcular total
+    this.calcTotal();
   },
 };
 </script>
